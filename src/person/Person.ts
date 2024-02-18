@@ -1,5 +1,5 @@
 type Debt = { by: Person; amount: number };
-type Payment = Set<{ to: Person; amount: number }>;
+export type Payment = Set<{ to: Person; amount: number }>;
 
 export class Person {
   private payments: Payment[];
@@ -9,11 +9,11 @@ export class Person {
     this.payments = [];
     this.debts = [];
   }
-  addPaymentSet(payments: Payment) {
+  addPaymentSet(payments: Payment): void {
     this.payments.push(payments);
   }
 
-  getPaymentHistory() {
+  getPaymentHistory(): Payment[] {
     return this.payments;
   }
 
@@ -21,7 +21,7 @@ export class Person {
     return this.debts;
   }
 
-  addDebt(person: Person, amount: number) {
+  addDebt(person: Person, amount: number): void {
     this.debts.push({ by: person, amount });
   }
 }
