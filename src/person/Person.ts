@@ -1,5 +1,17 @@
+import { generateNewId } from "../utils/uuid";
+
+interface PaymentCreation {
+  to: Person;
+  amount: number;
+}
+interface PaymentToOnePerson extends PaymentCreation {
+  id: string;
+}
+
+export type Payment = Set<PaymentToOnePerson>;
+export type PaymentSetup = Set<PaymentCreation>;
+
 type Debt = { by: Person; amount: number };
-export type Payment = Set<{ to: Person; amount: number }>;
 
 export class Person {
   private payments: Payment[];
@@ -9,8 +21,13 @@ export class Person {
     this.payments = [];
     this.debts = [];
   }
-  addPaymentSet(payments: Payment): void {
-    this.payments.push(payments);
+  addPaymentSet(payments: PaymentSetup): void {
+    const paymentsWithId: Payment = new Set();
+    payments.forEach((payment) =>
+      paymentsWithId.add({ ...payment, id: generateNewId() })
+    );
+
+    this.payments.push(paymentsWithId);
   }
 
   getPaymentHistory(): Payment[] {
