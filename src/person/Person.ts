@@ -4,12 +4,15 @@ interface PaymentCreation {
   to: Person;
   amount: number;
 }
+export type PaymentSetup = Set<PaymentCreation>;
+
 interface PaymentToOnePerson extends PaymentCreation {
   id: string;
 }
-
-export type Payment = Set<PaymentToOnePerson>;
-export type PaymentSetup = Set<PaymentCreation>;
+export type Payment = {
+  paymentSetId: string;
+  payments: Set<PaymentToOnePerson>;
+};
 
 type Debt = { by: Person; amount: number };
 
@@ -21,13 +24,17 @@ export class Person {
     this.payments = [];
     this.debts = [];
   }
+  
   addPaymentSet(payments: PaymentSetup): void {
-    const paymentsWithId: Payment = new Set();
+    const paymentsWithId: Set<PaymentToOnePerson> = new Set();
     payments.forEach((payment) =>
       paymentsWithId.add({ ...payment, id: generateNewId() })
     );
 
-    this.payments.push(paymentsWithId);
+    this.payments.push({
+      paymentSetId: generateNewId(),
+      payments: paymentsWithId,
+    });
   }
 
   getPaymentHistory(): Payment[] {
