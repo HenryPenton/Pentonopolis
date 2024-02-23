@@ -2,10 +2,18 @@ import { Person } from "../person/Person";
 
 export class Calculator {
   getTotalSpendByPerson(person: Person): number {
-    const paymentHistory = person.getPaymentHistory()[0];
     let total = 0;
-    paymentHistory.forEach((payment) => (total += payment.amount));
+    person.getPaymentHistory().forEach((paymentSet) => {
+      paymentSet.payments.forEach((payment) => (total += payment.amount));
+    });
 
-    return total;
+    return Number(total.toFixed(2));
   }
+
+  getTotalDebtByPerson = (person: Person): number => {
+    const debts = person.getDebts();
+    let totalDebt = 0;
+    debts.forEach((debt) => (totalDebt += debt.amount));
+    return Number(totalDebt.toFixed(2));
+  };
 }
