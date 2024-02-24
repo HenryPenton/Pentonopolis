@@ -248,7 +248,7 @@ describe("controller", () => {
       const paymentSet = new Set([{ amount: 5.73, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalanceByPersonId(personAId)).toBe(0);
+      expect(controller.getBalanceByPersonId(personAId)).toBe(-5.73);
     });
 
     test("if person A pays for person B person B's balance is the amount", () => {
@@ -264,6 +264,21 @@ describe("controller", () => {
     test("a person cannot owe themselves", () => {
       const controller = new Controller();
       const personAId = controller.addNewPerson();
+
+      const paymentSet = new Set([
+        {
+          amount: 2.21,
+          to: personAId,
+        },
+      ]);
+      controller.addPaymentSetToPersonById(paymentSet, personAId);
+
+      expect(controller.getBalanceByPersonId(personAId)).toBe(0);
+    });
+
+    test("a person is owed the proportion of the bill that wasn't for them", () => {
+      const controller = new Controller();
+      const personAId = controller.addNewPerson();
       const personBId = controller.addNewPerson();
       const paymentSet = new Set([
         {
@@ -277,7 +292,7 @@ describe("controller", () => {
       ]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalanceByPersonId(personAId)).toBe(0);
+      expect(controller.getBalanceByPersonId(personAId)).toBe(-5.99);
     });
   });
 });

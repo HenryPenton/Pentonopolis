@@ -1,4 +1,3 @@
-import { error } from "console";
 import { PaymentSetup, Person } from "../person/Person";
 
 export class Controller {
@@ -35,6 +34,7 @@ export class Controller {
       if (!isPayingSelf) {
         const person = this.getPerson(payment.to);
         person.addDebt(personPaying, payment.amount);
+        personPaying.addDebt(personPaying, -payment.amount);
       }
     });
   }
