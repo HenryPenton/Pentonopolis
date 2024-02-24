@@ -1,6 +1,6 @@
 import { Person } from "../person/Person";
 
-export class Calculator {
+export class Controller {
   getTotalSpendByPerson(person: Person): number {
     let total = 0;
     person.getPaymentHistory().forEach((paymentSet) => {
