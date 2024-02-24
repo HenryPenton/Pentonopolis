@@ -1,7 +1,7 @@
 import { generateNewId } from "../utils/uuid";
 
 interface PaymentCreation {
-  to: Person;
+  to: string;
   amount: number;
 }
 export type PaymentSetup = Set<PaymentCreation>;

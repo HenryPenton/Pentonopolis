@@ -5,14 +5,14 @@ describe("Person", () => {
     test("add payment to person history", () => {
       const payingFor = new Person();
       const person = new Person();
-      person.addPaymentSet(new Set([{ to: payingFor, amount: 1.23 }]));
+      person.addPaymentSet(new Set([{ to: payingFor.id, amount: 1.23 }]));
 
       const expectedPaymentHistory: Payment[] = [
         {
           payments: new Set([
             {
               id: expect.any(String),
-              to: payingFor,
+              to: payingFor.id,
               amount: 1.23,
             },
           ]),
@@ -29,8 +29,8 @@ describe("Person", () => {
       const person = new Person();
       person.addPaymentSet(
         new Set([
-          { to: payingFor1, amount: 1.23 },
-          { to: payingFor2, amount: 3.21 },
+          { to: payingFor1.id, amount: 1.23 },
+          { to: payingFor2.id, amount: 3.21 },
         ])
       );
 
@@ -39,12 +39,12 @@ describe("Person", () => {
           payments: new Set([
             {
               id: expect.any(String),
-              to: payingFor1,
+              to: payingFor1.id,
               amount: 1.23,
             },
             {
               id: expect.any(String),
-              to: payingFor2,
+              to: payingFor2.id,
               amount: 3.21,
             },
           ]),
