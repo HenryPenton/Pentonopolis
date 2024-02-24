@@ -69,8 +69,8 @@ export class Controller {
     return Number(totalDebt.toFixed(2));
   };
 
-  getBalanceByPersonId(personAId: string): number {
-    return this.getTotalDebtByPersonId(personAId);
+  getBalanceByPersonId(personId: string): number {
+    return this.getTotalDebtByPersonId(personId);
   }
 }
 
