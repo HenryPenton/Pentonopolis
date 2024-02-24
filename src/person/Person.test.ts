@@ -1,14 +1,8 @@
-import * as IDS from "../utils/uuid";
 import { Payment, Person } from "./Person";
 
 describe("Person", () => {
   describe("payment", () => {
     test("add payment to person history", () => {
-      jest
-        .spyOn(IDS, "generateNewId")
-        .mockImplementationOnce(() => "some-id")
-        .mockImplementationOnce(() => "payment-set-id");
-
       const payingFor = new Person();
       const person = new Person();
       person.addPaymentSet(new Set([{ to: payingFor, amount: 1.23 }]));
@@ -17,12 +11,12 @@ describe("Person", () => {
         {
           payments: new Set([
             {
-              id: "some-id",
+              id: expect.any(String),
               to: payingFor,
               amount: 1.23,
             },
           ]),
-          paymentSetId: "payment-set-id",
+          paymentSetId: expect.any(String),
         },
       ];
 
@@ -30,12 +24,6 @@ describe("Person", () => {
     });
 
     test("add multiple payments to person history", () => {
-      jest
-        .spyOn(IDS, "generateNewId")
-        .mockImplementationOnce(() => "some-other-uuid-generated-uniquely")
-        .mockImplementationOnce(() => "some-random-uuid-generated-uniquely")
-        .mockImplementationOnce(() => "payment-set-id");
-
       const payingFor1 = new Person();
       const payingFor2 = new Person();
       const person = new Person();
@@ -50,17 +38,17 @@ describe("Person", () => {
         {
           payments: new Set([
             {
-              id: "some-other-uuid-generated-uniquely",
+              id: expect.any(String),
               to: payingFor1,
               amount: 1.23,
             },
             {
-              id: "some-random-uuid-generated-uniquely",
+              id: expect.any(String),
               to: payingFor2,
               amount: 3.21,
             },
           ]),
-          paymentSetId: "payment-set-id",
+          paymentSetId: expect.any(String),
         },
       ];
 
@@ -81,6 +69,13 @@ describe("Person", () => {
         { by: person2, amount: 1.23 },
         { by: person3, amount: 3.21 },
       ]);
+    });
+  });
+
+  describe("metadata", () => {
+    test("a person has an id", () => {
+      const person = new Person();
+      expect(person.id).toEqual(expect.any(String));
     });
   });
 });

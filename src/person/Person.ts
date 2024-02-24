@@ -19,12 +19,14 @@ type Debt = { by: Person; amount: number };
 export class Person {
   private payments: Payment[];
   private debts: Debt[];
+  public id: string;
 
   constructor() {
     this.payments = [];
     this.debts = [];
+    this.id = generateNewId();
   }
-  
+
   addPaymentSet(payments: PaymentSetup): void {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
     payments.forEach((payment) =>
