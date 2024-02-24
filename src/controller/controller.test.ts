@@ -1,4 +1,3 @@
-import { Person } from "../person/Person";
 import { Controller } from "./controller";
 describe("controller", () => {
   describe("people", () => {
@@ -13,7 +12,9 @@ describe("controller", () => {
     test("the controller can tell me the total amount that someone has paid (0.00)", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 0, to: new Person() }]);
+      const paymentSet = new Set([
+        { amount: 0, to: controller.addNewPerson() },
+      ]);
       controller.addPaymentSetToPersonById(paymentSet, personId);
 
       expect(controller.getTotalSpendByPersonId(personId)).toBe(0.0);
@@ -23,7 +24,7 @@ describe("controller", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
       controller.addPaymentSetToPersonById(
-        new Set([{ amount: 1.57, to: new Person() }]),
+        new Set([{ amount: 1.57, to: controller.addNewPerson() }]),
         personId
       );
 
@@ -35,8 +36,8 @@ describe("controller", () => {
       const personId = controller.addNewPerson();
       controller.addPaymentSetToPersonById(
         new Set([
-          { amount: 0.29, to: new Person() },
-          { amount: 0.99, to: new Person() },
+          { amount: 0.29, to: controller.addNewPerson() },
+          { amount: 0.99, to: controller.addNewPerson() },
         ]),
         personId
       );
@@ -50,16 +51,16 @@ describe("controller", () => {
 
       controller.addPaymentSetToPersonById(
         new Set([
-          { amount: 0.29, to: new Person() },
-          { amount: 0.99, to: new Person() },
+          { amount: 0.29, to: controller.addNewPerson() },
+          { amount: 0.99, to: controller.addNewPerson() },
         ]),
         personId
       );
 
       controller.addPaymentSetToPersonById(
         new Set([
-          { amount: 0.56, to: new Person() },
-          { amount: 0.23, to: new Person() },
+          { amount: 0.56, to: controller.addNewPerson() },
+          { amount: 0.23, to: controller.addNewPerson() },
         ]),
         personId
       );
@@ -70,7 +71,9 @@ describe("controller", () => {
       test("the controller throws an PersonDoesNotExist error if the person id doesn't relate to a person when creating a payment", () => {
         const controller = new Controller();
         controller.addNewPerson();
-        const paymentSet = new Set([{ amount: 0, to: new Person() }]);
+        const paymentSet = new Set([
+          { amount: 0, to: controller.addNewPerson() },
+        ]);
 
         expect(() =>
           controller.addPaymentSetToPersonById(
@@ -83,7 +86,9 @@ describe("controller", () => {
       test("the controller throws an PersonDoesNotExist error if the person id doesn't relate to a person when retrieving a persons total spend", () => {
         const controller = new Controller();
         const personId = controller.addNewPerson();
-        const paymentSet = new Set([{ amount: 0, to: new Person() }]);
+        const paymentSet = new Set([
+          { amount: 0, to: controller.addNewPerson() },
+        ]);
         controller.addPaymentSetToPersonById(paymentSet, personId);
 
         expect(() =>
