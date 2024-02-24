@@ -96,30 +96,72 @@ describe("controller", () => {
   describe("total debt", () => {
     test("the controller can tell me the total amount that someone is in debt (0.00)", () => {
       const controller = new Controller();
-      const personToPayBack = new Person();
-      const person = new Person();
-      person.addDebt(personToPayBack, 0);
+      const personId = controller.addNewPerson();
+      const personOwedMoneyId = controller.addNewPerson();
 
-      expect(controller.getTotalDebtByPerson(person)).toBe(0.0);
+      controller.addDebtByPersonId(0, personId, personOwedMoneyId);
+
+      expect(controller.getTotalDebtByPersonId(personId)).toBe(0.0);
     });
 
     test("the controller can tell me the total amount that someone is in debt (5.27, single debt)", () => {
       const controller = new Controller();
-      const personToPayBack = new Person();
-      const person = new Person();
-      person.addDebt(personToPayBack, 5.27);
+      const personId = controller.addNewPerson();
+      const personOwedMoneyId = controller.addNewPerson();
 
-      expect(controller.getTotalDebtByPerson(person)).toBe(5.27);
+      controller.addDebtByPersonId(5.27, personId, personOwedMoneyId);
+
+      expect(controller.getTotalDebtByPersonId(personId)).toBe(5.27);
     });
 
     test("the controller can tell me the total amount that someone is in debt (8.88, twp debts)", () => {
       const controller = new Controller();
-      const personToPayBack = new Person();
-      const person = new Person();
-      person.addDebt(personToPayBack, 4.22);
-      person.addDebt(personToPayBack, 4.66);
+      const personId = controller.addNewPerson();
+      const personOwedMoneyId = controller.addNewPerson();
 
-      expect(controller.getTotalDebtByPerson(person)).toBe(8.88);
+      controller.addDebtByPersonId(4.22, personId, personOwedMoneyId);
+      controller.addDebtByPersonId(4.66, personId, personOwedMoneyId);
+
+      expect(controller.getTotalDebtByPersonId(personId)).toBe(8.88);
+    });
+
+    describe("errors", () => {
+      test("the controller throws an PersonDoesNotExist error if the debt payer doesn't exist", () => {
+        const controller = new Controller();
+        const personOwedMoneyId = controller.addNewPerson();
+
+        expect(() =>
+          controller.addDebtByPersonId(
+            5.27,
+            "non-existent-debt-payer-id",
+            personOwedMoneyId
+          )
+        ).toThrow(new Error("That person does not exist"));
+      });
+
+      test("the controller throws an PersonDoesNotExist error if the person being paid back doesn't exist", () => {
+        const controller = new Controller();
+        const debtPayerId = controller.addNewPerson();
+
+        expect(() =>
+          controller.addDebtByPersonId(
+            5.27,
+            debtPayerId,
+            "non-existent-person-owed-money"
+          )
+        ).toThrow(new Error("That person does not exist"));
+      });
+
+      test("the controller throws an PersonDoesNotExist error if the person id doesn't relate to a person when retrieving a persons total spend", () => {
+        const controller = new Controller();
+        const debtPayerId = controller.addNewPerson();
+        const personOwedMoneyId = controller.addNewPerson();
+        controller.addDebtByPersonId(5.27, debtPayerId, personOwedMoneyId);
+
+        expect(() =>
+          controller.getTotalDebtByPersonId("non-existent-debt-payer")
+        ).toThrow(new Error("That person does not exist"));
+      });
     });
   });
 });

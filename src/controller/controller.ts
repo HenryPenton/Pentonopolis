@@ -36,7 +36,18 @@ export class Controller {
     return Number(total.toFixed(2));
   }
 
-  getTotalDebtByPerson = (person: Person): number => {
+  addDebtByPersonId(
+    debt: number,
+    personId: string,
+    personOwedMoneyId: string
+  ): void {
+    const person = this.getPerson(personId);
+    const personOwedMoney = this.getPerson(personOwedMoneyId);
+    person.addDebt(personOwedMoney, debt);
+  }
+
+  getTotalDebtByPersonId = (personId: string): number => {
+    const person = this.getPerson(personId);
     const debts = person.getDebts();
     let totalDebt = 0;
     debts.forEach((debt) => (totalDebt += debt.amount));
