@@ -1,3 +1,4 @@
+import { error } from "console";
 import { PaymentSetup, Person } from "../person/Person";
 
 export class Controller {
@@ -22,6 +23,20 @@ export class Controller {
     const person = this.getPerson(personId);
 
     person.addPaymentSet(paymentSet);
+    this.distributeDebts(paymentSet, person);
+  }
+
+  private distributeDebts(
+    paymentSet: PaymentSetup,
+    personPaying: Person
+  ): void {
+    paymentSet.forEach((payment) => {
+      const isPayingSelf = personPaying.id === payment.to;
+      if (!isPayingSelf) {
+        const person = this.getPerson(payment.to);
+        person.addDebt(personPaying, payment.amount);
+      }
+    });
   }
 
   getTotalSpendByPersonId(personId: string): number {
@@ -53,6 +68,10 @@ export class Controller {
     debts.forEach((debt) => (totalDebt += debt.amount));
     return Number(totalDebt.toFixed(2));
   };
+
+  getBalanceByPersonId(personAId: string): number {
+    return this.getTotalDebtByPersonId(personAId);
+  }
 }
 
 class PersonDoesNotExistError extends Error {}
