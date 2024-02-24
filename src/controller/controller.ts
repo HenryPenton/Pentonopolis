@@ -29,7 +29,7 @@ export class Controller {
 
     const person = this.getPerson(personId);
 
-    person!.getPaymentHistory().forEach((paymentSet) => {
+    person.getPaymentHistory().forEach((paymentSet) => {
       paymentSet.payments.forEach((payment) => (total += payment.amount));
     });
 
