@@ -68,10 +68,6 @@ export class Controller {
     debts.forEach((debt) => (totalDebt += debt.amount));
     return Number(totalDebt.toFixed(2));
   };
-
-  getBalanceByPersonId(personId: string): number {
-    return this.getTotalDebtByPersonId(personId);
-  }
 }
 
 class PersonDoesNotExistError extends Error {}
