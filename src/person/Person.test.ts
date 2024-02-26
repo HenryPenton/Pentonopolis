@@ -5,7 +5,7 @@ describe("Person", () => {
     test("add payment to person history", () => {
       const payingFor = new Person();
       const person = new Person();
-      person.addPaymentSet(new Set([{ to: payingFor.id, amount: 1.23 }]));
+      person.addPaymentSet(new Set([{ to: payingFor.id, amount: 123 }]));
 
       const expectedPaymentHistory: Payment[] = [
         {
@@ -13,7 +13,7 @@ describe("Person", () => {
             {
               id: expect.any(String),
               to: payingFor.id,
-              amount: 1.23,
+              amount: 123,
             },
           ]),
           paymentSetId: expect.any(String),
@@ -29,8 +29,8 @@ describe("Person", () => {
       const person = new Person();
       person.addPaymentSet(
         new Set([
-          { to: payingFor1.id, amount: 1.23 },
-          { to: payingFor2.id, amount: 3.21 },
+          { to: payingFor1.id, amount: 123 },
+          { to: payingFor2.id, amount: 321 },
         ])
       );
 
@@ -40,12 +40,12 @@ describe("Person", () => {
             {
               id: expect.any(String),
               to: payingFor1.id,
-              amount: 1.23,
+              amount: 123,
             },
             {
               id: expect.any(String),
               to: payingFor2.id,
-              amount: 3.21,
+              amount: 321,
             },
           ]),
           paymentSetId: expect.any(String),
@@ -62,12 +62,12 @@ describe("Person", () => {
       const person2 = new Person();
       const person3 = new Person();
 
-      person.addDebt(person2, 1.23);
-      person.addDebt(person3, 3.21);
+      person.addDebt(person2, 123);
+      person.addDebt(person3, 321);
 
       expect(person.getDebts()).toEqual([
-        { by: person2, amount: 1.23 },
-        { by: person3, amount: 3.21 },
+        { by: person2, amount: 123 },
+        { by: person3, amount: 321 },
       ]);
     });
   });
