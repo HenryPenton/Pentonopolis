@@ -1,5 +1,8 @@
 import { PaymentSetup, Person } from "../person/Person";
 
+export type SuggestedPayment = { to: string; amount: number; from: string };
+export type TotalDebt = { personId: string; amount: number };
+
 export class Controller {
   private people: Map<string, Person> = new Map();
 
@@ -48,7 +51,7 @@ export class Controller {
       paymentSet.payments.forEach((payment) => (total += payment.amount));
     });
 
-    return Number(total.toFixed(2));
+    return total;
   }
 
   addDebtByPersonId(
@@ -66,8 +69,82 @@ export class Controller {
     const debts = person.getDebts();
     let totalDebt = 0;
     debts.forEach((debt) => (totalDebt += debt.amount));
-    return Number(totalDebt.toFixed(2));
+    return totalDebt;
   };
+
+  private getAllTotalDebtsDescendingOrder(): {
+    owers: TotalDebt[];
+    owees: TotalDebt[];
+  } {
+    const owers: TotalDebt[] = [];
+    const owees: TotalDebt[] = [];
+
+    this.people.forEach((person) => {
+      const { id } = person;
+      const debt = this.getTotalDebtByPersonId(id);
+      const totalDebt: TotalDebt = { personId: id, amount: debt };
+
+      if (debt > 0) {
+        owers.push(totalDebt);
+      } else if (debt < 0) {
+        owees.push(totalDebt);
+      }
+    });
+
+    owers.sort((a, b) => b.amount - a.amount); //owes the most first
+    owees.sort((a, b) => a.amount - b.amount); //is owed the most first
+
+    return { owers, owees };
+  }
+
+  getSuggestedPayments(): SuggestedPayment[] {
+    const { owees, owers } = this.getAllTotalDebtsDescendingOrder();
+
+    let owerIndex = 0;
+    let oweeIndex = 0;
+    const payments = [];
+
+    while (owerIndex < owers.length && oweeIndex < owees.length) {
+      const ower = owers[owerIndex];
+      const owee = owees[oweeIndex];
+
+      const paymentAmount = Math.min(
+        Math.abs(ower.amount),
+        Math.abs(owee.amount)
+      );
+
+      payments.push({
+        from: ower.personId,
+        to: owee.personId,
+        amount: paymentAmount,
+      });
+
+      const replacementOwer: TotalDebt = {
+        ...owers[owerIndex],
+        amount: (ower.amount -= paymentAmount),
+      };
+      const replacementOwee: TotalDebt = {
+        ...owees[owerIndex],
+        amount: (owee.amount += paymentAmount),
+      };
+      owers[owerIndex - 1] = replacementOwer;
+      owees[oweeIndex - 1] = replacementOwee;
+
+      const owerComplete = owers[owerIndex].amount === 0;
+      const oweeComplete = owees[oweeIndex].amount === 0;
+
+      if (owerComplete) {
+        owerIndex++;
+      }
+
+      if (oweeComplete) {
+        oweeIndex++;
+      }
+    }
+
+    console.log
+    return payments;
+  }
 }
 
 class PersonDoesNotExistError extends Error {}

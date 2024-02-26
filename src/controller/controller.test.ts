@@ -1,4 +1,4 @@
-import { Controller } from "./controller";
+import { Controller, SuggestedPayment } from "./controller";
 describe("controller", () => {
   describe("people", () => {
     test("the controller gives back a person id when creating a person", () => {
@@ -24,11 +24,11 @@ describe("controller", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
       controller.addPaymentSetToPersonById(
-        new Set([{ amount: 1.57, to: controller.addNewPerson() }]),
+        new Set([{ amount: 157, to: controller.addNewPerson() }]),
         personId
       );
 
-      expect(controller.getTotalSpendByPersonId(personId)).toBe(1.57);
+      expect(controller.getTotalSpendByPersonId(personId)).toBe(157);
     });
 
     test("the controller can tell me the total amount that someone has paid (1.28 - single payment, two people) ", () => {
@@ -36,13 +36,13 @@ describe("controller", () => {
       const personId = controller.addNewPerson();
       controller.addPaymentSetToPersonById(
         new Set([
-          { amount: 0.29, to: controller.addNewPerson() },
-          { amount: 0.99, to: controller.addNewPerson() },
+          { amount: 29, to: controller.addNewPerson() },
+          { amount: 99, to: controller.addNewPerson() },
         ]),
         personId
       );
 
-      expect(controller.getTotalSpendByPersonId(personId)).toBe(1.28);
+      expect(controller.getTotalSpendByPersonId(personId)).toBe(128);
     });
 
     test("the controller can tell me the total amount that someone has paid (1.28 - two payments, two people) ", () => {
@@ -51,21 +51,21 @@ describe("controller", () => {
 
       controller.addPaymentSetToPersonById(
         new Set([
-          { amount: 0.29, to: controller.addNewPerson() },
-          { amount: 0.99, to: controller.addNewPerson() },
+          { amount: 29, to: controller.addNewPerson() },
+          { amount: 99, to: controller.addNewPerson() },
         ]),
         personId
       );
 
       controller.addPaymentSetToPersonById(
         new Set([
-          { amount: 0.56, to: controller.addNewPerson() },
-          { amount: 0.23, to: controller.addNewPerson() },
+          { amount: 56, to: controller.addNewPerson() },
+          { amount: 23, to: controller.addNewPerson() },
         ]),
         personId
       );
 
-      expect(controller.getTotalSpendByPersonId(personId)).toBe(2.07);
+      expect(controller.getTotalSpendByPersonId(personId)).toBe(207);
     });
     describe("errors", () => {
       test("the controller throws an PersonDoesNotExist error if the person id doesn't relate to a person when creating a payment", () => {
@@ -114,9 +114,9 @@ describe("controller", () => {
       const personId = controller.addNewPerson();
       const personOwedMoneyId = controller.addNewPerson();
 
-      controller.addDebtByPersonId(5.27, personId, personOwedMoneyId);
+      controller.addDebtByPersonId(527, personId, personOwedMoneyId);
 
-      expect(controller.getTotalDebtByPersonId(personId)).toBe(5.27);
+      expect(controller.getTotalDebtByPersonId(personId)).toBe(527);
     });
 
     test("the controller can tell me the total amount that someone is in debt (8.88, twp debts)", () => {
@@ -124,10 +124,10 @@ describe("controller", () => {
       const personId = controller.addNewPerson();
       const personOwedMoneyId = controller.addNewPerson();
 
-      controller.addDebtByPersonId(4.22, personId, personOwedMoneyId);
-      controller.addDebtByPersonId(4.66, personId, personOwedMoneyId);
+      controller.addDebtByPersonId(422, personId, personOwedMoneyId);
+      controller.addDebtByPersonId(466, personId, personOwedMoneyId);
 
-      expect(controller.getTotalDebtByPersonId(personId)).toBe(8.88);
+      expect(controller.getTotalDebtByPersonId(personId)).toBe(888);
     });
 
     describe("errors", () => {
@@ -137,7 +137,7 @@ describe("controller", () => {
 
         expect(() =>
           controller.addDebtByPersonId(
-            5.27,
+            527,
             "non-existent-debt-payer-id",
             personOwedMoneyId
           )
@@ -150,7 +150,7 @@ describe("controller", () => {
 
         expect(() =>
           controller.addDebtByPersonId(
-            5.27,
+            527,
             debtPayerId,
             "non-existent-person-owed-money"
           )
@@ -161,7 +161,7 @@ describe("controller", () => {
         const controller = new Controller();
         const debtPayerId = controller.addNewPerson();
         const personOwedMoneyId = controller.addNewPerson();
-        controller.addDebtByPersonId(5.27, debtPayerId, personOwedMoneyId);
+        controller.addDebtByPersonId(527, debtPayerId, personOwedMoneyId);
 
         expect(() =>
           controller.getTotalDebtByPersonId("non-existent-debt-payer")
@@ -175,22 +175,22 @@ describe("controller", () => {
       const controller = new Controller();
       const personAId = controller.addNewPerson();
       const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 5.73, to: personBId }]);
+      const paymentSet = new Set([{ amount: 573, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personBId)).toBe(5.73);
+      expect(controller.getTotalDebtByPersonId(personBId)).toBe(573);
     });
 
     test("if person A pays for person B twice person B owes person A the sum (6.66)", () => {
       const controller = new Controller();
       const personAId = controller.addNewPerson();
       const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 2.22, to: personBId }]);
-      const paymentSet2 = new Set([{ amount: 4.44, to: personBId }]);
+      const paymentSet = new Set([{ amount: 222, to: personBId }]);
+      const paymentSet2 = new Set([{ amount: 444, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
       controller.addPaymentSetToPersonById(paymentSet2, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personBId)).toBe(6.66);
+      expect(controller.getTotalDebtByPersonId(personBId)).toBe(666);
     });
 
     test("if person A pays for person B and C person B and C owe person A the amount (1.23 and 3.21)", () => {
@@ -199,14 +199,14 @@ describe("controller", () => {
       const personBId = controller.addNewPerson();
       const personCId = controller.addNewPerson();
       const paymentSet = new Set([
-        { amount: 1.23, to: personBId },
-        { amount: 3.21, to: personCId },
+        { amount: 123, to: personBId },
+        { amount: 321, to: personCId },
       ]);
 
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personBId)).toBe(1.23);
-      expect(controller.getTotalDebtByPersonId(personCId)).toBe(3.21);
+      expect(controller.getTotalDebtByPersonId(personBId)).toBe(123);
+      expect(controller.getTotalDebtByPersonId(personCId)).toBe(321);
     });
 
     test("if person A pays for person B and C person B and C owe person A the amount (1.23 and 3.21)", () => {
@@ -215,14 +215,14 @@ describe("controller", () => {
       const personBId = controller.addNewPerson();
       const personCId = controller.addNewPerson();
       const paymentSet = new Set([
-        { amount: 1.23, to: personBId },
-        { amount: 3.21, to: personCId },
+        { amount: 123, to: personBId },
+        { amount: 321, to: personCId },
       ]);
 
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personBId)).toBe(1.23);
-      expect(controller.getTotalDebtByPersonId(personCId)).toBe(3.21);
+      expect(controller.getTotalDebtByPersonId(personBId)).toBe(123);
+      expect(controller.getTotalDebtByPersonId(personCId)).toBe(321);
     });
 
     test("if person A pays for person B and C person in two separate payments B and C owe person A the amount (1.23 and 3.21)", () => {
@@ -230,35 +230,34 @@ describe("controller", () => {
       const personAId = controller.addNewPerson();
       const personBId = controller.addNewPerson();
       const personCId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 1.23, to: personBId }]);
-
-      const paymentSet2 = new Set([{ amount: 3.21, to: personCId }]);
+      const paymentSet = new Set([{ amount: 123, to: personBId }]);
+      const paymentSet2 = new Set([{ amount: 321, to: personCId }]);
 
       controller.addPaymentSetToPersonById(paymentSet, personAId);
       controller.addPaymentSetToPersonById(paymentSet2, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personBId)).toBe(1.23);
-      expect(controller.getTotalDebtByPersonId(personCId)).toBe(3.21);
+      expect(controller.getTotalDebtByPersonId(personBId)).toBe(123);
+      expect(controller.getTotalDebtByPersonId(personCId)).toBe(321);
     });
 
     test("if person A pays for person B person A's balance is 0", () => {
       const controller = new Controller();
       const personAId = controller.addNewPerson();
       const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 5.73, to: personBId }]);
+      const paymentSet = new Set([{ amount: 573, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personAId)).toBe(-5.73);
+      expect(controller.getTotalDebtByPersonId(personAId)).toBe(-573);
     });
 
     test("if person A pays for person B person B's balance is the amount", () => {
       const controller = new Controller();
       const personAId = controller.addNewPerson();
       const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 5.99, to: personBId }]);
+      const paymentSet = new Set([{ amount: 599, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personBId)).toBe(5.99);
+      expect(controller.getTotalDebtByPersonId(personBId)).toBe(599);
     });
 
     test("a person cannot owe themselves", () => {
@@ -267,7 +266,7 @@ describe("controller", () => {
 
       const paymentSet = new Set([
         {
-          amount: 2.21,
+          amount: 221,
           to: personAId,
         },
       ]);
@@ -282,17 +281,141 @@ describe("controller", () => {
       const personBId = controller.addNewPerson();
       const paymentSet = new Set([
         {
-          amount: 2.21,
+          amount: 221,
           to: personAId,
         },
         {
-          amount: 5.99,
+          amount: 599,
           to: personBId,
         },
       ]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getTotalDebtByPersonId(personAId)).toBe(-5.99);
+      expect(controller.getTotalDebtByPersonId(personAId)).toBe(-599);
+    });
+  });
+  describe("suggested payments", () => {
+    test("no payments if no debt", () => {
+      const controller = new Controller();
+      controller.addNewPerson();
+      controller.addNewPerson();
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [];
+      const suggestedPayments = controller.getSuggestedPayments();
+      expect(expectedSuggestedPayments).toEqual(suggestedPayments);
+    });
+
+    test("person b owes person a 5.84", () => {
+      const controller = new Controller();
+      const personA = controller.addNewPerson();
+      const personB = controller.addNewPerson();
+      const paymentSet = new Set([{ amount: 584, to: personB }]);
+
+      controller.addPaymentSetToPersonById(paymentSet, personA);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: personA, amount: 584, from: personB },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+      expect(expectedSuggestedPayments).toEqual(suggestedPayments);
+    });
+
+    test("person b owes person a 5.84 and person c owes person a 2.61", () => {
+      const controller = new Controller();
+      const personA = controller.addNewPerson();
+      const personB = controller.addNewPerson();
+      const personC = controller.addNewPerson();
+      const paymentSet = new Set([
+        { amount: 584, to: personB },
+        { amount: 261, to: personC },
+      ]);
+
+      controller.addPaymentSetToPersonById(paymentSet, personA);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: personA, amount: 584, from: personB },
+        { to: personA, amount: 261, from: personC },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+      expect(expectedSuggestedPayments).toEqual(suggestedPayments);
+    });
+
+    test("person c owes person a 5.84 and person c owes person b 2.61", () => {
+      const controller = new Controller();
+      const personA = controller.addNewPerson();
+      const personB = controller.addNewPerson();
+      const personC = controller.addNewPerson();
+
+      const paymentSet1 = new Set([{ amount: 584, to: personC }]);
+      const paymentSet2 = new Set([{ amount: 261, to: personC }]);
+
+      controller.addPaymentSetToPersonById(paymentSet1, personA);
+      controller.addPaymentSetToPersonById(paymentSet2, personB);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: personA, amount: 584, from: personC },
+        { to: personB, amount: 261, from: personC },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(expectedSuggestedPayments).toEqual(suggestedPayments);
+    });
+
+    test("person c owes person a 5.84 and person c owes person b 2.61 and person d owes person b 1.00", () => {
+      const controller = new Controller();
+      const personA = controller.addNewPerson();
+      const personB = controller.addNewPerson();
+      const personC = controller.addNewPerson();
+      const personD = controller.addNewPerson();
+
+      const personAsPayment = new Set([{ amount: 584, to: personC }]);
+      const personBsPayment = new Set([
+        { amount: 261, to: personC },
+        { amount: 100, to: personD },
+      ]);
+
+      controller.addPaymentSetToPersonById(personAsPayment, personA);
+      controller.addPaymentSetToPersonById(personBsPayment, personB);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: personA, amount: 584, from: personC },
+        { to: personB, amount: 261, from: personC },
+        { to: personB, amount: 100, from: personD },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(suggestedPayments).toEqual(expectedSuggestedPayments);
+    });
+
+    test("person c owes person a 5.84 and person c owes person b 2.61 and person d owes person b 1.00", () => {
+      const controller = new Controller();
+      const personA = controller.addNewPerson();
+      const personB = controller.addNewPerson();
+      const personC = controller.addNewPerson();
+      const personD = controller.addNewPerson();
+      const personE = controller.addNewPerson();
+
+      const personAsPayment = new Set([
+        { amount: 584, to: personC },
+        { amount: 211, to: personE },
+      ]);
+      const personBsPayment = new Set([
+        { amount: 261, to: personC },
+        { amount: 100, to: personD },
+      ]);
+
+      controller.addPaymentSetToPersonById(personAsPayment, personA);
+      controller.addPaymentSetToPersonById(personBsPayment, personB);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: personA, amount: 795, from: personC },
+        { to: personB, amount: 50, from: personC },
+        { to: personB, amount: 211, from: personE },
+        { to: personB, amount: 100, from: personD },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
   });
 });
