@@ -7,6 +7,14 @@ describe("controller", () => {
 
       expect(personId).toStrictEqual(expect.any(String));
     });
+
+    test("the controller allows removal of a person", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      controller.removePersonById(personId);
+
+      expect(() => controller.getTotalDebtByPersonId(personId)).toThrow();
+    });
   });
   describe("total spend", () => {
     test("the controller can tell me the total amount that someone has paid (0.00)", () => {
@@ -139,6 +147,51 @@ describe("controller", () => {
       );
 
       expect(controller.getTotalDebtByPersonId(personId)).toBe(888);
+    });
+
+    test("the controller can tell me the separate amounts that people are in debt", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+      const personOwedMoneyId = controller.addNewPerson();
+
+      const paymentSet = new Set([
+        { amount: 999, to: personId },
+        { amount: 444, to: person2Id },
+      ]);
+
+      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
+      const allDebts = controller.getAllTotalDebts();
+
+      expect(allDebts).toEqual([
+        { personId, amount: 999 },
+        { personId: person2Id, amount: 444 },
+        { personId: personOwedMoneyId, amount: -1443 },
+      ]);
+    });
+
+    test("the controller can tell me the separate amounts that a sub list of people are in debt", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+      const personOwedMoneyId = controller.addNewPerson();
+
+      const paymentSet = new Set([
+        { amount: 999, to: personId },
+        { amount: 444, to: person2Id },
+      ]);
+
+      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
+      const allDebts = controller.getDebtsForListOfIds([
+        personId,
+        personOwedMoneyId,
+      ]);
+
+      expect(allDebts).toEqual([
+        { personId, amount: 999 },
+
+        { personId: personOwedMoneyId, amount: -1443 },
+      ]);
     });
 
     describe("errors", () => {

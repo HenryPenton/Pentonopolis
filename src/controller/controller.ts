@@ -63,6 +63,10 @@ export class Controller {
     return newPerson.id;
   }
 
+  removePersonById(personId: string): void {
+    this.people.delete(personId);
+  }
+
   addPaymentSetToPersonById(paymentSet: PaymentSetup, personId: string): void {
     const person = this.getPersonById(personId);
 
@@ -92,12 +96,31 @@ export class Controller {
 
     return totalDebt;
   };
-  //getAllTotalDebts
-  //getDebtsForListOfIds
-  //getpaymentsetsforpersonid
-  //getpaymentsetforpersonid
-  //deletepaymentsetforperson
-  //removeperson
+
+  getAllTotalDebts(): TotalDebt[] {
+    const allDebts: TotalDebt[] = [];
+    this.people.forEach(({ id }) => {
+      allDebts.push({ personId: id, amount: this.getTotalDebtByPersonId(id) });
+    });
+
+    console.log({ allDebts });
+    return allDebts;
+  }
+
+  getDebtsForListOfIds(personIds: string[]): TotalDebt[] {
+    const allDebts: TotalDebt[] = [];
+    for (const personId of personIds) {
+      allDebts.push({
+        personId,
+        amount: this.getTotalDebtByPersonId(personId),
+      });
+    }
+
+    return allDebts;
+  }
+  // getpaymentsetsforpersonid() {}
+  // getpaymentsetforpersonid() {}
+  // deletepaymentsetforperson() {}
 
   getSuggestedPayments(): SuggestedPayment[] {
     const { lenders, borrowers } = this.getLendersAndBorrowers();
