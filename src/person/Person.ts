@@ -5,7 +5,6 @@ interface PaymentCreation {
   amount: number;
 }
 export type PaymentSetup = Set<PaymentCreation>;
-export type PaymentSetId = string;
 
 interface PaymentToOnePerson extends PaymentCreation {
   id: string;
@@ -17,7 +16,7 @@ export type Payment = {
 type Debt = { by: Person; amount: number };
 
 export class Person {
-  private payments: Map<PaymentSetId, Payment>;
+  private payments: Map<string, Payment>;
   private debts: Debt[];
   public id: string;
 
@@ -38,7 +37,7 @@ export class Person {
     });
   }
 
-  getPaymentHistory(): Map<PaymentSetId, Payment> {
+  getPaymentHistory(): Map<string, Payment> {
     return this.payments;
   }
 
