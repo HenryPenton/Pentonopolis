@@ -104,7 +104,9 @@ describe("controller", () => {
       const personId = controller.addNewPerson();
       const personOwedMoneyId = controller.addNewPerson();
 
-      controller.addDebtByPersonId(0, personId, personOwedMoneyId);
+      const paymentSet = new Set([{ amount: 0, to: personId }]);
+
+      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
 
       expect(controller.getTotalDebtByPersonId(personId)).toBe(0.0);
     });
@@ -113,55 +115,40 @@ describe("controller", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
       const personOwedMoneyId = controller.addNewPerson();
+      const paymentSet = new Set([{ amount: 527, to: personId }]);
 
-      controller.addDebtByPersonId(527, personId, personOwedMoneyId);
+      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
 
       expect(controller.getTotalDebtByPersonId(personId)).toBe(527);
     });
 
-    test("the controller can tell me the total amount that someone is in debt (8.88, twp debts)", () => {
+    test("the controller can tell me the total amount that someone is in debt (8.88, tw debts)", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
       const personOwedMoneyId = controller.addNewPerson();
+      const secondPersonOwedMoneyId = controller.addNewPerson();
 
-      controller.addDebtByPersonId(422, personId, personOwedMoneyId);
-      controller.addDebtByPersonId(466, personId, personOwedMoneyId);
+      const paymentSet = new Set([{ amount: 422, to: personId }]);
+
+      const paymentSetTwo = new Set([{ amount: 466, to: personId }]);
+
+      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
+      controller.addPaymentSetToPersonById(
+        paymentSetTwo,
+        secondPersonOwedMoneyId
+      );
 
       expect(controller.getTotalDebtByPersonId(personId)).toBe(888);
     });
 
     describe("errors", () => {
-      test("the controller throws an PersonDoesNotExist error if the debt payer doesn't exist", () => {
-        const controller = new Controller();
-        const personOwedMoneyId = controller.addNewPerson();
-
-        expect(() =>
-          controller.addDebtByPersonId(
-            527,
-            "non-existent-debt-payer-id",
-            personOwedMoneyId
-          )
-        ).toThrow(new Error("That person does not exist"));
-      });
-
-      test("the controller throws an PersonDoesNotExist error if the person being paid back doesn't exist", () => {
-        const controller = new Controller();
-        const debtPayerId = controller.addNewPerson();
-
-        expect(() =>
-          controller.addDebtByPersonId(
-            527,
-            debtPayerId,
-            "non-existent-person-owed-money"
-          )
-        ).toThrow(new Error("That person does not exist"));
-      });
-
       test("the controller throws an PersonDoesNotExist error if the person id doesn't relate to a person when retrieving a persons total spend", () => {
         const controller = new Controller();
         const debtPayerId = controller.addNewPerson();
         const personOwedMoneyId = controller.addNewPerson();
-        controller.addDebtByPersonId(527, debtPayerId, personOwedMoneyId);
+        const paymentSet = new Set([{ amount: 527, to: debtPayerId }]);
+
+        controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
 
         expect(() =>
           controller.getTotalDebtByPersonId("non-existent-debt-payer")

@@ -11,7 +11,7 @@ export class Controller {
     this.people.set(newPerson.id, newPerson);
     return newPerson.id;
   }
-  private getPerson(personId: string): Person {
+  private getPersonById(personId: string): Person {
     const person = this.people.get(personId);
 
     if (person) {
@@ -22,7 +22,7 @@ export class Controller {
   }
 
   addPaymentSetToPersonById(paymentSet: PaymentSetup, personId: string): void {
-    const person = this.getPerson(personId);
+    const person = this.getPersonById(personId);
 
     person.addPaymentSet(paymentSet);
     this.distributeDebts(paymentSet, person);
@@ -35,8 +35,8 @@ export class Controller {
     paymentSet.forEach((payment) => {
       const isPayingSelf = personPaying.id === payment.to;
       if (!isPayingSelf) {
-        const person = this.getPerson(payment.to);
-        person.addDebt(personPaying, payment.amount);
+        const personBeingPaidFor = this.getPersonById(payment.to);
+        personBeingPaidFor.addDebt(personPaying, payment.amount);
         personPaying.addDebt(personPaying, -payment.amount);
       }
     });
@@ -45,7 +45,7 @@ export class Controller {
   getTotalSpendByPersonId(personId: string): number {
     let total = 0;
 
-    const person = this.getPerson(personId);
+    const person = this.getPersonById(personId);
 
     person.getPaymentHistory().forEach((paymentSet) => {
       paymentSet.payments.forEach((payment) => (total += payment.amount));
@@ -54,21 +54,14 @@ export class Controller {
     return total;
   }
 
-  addDebtByPersonId(
-    debt: number,
-    personId: string,
-    personOwedMoneyId: string
-  ): void {
-    const person = this.getPerson(personId);
-    const personOwedMoney = this.getPerson(personOwedMoneyId);
-    person.addDebt(personOwedMoney, debt);
-  }
-
   getTotalDebtByPersonId = (personId: string): number => {
-    const person = this.getPerson(personId);
-    const debts = person.getDebts();
+    const debts = this.getPersonById(personId).getDebts();
+
     let totalDebt = 0;
-    debts.forEach((debt) => (totalDebt += debt.amount));
+    for (const debt of debts) {
+      totalDebt += debt.amount;
+    }
+
     return totalDebt;
   };
 
@@ -142,7 +135,6 @@ export class Controller {
       }
     }
 
-    console.log
     return payments;
   }
 }
