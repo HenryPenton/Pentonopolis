@@ -5,24 +5,24 @@ interface PaymentCreation {
   amount: number;
 }
 export type PaymentSetup = Set<PaymentCreation>;
+export type PaymentSetId = string;
 
 interface PaymentToOnePerson extends PaymentCreation {
   id: string;
 }
 export type Payment = {
-  paymentSetId: string;
   payments: Set<PaymentToOnePerson>;
 };
 
 type Debt = { by: Person; amount: number };
 
 export class Person {
-  private payments: Payment[];
+  private payments: Map<PaymentSetId, Payment>;
   private debts: Debt[];
   public id: string;
 
   constructor() {
-    this.payments = [];
+    this.payments = new Map();
     this.debts = [];
     this.id = generateNewId();
   }
@@ -33,22 +33,17 @@ export class Person {
       paymentsWithId.add({ ...payment, id: generateNewId() })
     );
 
-    this.payments.push({
-      paymentSetId: generateNewId(),
+    this.payments.set(generateNewId(), {
       payments: paymentsWithId,
     });
   }
 
-  getPaymentHistory(): Payment[] {
+  getPaymentHistory(): Map<PaymentSetId, Payment> {
     return this.payments;
   }
 
   deletePaymentSetById(paymentSetId: string): void {
-    const paymentIndex = this.payments.findIndex(
-      (paymentSet) => (paymentSet.paymentSetId = paymentSetId)
-    );
-
-    this.payments.splice(paymentIndex, 1);
+    this.payments.delete(paymentSetId);
   }
 
   getDebts(): Debt[] {
