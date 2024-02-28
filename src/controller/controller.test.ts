@@ -404,5 +404,158 @@ describe("controller", () => {
 
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
+
+    test("B owes A, C owes B, D owes C, A owes D", () => {
+      const controller = new Controller();
+      const A = controller.addNewPerson();
+      const B = controller.addNewPerson();
+      const C = controller.addNewPerson();
+      const D = controller.addNewPerson();
+
+      const paymentSetA = new Set([{ amount: 500, to: B }]);
+      const paymentSetB = new Set([{ amount: 1000, to: C }]);
+      const paymentSetC = new Set([{ amount: 1500, to: D }]);
+      const paymentSetD = new Set([{ amount: 2000, to: A }]);
+
+      controller.addPaymentSetToPersonById(paymentSetA, A);
+      controller.addPaymentSetToPersonById(paymentSetB, B);
+      controller.addPaymentSetToPersonById(paymentSetC, C);
+      controller.addPaymentSetToPersonById(paymentSetD, D);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: B, amount: 500, from: A },
+        { to: C, amount: 500, from: A },
+        { to: D, amount: 500, from: A },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(suggestedPayments).toEqual(expectedSuggestedPayments);
+    });
+
+    test("large number of payments", () => {
+      const controller = new Controller();
+
+      //group 1
+      const person1 = controller.addNewPerson();
+      const person2 = controller.addNewPerson();
+      const person3 = controller.addNewPerson();
+      const person4 = controller.addNewPerson();
+      const person5 = controller.addNewPerson();
+
+      //group 2
+      const person6 = controller.addNewPerson();
+      const person7 = controller.addNewPerson();
+      const person8 = controller.addNewPerson();
+      const person9 = controller.addNewPerson();
+      const person10 = controller.addNewPerson();
+
+      //group 3
+      const person11 = controller.addNewPerson();
+      const person12 = controller.addNewPerson();
+      const person13 = controller.addNewPerson();
+      const person14 = controller.addNewPerson();
+      const person15 = controller.addNewPerson();
+
+      //group 4
+      const person16 = controller.addNewPerson();
+      const person17 = controller.addNewPerson();
+      const person18 = controller.addNewPerson();
+      const person19 = controller.addNewPerson();
+      const person20 = controller.addNewPerson();
+
+      //journey 1
+
+      const paymentSetGroup1Journey1 = new Set([
+        { amount: 573, to: person2 },
+        { amount: 573, to: person3 },
+        { amount: 573, to: person4 },
+        { amount: 573, to: person5 },
+      ]);
+
+      const paymentSetGroup2Journey1 = new Set([
+        { amount: 666, to: person7 },
+        { amount: 666, to: person8 },
+        { amount: 666, to: person9 },
+        { amount: 666, to: person10 },
+      ]);
+
+      const paymentSetGroup3Journey1 = new Set([
+        { amount: 444, to: person12 },
+        { amount: 444, to: person13 },
+        { amount: 444, to: person14 },
+        { amount: 444, to: person15 },
+      ]);
+
+      const paymentSetGroup4Journey1 = new Set([
+        { amount: 333, to: person17 },
+        { amount: 333, to: person18 },
+        { amount: 333, to: person19 },
+        { amount: 333, to: person20 },
+      ]);
+
+      controller.addPaymentSetToPersonById(paymentSetGroup1Journey1, person1); // person 1 pays for group 1
+      controller.addPaymentSetToPersonById(paymentSetGroup2Journey1, person6); // person 6 pays for group 2
+      controller.addPaymentSetToPersonById(paymentSetGroup3Journey1, person11); // person 11 pays for group 3
+      controller.addPaymentSetToPersonById(paymentSetGroup4Journey1, person16); // person 16 pays for group 4
+
+      //journey 2
+
+      const paymentSetGroup1Journey2 = new Set([
+        { amount: 777, to: person17 },
+        { amount: 777, to: person18 },
+        { amount: 777, to: person19 },
+        { amount: 777, to: person20 },
+      ]);
+
+      const paymentSetGroup2Journey2 = new Set([
+        { amount: 684, to: person12 },
+        { amount: 684, to: person13 },
+        { amount: 684, to: person14 },
+        { amount: 684, to: person15 },
+      ]);
+
+      const paymentSetGroup3Journey2 = new Set([
+        { amount: 1220, to: person7 },
+        { amount: 1220, to: person8 },
+        { amount: 1220, to: person9 },
+        { amount: 1220, to: person10 },
+      ]);
+
+      const paymentSetGroup4Journey2 = new Set([
+        { amount: 332, to: person2 },
+        { amount: 332, to: person3 },
+        { amount: 332, to: person4 },
+        { amount: 332, to: person5 },
+      ]);
+
+      controller.addPaymentSetToPersonById(paymentSetGroup1Journey2, person1); // person 1 pays for group 1
+      controller.addPaymentSetToPersonById(paymentSetGroup2Journey2, person6); // person 6 pays for group 2
+      controller.addPaymentSetToPersonById(paymentSetGroup3Journey2, person11); // person 11 pays for group 3
+      controller.addPaymentSetToPersonById(paymentSetGroup4Journey2, person16); // person 16 pays for group 4
+
+      const payments = controller.getSuggestedPayments();
+      const expectedSuggestedPayments = [
+        { amount: 1886, from: person7, to: person11 },
+        { amount: 1886, from: person8, to: person11 },
+        { amount: 1886, from: person9, to: person11 },
+        { amount: 998, from: person10, to: person11 },
+        { amount: 888, from: person10, to: person1 },
+        { amount: 1128, from: person12, to: person1 },
+        { amount: 1128, from: person13, to: person1 },
+        { amount: 1128, from: person14, to: person1 },
+        { amount: 1128, from: person15, to: person1 },
+        { amount: 1110, from: person17, to: person6 },
+        { amount: 1110, from: person18, to: person6 },
+        { amount: 1110, from: person19, to: person6 },
+        { amount: 1110, from: person20, to: person6 },
+        { amount: 905, from: person2, to: person6 },
+        { amount: 55, from: person3, to: person6 },
+        { amount: 850, from: person3, to: person16 },
+        { amount: 905, from: person4, to: person16 },
+        { amount: 905, from: person5, to: person16 },
+      ];
+
+      expect(payments).toEqual(expectedSuggestedPayments);
+    });
   });
 });

@@ -7,11 +7,6 @@ type LendersAndBorrowers = {
   lenders: TotalDebt[];
 };
 
-type LenderAndBorrower = {
-  replacementBorrower: TotalDebt;
-  replacementLender: TotalDebt;
-};
-
 export class Controller {
   private people: Map<string, Person> = new Map();
 
@@ -97,39 +92,30 @@ export class Controller {
 
     return totalDebt;
   };
+  //getAllTotalDebts
+  //getDebtsForListOfIds
+  //getpaymentsetsforpersonid
+  //getpaymentsetforpersonid
+  //deletepaymentsetforperson
+  //removeperson
 
   getSuggestedPayments(): SuggestedPayment[] {
     const { lenders, borrowers } = this.getLendersAndBorrowers();
 
     let borrowerIndex = 0;
     let lenderIndex = 0;
-    const payments = [];
+    const payments: SuggestedPayment[] = [];
 
     while (borrowerIndex < borrowers.length && lenderIndex < lenders.length) {
       const borrower = borrowers[borrowerIndex];
       const lender = lenders[lenderIndex];
 
-      const paymentAmount = Math.min(
-        Math.abs(borrower.amount),
-        Math.abs(lender.amount)
-      );
-
-      const payment = {
-        from: borrower.personId,
-        to: lender.personId,
-        amount: paymentAmount,
-      };
+      const payment = this.buildPayment(borrower, lender);
 
       payments.push(payment);
 
-      const { replacementBorrower, replacementLender } =
-        this.buildReplacementLenderAndBorrower(borrower, paymentAmount, lender);
-
-      borrowers[borrowerIndex - 1] = replacementBorrower;
-      lenders[lenderIndex - 1] = replacementLender;
-
-      const owesNoMoreMoney = borrowers[borrowerIndex].amount === 0;
-      const owedNoMoreMoney = lenders[lenderIndex].amount === 0;
+      const owesNoMoreMoney = borrower.amount === 0;
+      const owedNoMoreMoney = lender.amount === 0;
 
       if (owesNoMoreMoney) {
         borrowerIndex++;
@@ -143,24 +129,24 @@ export class Controller {
     return payments;
   }
 
-  private buildReplacementLenderAndBorrower(
+  private buildPayment(
     borrower: TotalDebt,
-    paymentAmount: number,
     lender: TotalDebt
-  ): LenderAndBorrower {
-    const replacementBorrowerAmount = (borrower.amount -= paymentAmount);
-    const replacementLenderAmount = (lender.amount += paymentAmount);
+  ): SuggestedPayment {
+    const paymentAmount = Math.min(
+      Math.abs(borrower.amount),
+      Math.abs(lender.amount)
+    );
 
-    const replacementBorrower: TotalDebt = {
-      ...borrower,
-      amount: replacementBorrowerAmount,
+    const payment = {
+      from: borrower.personId,
+      to: lender.personId,
+      amount: paymentAmount,
     };
 
-    const replacementLender: TotalDebt = {
-      ...lender,
-      amount: replacementLenderAmount,
-    };
-    return { replacementBorrower, replacementLender };
+    borrower.amount -= paymentAmount;
+    lender.amount += paymentAmount;
+    return payment;
   }
 }
 
