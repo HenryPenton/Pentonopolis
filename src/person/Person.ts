@@ -43,6 +43,14 @@ export class Person {
     return this.payments;
   }
 
+  deletePaymentSetById(paymentSetId: string): void {
+    const paymentIndex = this.payments.findIndex(
+      (paymentSet) => (paymentSet.paymentSetId = paymentSetId)
+    );
+
+    this.payments.splice(paymentIndex, 1);
+  }
+
   getDebts(): Debt[] {
     return this.debts;
   }

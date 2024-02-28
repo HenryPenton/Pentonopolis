@@ -103,7 +103,6 @@ export class Controller {
       allDebts.push({ personId: id, amount: this.getTotalDebtByPersonId(id) });
     });
 
-    console.log({ allDebts });
     return allDebts;
   }
 
@@ -118,6 +117,7 @@ export class Controller {
 
     return allDebts;
   }
+
   // getpaymentsetsforpersonid() {}
   // getpaymentsetforpersonid() {}
   // deletepaymentsetforperson() {}

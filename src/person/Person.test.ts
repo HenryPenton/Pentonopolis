@@ -54,6 +54,54 @@ describe("Person", () => {
 
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
     });
+
+    test("delete payment set by id", () => {
+      const payingFor1 = new Person();
+      const payingFor2 = new Person();
+      const person = new Person();
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 123 },
+          { to: payingFor2.id, amount: 321 },
+        ])
+      );
+
+      const paymentSetId = person.getPaymentHistory()[0].paymentSetId;
+      person.deletePaymentSetById(paymentSetId);
+      expect(person.getPaymentHistory()).toEqual([]);
+    });
+
+    test("delete payment set by id", () => {
+      const payingFor1 = new Person();
+      const payingFor2 = new Person();
+      const person = new Person();
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 123 },
+          { to: payingFor2.id, amount: 321 },
+        ])
+      );
+
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 111 },
+          { to: payingFor2.id, amount: 222 },
+        ])
+      );
+
+      const paymentSetId = person.getPaymentHistory()[0].paymentSetId;
+      person.deletePaymentSetById(paymentSetId);
+
+      expect(person.getPaymentHistory()).toEqual([
+        {
+          paymentSetId: expect.any(String),
+          payments: new Set([
+            { to: payingFor1.id, amount: 111, id: expect.any(String) },
+            { to: payingFor2.id, amount: 222, id: expect.any(String) },
+          ]),
+        },
+      ]);
+    });
   });
 
   describe("debt", () => {
