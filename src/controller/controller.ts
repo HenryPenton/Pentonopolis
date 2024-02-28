@@ -2,15 +2,13 @@ import { PaymentSetup, Person } from "../person/Person";
 
 export type SuggestedPayment = { to: string; amount: number; from: string };
 export type TotalDebt = { personId: string; amount: number };
-
+type LendersAndBorrowers = {
+  borrowers: TotalDebt[];
+  lenders: TotalDebt[];
+};
 export class Controller {
   private people: Map<string, Person> = new Map();
 
-  addNewPerson(): string {
-    const newPerson = new Person();
-    this.people.set(newPerson.id, newPerson);
-    return newPerson.id;
-  }
   private getPersonById(personId: string): Person {
     const person = this.people.get(personId);
 
@@ -21,11 +19,26 @@ export class Controller {
     throw new PersonDoesNotExistError("That person does not exist");
   }
 
-  addPaymentSetToPersonById(paymentSet: PaymentSetup, personId: string): void {
-    const person = this.getPersonById(personId);
+  private getLendersAndBorrowers(): LendersAndBorrowers {
+    const borrowers: TotalDebt[] = [];
+    const lenders: TotalDebt[] = [];
 
-    person.addPaymentSet(paymentSet);
-    this.distributeDebts(paymentSet, person);
+    this.people.forEach((person) => {
+      const { id } = person;
+      const debt = this.getTotalDebtByPersonId(id);
+      const totalDebt: TotalDebt = { personId: id, amount: debt };
+
+      if (debt > 0) {
+        borrowers.push(totalDebt);
+      } else if (debt < 0) {
+        lenders.push(totalDebt);
+      }
+    });
+
+    borrowers.sort((a, b) => b.amount - a.amount); //owes the most first
+    lenders.sort((a, b) => a.amount - b.amount); //is owed the most first
+
+    return { borrowers, lenders };
   }
 
   private distributeDebts(
@@ -40,6 +53,19 @@ export class Controller {
         personPaying.addDebt(personPaying, -payment.amount);
       }
     });
+  }
+
+  addNewPerson(): string {
+    const newPerson = new Person();
+    this.people.set(newPerson.id, newPerson);
+    return newPerson.id;
+  }
+
+  addPaymentSetToPersonById(paymentSet: PaymentSetup, personId: string): void {
+    const person = this.getPersonById(personId);
+
+    person.addPaymentSet(paymentSet);
+    this.distributeDebts(paymentSet, person);
   }
 
   getTotalSpendByPersonId(personId: string): number {
@@ -65,73 +91,48 @@ export class Controller {
     return totalDebt;
   };
 
-  private getAllTotalDebtsDescendingOrder(): {
-    owers: TotalDebt[];
-    owees: TotalDebt[];
-  } {
-    const owers: TotalDebt[] = [];
-    const owees: TotalDebt[] = [];
-
-    this.people.forEach((person) => {
-      const { id } = person;
-      const debt = this.getTotalDebtByPersonId(id);
-      const totalDebt: TotalDebt = { personId: id, amount: debt };
-
-      if (debt > 0) {
-        owers.push(totalDebt);
-      } else if (debt < 0) {
-        owees.push(totalDebt);
-      }
-    });
-
-    owers.sort((a, b) => b.amount - a.amount); //owes the most first
-    owees.sort((a, b) => a.amount - b.amount); //is owed the most first
-
-    return { owers, owees };
-  }
-
   getSuggestedPayments(): SuggestedPayment[] {
-    const { owees, owers } = this.getAllTotalDebtsDescendingOrder();
+    const { lenders, borrowers } = this.getLendersAndBorrowers();
 
-    let owerIndex = 0;
-    let oweeIndex = 0;
+    let borrowerIndex = 0;
+    let lenderIndex = 0;
     const payments = [];
 
-    while (owerIndex < owers.length && oweeIndex < owees.length) {
-      const ower = owers[owerIndex];
-      const owee = owees[oweeIndex];
+    while (borrowerIndex < borrowers.length && lenderIndex < lenders.length) {
+      const borrower = borrowers[borrowerIndex];
+      const lender = lenders[lenderIndex];
 
       const paymentAmount = Math.min(
-        Math.abs(ower.amount),
-        Math.abs(owee.amount)
+        Math.abs(borrower.amount),
+        Math.abs(lender.amount)
       );
 
       payments.push({
-        from: ower.personId,
-        to: owee.personId,
+        from: borrower.personId,
+        to: lender.personId,
         amount: paymentAmount,
       });
 
-      const replacementOwer: TotalDebt = {
-        ...owers[owerIndex],
-        amount: (ower.amount -= paymentAmount),
+      const replacementInDebt: TotalDebt = {
+        ...borrowers[borrowerIndex],
+        amount: (borrower.amount -= paymentAmount),
       };
-      const replacementOwee: TotalDebt = {
-        ...owees[owerIndex],
-        amount: (owee.amount += paymentAmount),
+      const replacementLender: TotalDebt = {
+        ...lenders[borrowerIndex],
+        amount: (lender.amount += paymentAmount),
       };
-      owers[owerIndex - 1] = replacementOwer;
-      owees[oweeIndex - 1] = replacementOwee;
+      borrowers[borrowerIndex - 1] = replacementInDebt;
+      lenders[lenderIndex - 1] = replacementLender;
 
-      const owerComplete = owers[owerIndex].amount === 0;
-      const oweeComplete = owees[oweeIndex].amount === 0;
+      const owesNoMoreMoney = borrowers[borrowerIndex].amount === 0;
+      const owedNoMoreMoney = lenders[lenderIndex].amount === 0;
 
-      if (owerComplete) {
-        owerIndex++;
+      if (owesNoMoreMoney) {
+        borrowerIndex++;
       }
 
-      if (oweeComplete) {
-        oweeIndex++;
+      if (owedNoMoreMoney) {
+        lenderIndex++;
       }
     }
 

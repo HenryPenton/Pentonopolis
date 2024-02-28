@@ -45,7 +45,7 @@ describe("controller", () => {
       expect(controller.getTotalSpendByPersonId(personId)).toBe(128);
     });
 
-    test("the controller can tell me the total amount that someone has paid (1.28 - two payments, two people) ", () => {
+    test("the controller can tell me the total amount that someone has paid (207 - two payments, two people) ", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
 
