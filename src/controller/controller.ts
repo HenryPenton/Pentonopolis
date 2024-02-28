@@ -6,6 +6,12 @@ type LendersAndBorrowers = {
   borrowers: TotalDebt[];
   lenders: TotalDebt[];
 };
+
+type LenderAndBorrower = {
+  replacementBorrower: TotalDebt;
+  replacementLender: TotalDebt;
+};
+
 export class Controller {
   private people: Map<string, Person> = new Map();
 
@@ -23,7 +29,8 @@ export class Controller {
     const borrowers: TotalDebt[] = [];
     const lenders: TotalDebt[] = [];
 
-    this.people.forEach((person) => {
+    const peopleClone = structuredClone(this.people);
+    peopleClone.forEach((person) => {
       const { id } = person;
       const debt = this.getTotalDebtByPersonId(id);
       const totalDebt: TotalDebt = { personId: id, amount: debt };
@@ -107,21 +114,18 @@ export class Controller {
         Math.abs(lender.amount)
       );
 
-      payments.push({
+      const payment = {
         from: borrower.personId,
         to: lender.personId,
         amount: paymentAmount,
-      });
+      };
 
-      const replacementInDebt: TotalDebt = {
-        ...borrowers[borrowerIndex],
-        amount: (borrower.amount -= paymentAmount),
-      };
-      const replacementLender: TotalDebt = {
-        ...lenders[borrowerIndex],
-        amount: (lender.amount += paymentAmount),
-      };
-      borrowers[borrowerIndex - 1] = replacementInDebt;
+      payments.push(payment);
+
+      const { replacementBorrower, replacementLender } =
+        this.buildReplacementLenderAndBorrower(borrower, paymentAmount, lender);
+
+      borrowers[borrowerIndex - 1] = replacementBorrower;
       lenders[lenderIndex - 1] = replacementLender;
 
       const owesNoMoreMoney = borrowers[borrowerIndex].amount === 0;
@@ -137,6 +141,26 @@ export class Controller {
     }
 
     return payments;
+  }
+
+  private buildReplacementLenderAndBorrower(
+    borrower: TotalDebt,
+    paymentAmount: number,
+    lender: TotalDebt
+  ): LenderAndBorrower {
+    const replacementBorrowerAmount = (borrower.amount -= paymentAmount);
+    const replacementLenderAmount = (lender.amount += paymentAmount);
+
+    const replacementBorrower: TotalDebt = {
+      ...borrower,
+      amount: replacementBorrowerAmount,
+    };
+
+    const replacementLender: TotalDebt = {
+      ...lender,
+      amount: replacementLenderAmount,
+    };
+    return { replacementBorrower, replacementLender };
   }
 }
 
