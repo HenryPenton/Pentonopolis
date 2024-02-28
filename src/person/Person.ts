@@ -26,15 +26,17 @@ export class Person {
     this.id = generateNewId();
   }
 
-  addPaymentSet(payments: PaymentSetup): void {
+  addPaymentSet(payments: PaymentSetup): string {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
     payments.forEach((payment) =>
       paymentsWithId.add({ ...payment, id: generateNewId() })
     );
 
-    this.payments.set(generateNewId(), {
+    const paymentSetId = generateNewId();
+    this.payments.set(paymentSetId, {
       payments: paymentsWithId,
     });
+    return paymentSetId;
   }
 
   getPaymentHistory(): Map<string, Payment> {

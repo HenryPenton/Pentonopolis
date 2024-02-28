@@ -23,6 +23,16 @@ describe("Person", () => {
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
     });
 
+    test("adding payment returns the new id of that payment set", () => {
+      const payingFor = new Person();
+      const person = new Person();
+      const paymentSetId = person.addPaymentSet(
+        new Set([{ to: payingFor.id, amount: 123 }])
+      );
+
+      expect(paymentSetId).toEqual(expect.any(String));
+    });
+
     test("add multiple payments to person history", () => {
       const payingFor1 = new Person();
       const payingFor2 = new Person();
