@@ -1,4 +1,4 @@
-import { PaymentSet, Person } from "./Person";
+import { PaymentSet, PaymentSetDoesNotExistError, Person } from "./Person";
 
 describe("Person", () => {
   describe("payment", () => {
@@ -22,7 +22,34 @@ describe("Person", () => {
 
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
     });
+    describe("getPaymentSetById", () => {
+      test("get a single payment from a person's history", () => {
+        const payingFor = new Person();
+        const person = new Person();
+        const paymentSetId = person.addPaymentSet(
+          new Set([{ to: payingFor.id, amount: 123 }])
+        );
 
+        expect(person.getPaymentSetById(paymentSetId)).toEqual({
+          payments: new Set([
+            {
+              id: expect.any(String),
+              to: payingFor.id,
+              amount: 123,
+            },
+          ]),
+        });
+      });
+      test("throws an error if the payment id does not relate to a payment", () => {
+        const payingFor = new Person();
+        const person = new Person();
+        person.addPaymentSet(new Set([{ to: payingFor.id, amount: 123 }]));
+
+        expect(() => person.getPaymentSetById("some-non-existent-id")).toThrow(
+          PaymentSetDoesNotExistError
+        );
+      });
+    });
     test("adding payment returns the new id of that payment set", () => {
       const payingFor = new Person();
       const person = new Person();

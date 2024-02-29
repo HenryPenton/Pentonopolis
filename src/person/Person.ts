@@ -40,6 +40,12 @@ export class Person {
     return paymentSetId;
   }
 
+  getPaymentSetById(paymentSetId: string): PaymentSet {
+    const paymentSet = this.payments.get(paymentSetId);
+    if (!paymentSet) throw new PaymentSetDoesNotExistError();
+    return paymentSet;
+  }
+
   getPaymentHistory(): Map<string, PaymentSet> {
     return this.payments;
   }
@@ -56,3 +62,5 @@ export class Person {
     this.debts.push({ by: person, amount });
   }
 }
+
+export class PaymentSetDoesNotExistError extends Error {}
