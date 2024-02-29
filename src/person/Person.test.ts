@@ -1,4 +1,4 @@
-import { Payment, Person } from "./Person";
+import { PaymentSet, Person } from "./Person";
 
 describe("Person", () => {
   describe("payment", () => {
@@ -7,7 +7,7 @@ describe("Person", () => {
       const person = new Person();
       person.addPaymentSet(new Set([{ to: payingFor.id, amount: 123 }]));
 
-      const expectedPaymentHistory: Map<string, Payment> = new Map().set(
+      const expectedPaymentHistory: Map<string, PaymentSet> = new Map().set(
         expect.any(String),
         {
           payments: new Set([
@@ -44,7 +44,7 @@ describe("Person", () => {
         ])
       );
 
-      const expectedPaymentHistory: Map<string, Payment> = new Map().set(
+      const expectedPaymentHistory: Map<string, PaymentSet> = new Map().set(
         expect.any(String),
         {
           payments: new Set([
