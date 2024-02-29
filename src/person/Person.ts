@@ -13,16 +13,16 @@ export type PaymentSet = {
   payments: Set<PaymentToOnePerson>;
 };
 
-type Debt = { by: Person; amount: number };
+export type Debt = { by: Person; amount: number };
 
 export class Person {
   private payments: Map<string, PaymentSet>;
-  private debts: Debt[];
+  private debts: Map<string, Debt>;
   public id: string;
 
   constructor() {
     this.payments = new Map();
-    this.debts = [];
+    this.debts = new Map();
     this.id = generateNewId();
   }
 
@@ -54,12 +54,12 @@ export class Person {
     this.payments.delete(paymentSetId);
   }
 
-  getDebts(): Debt[] {
+  getDebts(): Map<string, Debt> {
     return this.debts;
   }
 
-  addDebt(person: Person, amount: number): void {
-    this.debts.push({ by: person, amount });
+  addDebt(person: Person, amount: number, debtId: string): void {
+    this.debts.set(debtId, { by: person, amount });
   }
 }
 

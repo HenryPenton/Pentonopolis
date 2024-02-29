@@ -1,4 +1,9 @@
-import { PaymentSet, PaymentSetDoesNotExistError, Person } from "./Person";
+import {
+  Debt,
+  PaymentSet,
+  PaymentSetDoesNotExistError,
+  Person,
+} from "./Person";
 
 describe("Person", () => {
   describe("payment", () => {
@@ -148,13 +153,14 @@ describe("Person", () => {
       const person2 = new Person();
       const person3 = new Person();
 
-      person.addDebt(person2, 123);
-      person.addDebt(person3, 321);
+      person.addDebt(person2, 123, "some-id-1");
+      person.addDebt(person3, 321, "some-id-2");
 
-      expect(person.getDebts()).toEqual([
-        { by: person2, amount: 123 },
-        { by: person3, amount: 321 },
-      ]);
+      const expectedDebts = new Map<string, Debt>()
+        .set("some-id-1", { by: person2, amount: 123 })
+        .set("some-id-2", { by: person3, amount: 321 });
+
+      expect(person.getDebts()).toEqual(expectedDebts);
     });
   });
 

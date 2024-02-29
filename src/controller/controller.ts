@@ -43,16 +43,13 @@ export class Controller {
     return { borrowers, lenders };
   }
 
-  private distributeDebts(
-    paymentSet: PaymentSetSetup,
-    personPaying: Person
-  ): void {
-    paymentSet.forEach((payment) => {
+  private distributeDebts(paymentSet: PaymentSet, personPaying: Person): void {
+    paymentSet.payments.forEach((payment) => {
       const isPayingSelf = personPaying.id === payment.to;
       if (!isPayingSelf) {
         const personBeingPaidFor = this.getPersonById(payment.to);
-        personBeingPaidFor.addDebt(personPaying, payment.amount);
-        personPaying.addDebt(personPaying, -payment.amount);
+        personBeingPaidFor.addDebt(personPaying, payment.amount, payment.id);
+        personPaying.addDebt(personPaying, -payment.amount, payment.id);
       }
     });
   }
@@ -68,12 +65,13 @@ export class Controller {
   }
 
   addPaymentSetToPersonById(
-    paymentSet: PaymentSetSetup,
+    paymentSetSetup: PaymentSetSetup,
     personId: string
   ): string {
     const person = this.getPersonById(personId);
 
-    const paymentSetId = person.addPaymentSet(paymentSet);
+    const paymentSetId = person.addPaymentSet(paymentSetSetup);
+    const paymentSet = person.getPaymentSetById(paymentSetId);
     this.distributeDebts(paymentSet, person);
 
     return paymentSetId;
@@ -124,9 +122,9 @@ export class Controller {
     const debts = this.getPersonById(personId).getDebts();
 
     let totalDebt = 0;
-    for (const debt of debts) {
+    debts.forEach((debt) => {
       totalDebt += debt.amount;
-    }
+    });
 
     return totalDebt;
   };
@@ -151,9 +149,6 @@ export class Controller {
 
     return allDebts;
   }
-
-  // getpaymentsetsforpersonid() {}
-  // getpaymentsetforpersonid() {}
   // deletepaymentsetforperson() {}
 
   getSuggestedPayments(): SuggestedPayment[] {
