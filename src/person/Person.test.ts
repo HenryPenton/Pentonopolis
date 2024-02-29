@@ -14,15 +14,14 @@ describe("Person", () => {
 
       const expectedPaymentHistory: Map<string, PaymentSet> = new Map().set(
         expect.any(String),
-        {
-          payments: new Set([
-            {
-              id: expect.any(String),
-              to: payingFor.id,
-              amount: 123,
-            },
-          ]),
-        }
+
+        new Set([
+          {
+            id: expect.any(String),
+            to: payingFor.id,
+            amount: 123,
+          },
+        ])
       );
 
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
@@ -35,15 +34,15 @@ describe("Person", () => {
           new Set([{ to: payingFor.id, amount: 123 }])
         );
 
-        expect(person.getPaymentSetById(paymentSetId)).toEqual({
-          payments: new Set([
+        expect(person.getPaymentSetById(paymentSetId)).toEqual(
+          new Set([
             {
               id: expect.any(String),
               to: payingFor.id,
               amount: 123,
             },
-          ]),
-        });
+          ])
+        );
       });
       test("throws an error if the payment id does not relate to a payment", () => {
         const payingFor = new Person();
@@ -78,20 +77,18 @@ describe("Person", () => {
 
       const expectedPaymentHistory: Map<string, PaymentSet> = new Map().set(
         expect.any(String),
-        {
-          payments: new Set([
-            {
-              id: expect.any(String),
-              to: payingFor1.id,
-              amount: 123,
-            },
-            {
-              id: expect.any(String),
-              to: payingFor2.id,
-              amount: 321,
-            },
-          ]),
-        }
+        new Set([
+          {
+            id: expect.any(String),
+            to: payingFor1.id,
+            amount: 123,
+          },
+          {
+            id: expect.any(String),
+            to: payingFor2.id,
+            amount: 321,
+          },
+        ])
       );
 
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
@@ -137,12 +134,13 @@ describe("Person", () => {
       person.deletePaymentSetById(paymentSetId);
 
       expect(person.getPaymentHistory()).toEqual(
-        new Map().set(expect.any(String), {
-          payments: new Set([
+        new Map().set(
+          expect.any(String),
+          new Set([
             { to: payingFor1.id, amount: 111, id: expect.any(String) },
             { to: payingFor2.id, amount: 222, id: expect.any(String) },
-          ]),
-        })
+          ])
+        )
       );
     });
   });

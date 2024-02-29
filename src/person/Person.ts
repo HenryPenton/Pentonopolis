@@ -9,9 +9,7 @@ export type PaymentSetSetup = Set<PaymentCreation>;
 export interface PaymentToOnePerson extends PaymentCreation {
   id: string;
 }
-export type PaymentSet = {
-  payments: Set<PaymentToOnePerson>;
-};
+export type PaymentSet = Set<PaymentToOnePerson>;
 
 export type Debt = { by: Person; amount: number };
 
@@ -33,9 +31,7 @@ export class Person {
     );
 
     const paymentSetId = generateNewId();
-    this.payments.set(paymentSetId, {
-      payments: paymentsWithId,
-    });
+    this.payments.set(paymentSetId, paymentsWithId);
 
     return paymentSetId;
   }

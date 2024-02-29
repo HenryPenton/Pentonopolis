@@ -44,7 +44,7 @@ export class Controller {
   }
 
   private distributeDebts(paymentSet: PaymentSet, personPaying: Person): void {
-    paymentSet.payments.forEach((payment) => {
+    paymentSet.forEach((payment) => {
       const isPayingSelf = personPaying.id === payment.to;
       if (!isPayingSelf) {
         const personBeingPaidFor = this.getPersonById(payment.to);
@@ -112,7 +112,7 @@ export class Controller {
     const person = this.getPersonById(personId);
 
     person.getPaymentHistory().forEach((paymentSet) => {
-      paymentSet.payments.forEach((payment) => (total += payment.amount));
+      paymentSet.forEach((payment) => (total += payment.amount));
     });
 
     return total;
