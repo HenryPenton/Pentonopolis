@@ -6,7 +6,7 @@ interface PaymentCreation {
 }
 export type PaymentSetSetup = Set<PaymentCreation>;
 
-interface PaymentToOnePerson extends PaymentCreation {
+export interface PaymentToOnePerson extends PaymentCreation {
   id: string;
 }
 export type PaymentSet = {
