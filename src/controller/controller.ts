@@ -79,11 +79,33 @@ export class Controller {
     return paymentSetId;
   }
 
-  getPaymentSetById(paymentSetId: string, personId: string): PaymentSet {
+  getPaymentSetForPerson(paymentSetId: string, personId: string): PaymentSet {
     const person = this.getPersonById(personId);
     const paymentSet = person.getPaymentSetById(paymentSetId);
 
     return paymentSet;
+  }
+
+  getPaymentSetsForPerson(personId: string): Map<string, PaymentSet> {
+    const person = this.getPersonById(personId);
+    return person.getPaymentHistory();
+  }
+
+  getListOfPaymentSetsForPerson(
+    paymentSetIds: string[],
+    personId: string
+  ): Map<string, PaymentSet> {
+    const paymentSets = new Map<string, PaymentSet>();
+    const person = this.getPersonById(personId);
+
+    const entirePaymentHistory = person.getPaymentHistory();
+    entirePaymentHistory.forEach((paymentSet, id) => {
+      if (paymentSetIds.includes(id)) {
+        paymentSets.set(id, paymentSet);
+      }
+    });
+
+    return paymentSets;
   }
 
   getTotalSpendByPersonId(personId: string): number {
