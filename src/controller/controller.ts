@@ -1,4 +1,4 @@
-import { PaymentSetup, Person } from "../person/Person";
+import { PaymentSet, PaymentSetSetup, Person } from "../person/Person";
 
 export type SuggestedPayment = { to: string; amount: number; from: string };
 export type TotalDebt = { personId: string; amount: number };
@@ -44,7 +44,7 @@ export class Controller {
   }
 
   private distributeDebts(
-    paymentSet: PaymentSetup,
+    paymentSet: PaymentSetSetup,
     personPaying: Person
   ): void {
     paymentSet.forEach((payment) => {
@@ -67,11 +67,23 @@ export class Controller {
     this.people.delete(personId);
   }
 
-  addPaymentSetToPersonById(paymentSet: PaymentSetup, personId: string): void {
+  addPaymentSetToPersonById(
+    paymentSet: PaymentSetSetup,
+    personId: string
+  ): string {
     const person = this.getPersonById(personId);
 
-    person.addPaymentSet(paymentSet);
+    const paymentSetId = person.addPaymentSet(paymentSet);
     this.distributeDebts(paymentSet, person);
+
+    return paymentSetId;
+  }
+
+  getPaymentSetById(paymentSetId: string, personId: string): PaymentSet {
+    const person = this.getPersonById(personId);
+    const paymentSet = person.getPaymentSetById(paymentSetId);
+
+    return paymentSet;
   }
 
   getTotalSpendByPersonId(personId: string): number {

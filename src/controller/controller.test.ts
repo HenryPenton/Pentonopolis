@@ -611,4 +611,44 @@ describe("controller", () => {
       expect(payments).toEqual(expectedSuggestedPayments);
     });
   });
+
+  describe("Payment sets", () => {
+    test("setting up a payment gets back the paymentset complete with set id", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+
+      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+
+      const paymentSetId = controller.addPaymentSetToPersonById(
+        paymentSetSetup,
+        personId
+      );
+
+      expect(paymentSetId).toEqual(expect.any(String));
+    });
+
+    test("get payment set by id", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+
+      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+
+      const paymentSetId = controller.addPaymentSetToPersonById(
+        paymentSetSetup,
+        personId
+      );
+
+      const paymentSet = controller.getPaymentSetById(paymentSetId, personId);
+
+      expect(paymentSet).toEqual({
+        payments: new Set().add({
+          to: person2Id,
+          amount: 444,
+          id: expect.any(String),
+        }),
+      });
+    });
+  });
 });
