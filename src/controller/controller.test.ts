@@ -694,14 +694,90 @@ describe("controller", () => {
         personId
       );
 
-      controller.deletePaymentSetsForPerson([paymentSetId,paymentSet2Id], personId);
+      controller.deletePaymentSetsForPerson(
+        [paymentSetId, paymentSet2Id],
+        personId
+      );
 
       const paymentSet = controller.getMapOfPaymentSetsForPerson(
-        [paymentSetId,paymentSet2Id],
+        [paymentSetId, paymentSet2Id],
         personId
       );
 
       expect(paymentSet).toEqual(new Map());
+    });
+
+    test("deleting a payment set results in that amounts being stricken from someones balance", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+
+      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+      const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
+
+      const paymentSetId = controller.addPaymentSetToPersonById(
+        paymentSetSetup,
+        personId
+      );
+
+      const paymentSet2Id = controller.addPaymentSetToPersonById(
+        paymentSet2Setup,
+        personId
+      );
+
+      controller.deletePaymentSetsForPerson([paymentSetId], personId);
+
+      controller.getMapOfPaymentSetsForPerson(
+        [paymentSetId, paymentSet2Id],
+        personId
+      );
+      const balances = controller.getBalancesForListOfIds([
+        personId,
+        person2Id,
+      ]);
+
+      expect(balances).toEqual([
+        { personId: personId, amount: -444 },
+        { personId: person2Id, amount: 444 },
+      ]);
+    });
+
+    test("deleting all payment sets results in balances of 0", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+
+      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+      const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
+
+      const paymentSetId = controller.addPaymentSetToPersonById(
+        paymentSetSetup,
+        personId
+      );
+
+      const paymentSet2Id = controller.addPaymentSetToPersonById(
+        paymentSet2Setup,
+        personId
+      );
+
+      controller.deletePaymentSetsForPerson(
+        [paymentSetId, paymentSet2Id],
+        personId
+      );
+
+      controller.getMapOfPaymentSetsForPerson(
+        [paymentSetId, paymentSet2Id],
+        personId
+      );
+      const balances = controller.getBalancesForListOfIds([
+        personId,
+        person2Id,
+      ]);
+
+      expect(balances).toEqual([
+        { personId: personId, amount: 0 },
+        { personId: person2Id, amount: 0 },
+      ]);
     });
   });
 });

@@ -78,9 +78,15 @@ export class Controller {
   }
 
   deletePaymentSetsForPerson(paymentSetIds: string[], personId: string): void {
-    const person = this.getPersonById(personId)
+    const paymentSetOwner = this.getPersonById(personId);
     for (const paymentSetId of paymentSetIds) {
-      person.deletePaymentSetById(paymentSetId);
+      const paymentSet = paymentSetOwner.getPaymentSetById(paymentSetId);
+      paymentSet.forEach(({ to, id }) => {
+        const borrower = this.getPersonById(to);
+        borrower.deleteDebt(id);
+        paymentSetOwner.deleteDebt(id);
+      });
+      paymentSetOwner.deletePaymentSetById(paymentSetId);
     }
   }
 
