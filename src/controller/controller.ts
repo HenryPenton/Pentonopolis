@@ -94,7 +94,7 @@ export class Controller {
     return paymentSets;
   }
 
-  getTotalBalanceByPersonId = (personId: string): number => {
+  private getTotalBalanceByPersonId = (personId: string): number => {
     const debts = this.getPersonById(personId).getDebts();
 
     let totalDebt = 0;
@@ -104,18 +104,6 @@ export class Controller {
 
     return totalDebt;
   };
-
-  getAllBalances(): TotalBalance[] {
-    const allDebts: TotalBalance[] = [];
-    this.people.forEach(({ id }) => {
-      allDebts.push({
-        personId: id,
-        amount: this.getTotalBalanceByPersonId(id),
-      });
-    });
-
-    return allDebts;
-  }
 
   getBalancesForListOfIds(personIds: string[]): TotalBalance[] {
     const allDebts: TotalBalance[] = [];
