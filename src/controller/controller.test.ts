@@ -552,18 +552,21 @@ describe("controller", () => {
         personId
       );
 
-      const paymentSet = controller.getPaymentSetForPerson(
-        paymentSetId,
+      const paymentSet = controller.getListOfPaymentSetsForPerson(
+        [paymentSetId],
         personId
       );
 
-      expect(paymentSet).toEqual(
-        new Set().add({
+      const expectedPaymentHistory = new Map<string, PaymentSet>().set(
+        paymentSetId,
+        new Set<PaymentToOnePerson>().add({
           to: person2Id,
           amount: 444,
           id: expect.any(String),
         })
       );
+
+      expect(paymentSet).toEqual(expectedPaymentHistory);
     });
 
     test("get all payment sets for a given person", () => {
@@ -584,13 +587,16 @@ describe("controller", () => {
         personId
       );
 
-      const paymentSets = controller.getPaymentSetsForPerson(personId);
+      const paymentSets = controller.getListOfPaymentSetsForPerson(
+        [paymentSet1Id, paymentSet2Id],
+        personId
+      );
 
       const expectedPaymentHistory = new Map<string, PaymentSet>()
         .set(
           paymentSet1Id,
           new Set<PaymentToOnePerson>().add({
-            to: expect.any(String),
+            to: person2Id,
             amount: 444,
             id: expect.any(String),
           })
@@ -598,7 +604,7 @@ describe("controller", () => {
         .set(
           paymentSet2Id,
           new Set<PaymentToOnePerson>().add({
-            to: expect.any(String),
+            to: person2Id,
             amount: 555,
             id: expect.any(String),
           })
@@ -631,7 +637,7 @@ describe("controller", () => {
         paymentSet1Id,
 
         new Set<PaymentToOnePerson>().add({
-          to: expect.any(String),
+          to: person2Id,
           amount: 444,
           id: expect.any(String),
         })

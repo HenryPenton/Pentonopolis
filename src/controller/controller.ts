@@ -77,18 +77,6 @@ export class Controller {
     return paymentSetId;
   }
 
-  getPaymentSetForPerson(paymentSetId: string, personId: string): PaymentSet {
-    const person = this.getPersonById(personId);
-    const paymentSet = person.getPaymentSetById(paymentSetId);
-
-    return paymentSet;
-  }
-
-  getPaymentSetsForPerson(personId: string): Map<string, PaymentSet> {
-    const person = this.getPersonById(personId);
-    return person.getPaymentHistory();
-  }
-
   getListOfPaymentSetsForPerson(
     paymentSetIds: string[],
     personId: string
