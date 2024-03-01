@@ -552,7 +552,7 @@ describe("controller", () => {
         personId
       );
 
-      const paymentSet = controller.getListOfPaymentSetsForPerson(
+      const paymentSet = controller.getMapOfPaymentSetsForPerson(
         [paymentSetId],
         personId
       );
@@ -587,7 +587,7 @@ describe("controller", () => {
         personId
       );
 
-      const paymentSets = controller.getListOfPaymentSetsForPerson(
+      const paymentSets = controller.getMapOfPaymentSetsForPerson(
         [paymentSet1Id, paymentSet2Id],
         personId
       );
@@ -613,7 +613,7 @@ describe("controller", () => {
       expect(paymentSets).toEqual(expectedPaymentHistory);
     });
 
-    test("get a list of payment sets for a given person", () => {
+    test("get a map of payment sets for a given person", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
       const person2Id = controller.addNewPerson();
@@ -628,7 +628,7 @@ describe("controller", () => {
 
       controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
 
-      const paymentSets = controller.getListOfPaymentSetsForPerson(
+      const paymentSets = controller.getMapOfPaymentSetsForPerson(
         [paymentSet1Id],
         personId
       );

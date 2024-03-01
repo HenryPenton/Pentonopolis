@@ -77,7 +77,7 @@ export class Controller {
     return paymentSetId;
   }
 
-  getListOfPaymentSetsForPerson(
+  getMapOfPaymentSetsForPerson(
     paymentSetIds: string[],
     personId: string
   ): Map<string, PaymentSet> {
