@@ -160,6 +160,22 @@ describe("Person", () => {
 
       expect(person.getDebts()).toEqual(expectedDebts);
     });
+
+    test("debts can be deleted", () => {
+      const person = new Person();
+      const person2 = new Person();
+      const person3 = new Person();
+
+      person.addDebt(person2, 123, "some-id-1");
+      person.addDebt(person3, 321, "some-id-2");
+
+      person.deleteDebt("some-id-1");
+      person.deleteDebt("some-id-2");
+
+      const expectedDebts = new Map<string, Debt>();
+
+      expect(person.getDebts()).toEqual(expectedDebts);
+    });
   });
 
   describe("metadata", () => {

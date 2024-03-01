@@ -54,6 +54,10 @@ export class Person {
     return this.debts;
   }
 
+  deleteDebt(debtId: string): void {
+    this.debts.delete(debtId);
+  }
+
   addDebt(person: Person, amount: number, debtId: string): void {
     this.debts.set(debtId, { by: person, amount });
   }
