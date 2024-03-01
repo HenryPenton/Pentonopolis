@@ -653,5 +653,55 @@ describe("controller", () => {
 
       expect(paymentSets).toEqual(expectedPaymentHistory);
     });
+
+    test("delete payment set for person", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+
+      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+
+      const paymentSetId = controller.addPaymentSetToPersonById(
+        paymentSetSetup,
+        personId
+      );
+
+      controller.deletePaymentSetsForPerson([paymentSetId], personId);
+
+      const paymentSet = controller.getMapOfPaymentSetsForPerson(
+        [paymentSetId],
+        personId
+      );
+
+      expect(paymentSet).toEqual(new Map());
+    });
+
+    test("delete two payment sets for person", () => {
+      const controller = new Controller();
+      const personId = controller.addNewPerson();
+      const person2Id = controller.addNewPerson();
+
+      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+      const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
+
+      const paymentSetId = controller.addPaymentSetToPersonById(
+        paymentSetSetup,
+        personId
+      );
+
+      const paymentSet2Id = controller.addPaymentSetToPersonById(
+        paymentSet2Setup,
+        personId
+      );
+
+      controller.deletePaymentSetsForPerson([paymentSetId,paymentSet2Id], personId);
+
+      const paymentSet = controller.getMapOfPaymentSetsForPerson(
+        [paymentSetId,paymentSet2Id],
+        personId
+      );
+
+      expect(paymentSet).toEqual(new Map());
+    });
   });
 });

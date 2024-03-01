@@ -77,6 +77,13 @@ export class Controller {
     return paymentSetId;
   }
 
+  deletePaymentSetsForPerson(paymentSetIds: string[], personId: string): void {
+    const person = this.getPersonById(personId)
+    for (const paymentSetId of paymentSetIds) {
+      person.deletePaymentSetById(paymentSetId);
+    }
+  }
+
   getMapOfPaymentSetsForPerson(
     paymentSetIds: string[],
     personId: string
