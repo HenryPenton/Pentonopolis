@@ -2,9 +2,9 @@ import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
 import { DebtMap } from "../interfaces/debt";
 import {
   PaymentMap,
+  PaymentModel,
   PaymentSet,
   PaymentSetDTO,
-  PaymentModel,
 } from "../interfaces/payment";
 import { generateNewId } from "../utils/uuid";
 
@@ -13,7 +13,7 @@ export interface IPerson {
   addPaymentSet: (payments: PaymentSetDTO) => string;
   getPaymentSetById: (paymentSetId: string) => PaymentSet;
   getPaymentHistory: () => PaymentMap;
-  deletePaymentSetById: (paymentSetId: string) => void;
+  deletePaymentSetById: (paymentSetId: string) => boolean;
   getDebts: () => DebtMap;
   deleteDebt: (debtId: string) => void;
   addDebt: (amount: number, debtId: string) => void;
@@ -46,8 +46,8 @@ export class Person implements IPerson {
     return this.payments;
   }
 
-  deletePaymentSetById(paymentSetId: string): void {
-    this.payments.delete(paymentSetId);
+  deletePaymentSetById(paymentSetId: string): boolean {
+    return this.payments.delete(paymentSetId);
   }
 
   getDebts(): DebtMap {

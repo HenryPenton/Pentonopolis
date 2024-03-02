@@ -141,6 +141,53 @@ describe("Person", () => {
         )
       );
     });
+
+    test("deleting a payment set that exists returns true", () => {
+      const payingFor1 = new Person();
+      const payingFor2 = new Person();
+      const person = new Person();
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 123 },
+          { to: payingFor2.id, amount: 321 },
+        ])
+      );
+
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 111 },
+          { to: payingFor2.id, amount: 222 },
+        ])
+      );
+
+      const paymentSetId = person.getPaymentHistory().entries().next().value[0];
+      const didDelete = person.deletePaymentSetById(paymentSetId);
+
+      expect(didDelete).toBeTruthy();
+    });
+
+    test("deleting a payment set that doesn't exist returns false", () => {
+      const payingFor1 = new Person();
+      const payingFor2 = new Person();
+      const person = new Person();
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 123 },
+          { to: payingFor2.id, amount: 321 },
+        ])
+      );
+
+      person.addPaymentSet(
+        new Set([
+          { to: payingFor1.id, amount: 111 },
+          { to: payingFor2.id, amount: 222 },
+        ])
+      );
+
+      const didDelete = person.deletePaymentSetById("some-non-existent-id");
+
+      expect(didDelete).toBeFalsy();
+    });
   });
 
   describe("debt", () => {
