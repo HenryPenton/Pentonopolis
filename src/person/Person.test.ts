@@ -177,7 +177,6 @@ describe("Person", () => {
       expect(person.getDebts()).toEqual(expectedDebts);
     });
 
-
     test("has debt", () => {
       const person = new Person();
       const person2 = new Person();
