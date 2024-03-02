@@ -9,16 +9,9 @@ import {
 import { generateNewId } from "../utils/uuid";
 
 export class Person {
-  private payments: PaymentMap;
-  private debts: DebtMap;
-  public id: string;
-
-  constructor() {
-    this.payments = new Map();
-    this.debts = new Map();
-    this.id = generateNewId();
-  }
-
+  private payments: PaymentMap = new Map();
+  private debts: DebtMap = new Map();
+  public id = generateNewId();
 
   addPaymentSet(payments: PaymentSetDTO): string {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
