@@ -1,6 +1,6 @@
 import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
-import { Debt } from "../interfaces/debt";
-import { PaymentSet } from "../interfaces/payment";
+import { DebtMap } from "../interfaces/debt";
+import { PaymentMap } from "../interfaces/payment";
 import { Person } from "./Person";
 
 describe("Person", () => {
@@ -10,7 +10,7 @@ describe("Person", () => {
       const person = new Person();
       person.addPaymentSet(new Set([{ to: payingFor.id, amount: 123 }]));
 
-      const expectedPaymentHistory: Map<string, PaymentSet> = new Map().set(
+      const expectedPaymentHistory: PaymentMap = new Map().set(
         expect.any(String),
 
         new Set([
@@ -73,7 +73,7 @@ describe("Person", () => {
         ])
       );
 
-      const expectedPaymentHistory: Map<string, PaymentSet> = new Map().set(
+      const expectedPaymentHistory: PaymentMap = new Map().set(
         expect.any(String),
         new Set([
           {
@@ -152,7 +152,7 @@ describe("Person", () => {
       person.addDebt(person2, 123, "some-id-1");
       person.addDebt(person3, 321, "some-id-2");
 
-      const expectedDebts = new Map<string, Debt>()
+      const expectedDebts: DebtMap = new Map()
         .set("some-id-1", { by: person2, amount: 123 })
         .set("some-id-2", { by: person3, amount: 321 });
 
@@ -170,7 +170,7 @@ describe("Person", () => {
       person.deleteDebt("some-id-1");
       person.deleteDebt("some-id-2");
 
-      const expectedDebts = new Map<string, Debt>();
+      const expectedDebts: DebtMap = new Map();
 
       expect(person.getDebts()).toEqual(expectedDebts);
     });

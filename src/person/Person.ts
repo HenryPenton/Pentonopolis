@@ -1,6 +1,7 @@
 import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
-import { Debt } from "../interfaces/debt";
+import { DebtMap } from "../interfaces/debt";
 import {
+  PaymentMap,
   PaymentSet,
   PaymentSetDTO,
   PaymentToOnePerson,
@@ -8,8 +9,8 @@ import {
 import { generateNewId } from "../utils/uuid";
 
 export class Person {
-  private payments: Map<string, PaymentSet>;
-  private debts: Map<string, Debt>;
+  private payments: PaymentMap;
+  private debts: DebtMap;
   public id: string;
 
   constructor() {
@@ -40,7 +41,7 @@ export class Person {
     return paymentSet;
   }
 
-  getPaymentHistory(): Map<string, PaymentSet> {
+  getPaymentHistory(): PaymentMap {
     return this.payments;
   }
 
@@ -48,7 +49,7 @@ export class Person {
     this.payments.delete(paymentSetId);
   }
 
-  getDebts(): Map<string, Debt> {
+  getDebts(): DebtMap {
     return this.debts;
   }
 
