@@ -45,10 +45,9 @@ export class Controller implements IPaymentController {
     const borrowers: TotalBalance[] = [];
     const lenders: TotalBalance[] = [];
 
-    const peopleClone = structuredClone(this.people);
-    peopleClone.forEach((person) => {
+    this.people.forEach((person) => {
       const { id } = person;
-      const debt = this.getTotalBalanceByPersonId(id);
+      const debt = this.getTotalBalanceByPersonId(person);
       const totalDebt: TotalBalance = { personId: id, amount: debt };
 
       if (debt > 0) {
@@ -75,8 +74,8 @@ export class Controller implements IPaymentController {
     });
   }
 
-  private getTotalBalanceByPersonId = (personId: string): number => {
-    const debts = this.getPersonById(personId).getDebts();
+  private getTotalBalanceByPersonId = (person: Person): number => {
+    const debts = person.getDebts();
 
     let totalDebt = 0;
     debts.forEach((debt) => {
