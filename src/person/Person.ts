@@ -58,6 +58,6 @@ export class Person {
   }
 
   addDebt(amount: number, debtId: string): void {
-    this.debts.set(debtId, {  amount });
+    this.debts.set(debtId, { amount });
   }
 }
