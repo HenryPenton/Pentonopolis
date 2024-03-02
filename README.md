@@ -1,1 +1,8 @@
 # README
+
+getAllPayments:
+addNewPerson
+removePersonById
+addPaymentSetToPersonById
+deletePaymentSetsForPerson
+getSuggestedPayments

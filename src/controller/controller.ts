@@ -24,7 +24,6 @@ interface IPaymentController {
     paymentSetIds: string[],
     personId: string
   ) => void;
-
   getSuggestedPayments: () => SuggestedPayment[];
 }
 
