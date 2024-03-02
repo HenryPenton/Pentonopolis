@@ -1,5 +1,7 @@
 import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
-import { Debt, PaymentSet, Person } from "./Person";
+import { Debt } from "../interfaces/debt";
+import { PaymentSet } from "../interfaces/payment";
+import { Person } from "./Person";
 
 describe("Person", () => {
   describe("payment", () => {

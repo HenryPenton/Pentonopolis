@@ -1,17 +1,13 @@
 import { PersonDoesNotExistError } from "../exceptions/Person";
 import {
+  LendersAndBorrowers,
   PaymentCore,
   PaymentSet,
   PaymentSetDTO,
-  Person,
-} from "../person/Person";
-
-export type SuggestedPayment = { to: string; amount: number; from: string };
-export type TotalBalance = { personId: string; amount: number };
-type LendersAndBorrowers = {
-  borrowers: TotalBalance[];
-  lenders: TotalBalance[];
-};
+  SuggestedPayment,
+  TotalBalance,
+} from "../interfaces/payment";
+import { Person } from "../person/Person";
 
 interface IPaymentController {
   getAllPayments: (

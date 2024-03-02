@@ -1,18 +1,11 @@
 import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
+import { Debt } from "../interfaces/debt";
+import {
+  PaymentSet,
+  PaymentSetDTO,
+  PaymentToOnePerson,
+} from "../interfaces/payment";
 import { generateNewId } from "../utils/uuid";
-
-export interface PaymentCore {
-  to: string;
-  amount: number;
-}
-export type PaymentSetDTO = Set<PaymentCore>;
-
-export interface PaymentToOnePerson extends PaymentCore {
-  id: string;
-}
-export type PaymentSet = Set<PaymentToOnePerson>;
-
-export type Debt = { by: Person; amount: number };
 
 export class Person {
   private payments: Map<string, PaymentSet>;
