@@ -1,4 +1,9 @@
-import { PaymentSet, PaymentSetDTO, Person } from "../person/Person";
+import {
+  PaymentCore,
+  PaymentSet,
+  PaymentSetDTO,
+  Person,
+} from "../person/Person";
 
 export type SuggestedPayment = { to: string; amount: number; from: string };
 export type TotalBalance = { personId: string; amount: number };
@@ -8,7 +13,10 @@ type LendersAndBorrowers = {
 };
 
 interface IPaymentController {
-  // getAllPayments: () => ViewablePayment[];
+  getAllPayments: (
+    paymentSetIds: string[],
+    personId: string
+  ) => PaymentSetDTO[];
   addNewPerson: () => string;
   removePersonById: (personId: string) => void;
   addPaymentSetToPersonById: (
@@ -140,17 +148,18 @@ export class Controller implements IPaymentController {
     }
   }
 
-  getMapOfPaymentSetsForPerson(
-    paymentSetIds: string[],
-    personId: string
-  ): Map<string, PaymentSet> {
-    const paymentSets = new Map<string, PaymentSet>();
+  getAllPayments(paymentSetIds: string[], personId: string): PaymentSetDTO[] {
+    const paymentSets: PaymentSetDTO[] = [];
     const person = this.getPersonById(personId);
 
     const entirePaymentHistory = person.getPaymentHistory();
     entirePaymentHistory.forEach((paymentSet, id) => {
+      const cores: Set<PaymentCore> = new Set();
       if (paymentSetIds.includes(id)) {
-        paymentSets.set(id, paymentSet);
+        paymentSet.forEach((payment) =>
+          cores.add({ to: payment.to, amount: payment.amount })
+        );
+        paymentSets.push(cores);
       }
     });
 

@@ -1,12 +1,12 @@
 import { generateNewId } from "../utils/uuid";
 
-interface PaymentCreation {
+export interface PaymentCore {
   to: string;
   amount: number;
 }
-export type PaymentSetDTO = Set<PaymentCreation>;
+export type PaymentSetDTO = Set<PaymentCore>;
 
-export interface PaymentToOnePerson extends PaymentCreation {
+export interface PaymentToOnePerson extends PaymentCore {
   id: string;
 }
 export type PaymentSet = Set<PaymentToOnePerson>;
