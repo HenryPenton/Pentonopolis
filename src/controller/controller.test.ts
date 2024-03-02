@@ -18,7 +18,7 @@ describe("controller", () => {
       const personId = controller.addNewPerson();
       controller.removePersonById(personId);
 
-      expect(() => controller.getBalancesForListOfIds([personId])).toThrow();
+      expect(() => controller.getBalancesForPeople([personId])).toThrow();
     });
   });
 
@@ -27,7 +27,7 @@ describe("controller", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
 
-      expect(controller.getBalancesForListOfIds([personId])).toEqual([
+      expect(controller.getBalancesForPeople([personId])).toEqual([
         { amount: 0, personId },
       ]);
     });
@@ -40,7 +40,7 @@ describe("controller", () => {
 
       controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
 
-      expect(controller.getBalancesForListOfIds([personId])).toEqual([
+      expect(controller.getBalancesForPeople([personId])).toEqual([
         { amount: 527, personId },
       ]);
     });
@@ -61,7 +61,7 @@ describe("controller", () => {
         secondPersonOwedMoneyId
       );
 
-      expect(controller.getBalancesForListOfIds([personId])).toEqual([
+      expect(controller.getBalancesForPeople([personId])).toEqual([
         { amount: 888, personId },
       ]);
     });
@@ -78,7 +78,7 @@ describe("controller", () => {
       ]);
 
       controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-      const allDebts = controller.getBalancesForListOfIds([
+      const allDebts = controller.getBalancesForPeople([
         person1Id,
         person2Id,
         personOwedMoneyId,
@@ -103,7 +103,7 @@ describe("controller", () => {
       ]);
 
       controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-      const allDebts = controller.getBalancesForListOfIds([
+      const allDebts = controller.getBalancesForPeople([
         personId,
         personOwedMoneyId,
       ]);
@@ -124,7 +124,7 @@ describe("controller", () => {
         controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
 
         expect(() =>
-          controller.getBalancesForListOfIds(["non-existent-debt-payer"])
+          controller.getBalancesForPeople(["non-existent-debt-payer"])
         ).toThrow(new Error("That person does not exist"));
       });
     });
@@ -138,7 +138,7 @@ describe("controller", () => {
       const paymentSet = new Set([{ amount: 573, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalancesForListOfIds([personBId])).toEqual([
+      expect(controller.getBalancesForPeople([personBId])).toEqual([
         { amount: 573, personId: personBId },
       ]);
     });
@@ -152,7 +152,7 @@ describe("controller", () => {
       controller.addPaymentSetToPersonById(paymentSet, personAId);
       controller.addPaymentSetToPersonById(paymentSet2, personAId);
 
-      expect(controller.getBalancesForListOfIds([personBId])).toEqual([
+      expect(controller.getBalancesForPeople([personBId])).toEqual([
         { amount: 666, personId: personBId },
       ]);
     });
@@ -169,10 +169,10 @@ describe("controller", () => {
 
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalancesForListOfIds([personBId])).toEqual([
+      expect(controller.getBalancesForPeople([personBId])).toEqual([
         { amount: 123, personId: personBId },
       ]);
-      expect(controller.getBalancesForListOfIds([personCId])).toEqual([
+      expect(controller.getBalancesForPeople([personCId])).toEqual([
         { amount: 321, personId: personCId },
       ]);
     });
@@ -188,10 +188,10 @@ describe("controller", () => {
       controller.addPaymentSetToPersonById(paymentSet, personAId);
       controller.addPaymentSetToPersonById(paymentSet2, personAId);
 
-      expect(controller.getBalancesForListOfIds([personBId])).toEqual([
+      expect(controller.getBalancesForPeople([personBId])).toEqual([
         { amount: 555, personId: personBId },
       ]);
-      expect(controller.getBalancesForListOfIds([personCId])).toEqual([
+      expect(controller.getBalancesForPeople([personCId])).toEqual([
         { amount: 666, personId: personCId },
       ]);
     });
@@ -203,7 +203,7 @@ describe("controller", () => {
       const paymentSet = new Set([{ amount: 573, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalancesForListOfIds([personAId])).toEqual([
+      expect(controller.getBalancesForPeople([personAId])).toEqual([
         { amount: -573, personId: personAId },
       ]);
     });
@@ -215,7 +215,7 @@ describe("controller", () => {
       const paymentSet = new Set([{ amount: 599, to: personBId }]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalancesForListOfIds([personBId])).toEqual([
+      expect(controller.getBalancesForPeople([personBId])).toEqual([
         { amount: 599, personId: personBId },
       ]);
     });
@@ -232,7 +232,7 @@ describe("controller", () => {
       ]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalancesForListOfIds([personAId])).toEqual([
+      expect(controller.getBalancesForPeople([personAId])).toEqual([
         { amount: 0, personId: personAId },
       ]);
     });
@@ -253,7 +253,7 @@ describe("controller", () => {
       ]);
       controller.addPaymentSetToPersonById(paymentSet, personAId);
 
-      expect(controller.getBalancesForListOfIds([personAId])).toEqual([
+      expect(controller.getBalancesForPeople([personAId])).toEqual([
         { amount: -599, personId: personAId },
       ]);
     });
@@ -775,7 +775,7 @@ describe("controller", () => {
           [paymentSetId, paymentSet2Id],
           personId
         );
-        const balances = controller.getBalancesForListOfIds([
+        const balances = controller.getBalancesForPeople([
           personId,
           person2Id,
         ]);
@@ -813,7 +813,7 @@ describe("controller", () => {
           [paymentSetId, paymentSet2Id],
           personId
         );
-        const balances = controller.getBalancesForListOfIds([
+        const balances = controller.getBalancesForPeople([
           personId,
           person2Id,
         ]);
@@ -860,7 +860,7 @@ describe("controller", () => {
           [paymentSetId, paymentSet2Id],
           personId
         );
-        const balances = controller.getBalancesForListOfIds([
+        const balances = controller.getBalancesForPeople([
           personId,
           person2Id,
         ]);

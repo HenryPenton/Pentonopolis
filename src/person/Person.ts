@@ -4,7 +4,7 @@ interface PaymentCreation {
   to: string;
   amount: number;
 }
-export type PaymentSetSetup = Set<PaymentCreation>;
+export type PaymentSetDTO = Set<PaymentCreation>;
 
 export interface PaymentToOnePerson extends PaymentCreation {
   id: string;
@@ -28,7 +28,7 @@ export class Person {
     return this.debts.has(debtId);
   }
 
-  addPaymentSet(payments: PaymentSetSetup): string {
+  addPaymentSet(payments: PaymentSetDTO): string {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
     payments.forEach((payment) =>
       paymentsWithId.add({ ...payment, id: generateNewId() })

@@ -1,4 +1,4 @@
-import { PaymentSet, PaymentSetSetup, Person } from "../person/Person";
+import { PaymentSet, PaymentSetDTO, Person } from "../person/Person";
 
 export type SuggestedPayment = { to: string; amount: number; from: string };
 export type TotalBalance = { personId: string; amount: number };
@@ -7,7 +7,23 @@ type LendersAndBorrowers = {
   lenders: TotalBalance[];
 };
 
-export class Controller {
+interface IPaymentController {
+  // getAllPayments: () => ViewablePayment[];
+  addNewPerson: () => string;
+  removePersonById: (personId: string) => void;
+  addPaymentSetToPersonById: (
+    paymentSetSetup: PaymentSetDTO,
+    personId: string
+  ) => string;
+  deletePaymentSetsForPerson: (
+    paymentSetIds: string[],
+    personId: string
+  ) => void;
+  getBalancesForPeople: (personIds: string[]) => TotalBalance[];
+  getSuggestedPayments: () => SuggestedPayment[];
+}
+
+export class Controller implements IPaymentController {
   private people: Map<string, Person> = new Map();
 
   private getPersonById(personId: string): Person {
@@ -96,7 +112,7 @@ export class Controller {
   }
 
   addPaymentSetToPersonById(
-    paymentSetSetup: PaymentSetSetup,
+    paymentSetSetup: PaymentSetDTO,
     personId: string
   ): string {
     const person = this.getPersonById(personId);
@@ -141,7 +157,7 @@ export class Controller {
     return paymentSets;
   }
 
-  getBalancesForListOfIds(personIds: string[]): TotalBalance[] {
+  getBalancesForPeople(personIds: string[]): TotalBalance[] {
     const allDebts: TotalBalance[] = [];
     for (const personId of personIds) {
       allDebts.push({
