@@ -214,6 +214,44 @@ describe("Person", () => {
         ])
       );
     });
+
+    test("has debt", () => {
+      const person = new Person();
+      const person2 = new Person();
+      const person3 = new Person();
+
+      person.addDebt(person2, 123, "some-id-1");
+      person3.addDebt(person2, 123, "some-id-2");
+      person.addDebt(person2, 123, "some-id-3");
+      person.addDebt(person2, 123, "some-id-4");
+      person2.addDebt(person3, 321, "some-id-5");
+      person.addDebt(person3, 321, "some-id-6");
+      person2.addDebt(person3, 321, "some-id-7");
+      person.addDebt(person3, 321, "some-id-8");
+
+      const personHasDebt = person.hasDebt("some-id-4");
+
+      expect(personHasDebt).toBeTruthy();
+    });
+
+    test("does not have debt", () => {
+      const person = new Person();
+      const person2 = new Person();
+      const person3 = new Person();
+
+      person.addDebt(person2, 123, "some-id-1");
+      person3.addDebt(person2, 123, "some-id-2");
+      person.addDebt(person2, 123, "some-id-3");
+      person.addDebt(person2, 123, "some-id-4");
+      person2.addDebt(person3, 321, "some-id-5");
+      person.addDebt(person3, 321, "some-id-6");
+      person2.addDebt(person3, 321, "some-id-7");
+      person.addDebt(person3, 321, "some-id-8");
+
+      const personHasDebt = person.hasDebt("some-id-5");
+
+      expect(personHasDebt).toBeFalsy();
+    });
   });
 
   describe("metadata", () => {

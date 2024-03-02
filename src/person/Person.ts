@@ -24,6 +24,10 @@ export class Person {
     this.id = generateNewId();
   }
 
+  hasDebt(debtId: string): boolean {
+    return this.debts.has(debtId);
+  }
+
   getDebtIdsBelongingToPerson(ids: Set<string>): Set<string> {
     const idsBelongingToPerson = new Set<string>();
 
