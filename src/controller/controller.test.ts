@@ -828,9 +828,19 @@ describe("controller", () => {
         const controller = new Controller();
         const personId = controller.addNewPerson();
         const person2Id = controller.addNewPerson();
+        const person3Id = controller.addNewPerson();
+        const person4Id = controller.addNewPerson();
 
-        const paymentSetSetup = new Set([{ amount: 256, to: person2Id }]);
-        const paymentSet2Setup = new Set([{ amount: 573, to: personId }]);
+        const paymentSetSetup = new Set([
+          { amount: 256, to: person2Id },
+          { amount: 613, to: person3Id },
+          { amount: 865, to: person4Id },
+        ]);
+        const paymentSet2Setup = new Set([
+          { amount: 1252, to: personId },
+          { amount: 162, to: person3Id },
+          { amount: 616, to: person4Id },
+        ]);
 
         const paymentSetId = controller.addPaymentSetToPersonById(
           paymentSetSetup,
