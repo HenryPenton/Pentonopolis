@@ -176,6 +176,44 @@ describe("Person", () => {
 
       expect(person.getDebts()).toEqual(expectedDebts);
     });
+
+    test("get debt ids belonging to person", () => {
+      const person = new Person();
+      const person2 = new Person();
+      const person3 = new Person();
+
+      person.addDebt(person2, 123, "some-id-1");
+      person3.addDebt(person2, 123, "some-id-2");
+      person.addDebt(person2, 123, "some-id-3");
+      person.addDebt(person2, 123, "some-id-4");
+      person2.addDebt(person3, 321, "some-id-5");
+      person.addDebt(person3, 321, "some-id-6");
+      person2.addDebt(person3, 321, "some-id-7");
+      person.addDebt(person3, 321, "some-id-8");
+
+      const personsDebts = person.getDebtIdsBelongingToPerson(
+        new Set([
+          "some-id-1",
+          "some-id-2",
+          "some-id-3",
+          "some-id-4",
+          "some-id-5",
+          "some-id-6",
+          "some-id-7",
+          "some-id-8",
+        ])
+      );
+
+      expect(personsDebts).toEqual(
+        new Set([
+          "some-id-1",
+          "some-id-3",
+          "some-id-4",
+          "some-id-6",
+          "some-id-8",
+        ])
+      );
+    });
   });
 
   describe("metadata", () => {
