@@ -57,7 +57,7 @@ export class Person {
     this.debts.delete(debtId);
   }
 
-  addDebt(person: Person, amount: number, debtId: string): void {
-    this.debts.set(debtId, { by: person, amount });
+  addDebt(amount: number, debtId: string): void {
+    this.debts.set(debtId, {  amount });
   }
 }

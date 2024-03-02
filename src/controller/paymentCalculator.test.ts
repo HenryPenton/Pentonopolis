@@ -30,8 +30,8 @@ describe("controller", () => {
         .set(personA.id, personA)
         .set(personB.id, personB);
 
-      personB.addDebt(personA, 584, generateNewId());
-      personA.addDebt(personB, -584, generateNewId());
+      personB.addDebt(584, generateNewId());
+      personA.addDebt(-584, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personB.id },
@@ -52,11 +52,11 @@ describe("controller", () => {
         .set(personB.id, personB)
         .set(personC.id, personC);
 
-      personA.addDebt(personA, -584, generateNewId());
-      personB.addDebt(personA, 584, generateNewId());
+      personA.addDebt(-584, generateNewId());
+      personB.addDebt(584, generateNewId());
 
-      personA.addDebt(personB, -261, generateNewId());
-      personC.addDebt(personB, 261, generateNewId());
+      personA.addDebt(-261, generateNewId());
+      personC.addDebt(261, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personB.id },
@@ -78,11 +78,11 @@ describe("controller", () => {
         .set(personB.id, personB)
         .set(personC.id, personC);
 
-      personA.addDebt(personA, -584, generateNewId());
-      personC.addDebt(personA, 584, generateNewId());
+      personA.addDebt(-584, generateNewId());
+      personC.addDebt(584, generateNewId());
 
-      personB.addDebt(personB, -261, generateNewId());
-      personC.addDebt(personB, 261, generateNewId());
+      personB.addDebt(-261, generateNewId());
+      personC.addDebt(261, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personC.id },
@@ -106,13 +106,13 @@ describe("controller", () => {
         .set(personC.id, personC)
         .set(personD.id, personD);
 
-      personA.addDebt(personA, -584, generateNewId());
-      personC.addDebt(personA, 584, generateNewId());
+      personA.addDebt(-584, generateNewId());
+      personC.addDebt(584, generateNewId());
 
-      personB.addDebt(personC, -261, generateNewId());
-      personB.addDebt(personD, -100, generateNewId());
-      personC.addDebt(personB, 261, generateNewId());
-      personD.addDebt(personB, 100, generateNewId());
+      personB.addDebt(-261, generateNewId());
+      personB.addDebt(-100, generateNewId());
+      personC.addDebt(261, generateNewId());
+      personD.addDebt(100, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personC.id },
@@ -139,17 +139,17 @@ describe("controller", () => {
         .set(personD.id, personD)
         .set(personE.id, personE);
 
-      personA.addDebt(personB, -584, generateNewId());
-      personC.addDebt(personB, 584, generateNewId());
+      personA.addDebt(-584, generateNewId());
+      personC.addDebt(584, generateNewId());
 
-      personA.addDebt(personB, -211, generateNewId());
-      personE.addDebt(personB, 211, generateNewId());
+      personA.addDebt(-211, generateNewId());
+      personE.addDebt(211, generateNewId());
 
-      personB.addDebt(personB, -261, generateNewId());
-      personC.addDebt(personB, 261, generateNewId());
+      personB.addDebt(-261, generateNewId());
+      personC.addDebt(261, generateNewId());
 
-      personB.addDebt(personB, -100, generateNewId());
-      personD.addDebt(personB, 100, generateNewId());
+      personB.addDebt(-100, generateNewId());
+      personD.addDebt(100, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 795, from: personC.id },
@@ -175,17 +175,17 @@ describe("controller", () => {
         .set(personC.id, personC)
         .set(personD.id, personD);
 
-      personA.addDebt(personB, -500, generateNewId());
-      personB.addDebt(personB, 500, generateNewId());
+      personA.addDebt(-500, generateNewId());
+      personB.addDebt(500, generateNewId());
 
-      personB.addDebt(personB, -1000, generateNewId());
-      personC.addDebt(personB, 1000, generateNewId());
+      personB.addDebt(-1000, generateNewId());
+      personC.addDebt(1000, generateNewId());
 
-      personC.addDebt(personB, -1500, generateNewId());
-      personD.addDebt(personB, 1500, generateNewId());
+      personC.addDebt(-1500, generateNewId());
+      personD.addDebt(1500, generateNewId());
 
-      personD.addDebt(personB, -2000, generateNewId());
-      personA.addDebt(personB, 2000, generateNewId());
+      personD.addDebt(-2000, generateNewId());
+      personA.addDebt(2000, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personB.id, amount: 500, from: personA.id },

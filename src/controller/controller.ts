@@ -47,8 +47,8 @@ export class Controller implements IPaymentController {
       const isPayingSelf = personPaying.id === payment.to;
       if (!isPayingSelf) {
         const personBeingPaidFor = this.getPersonById(payment.to);
-        personBeingPaidFor.addDebt(personPaying, payment.amount, payment.id);
-        personPaying.addDebt(personPaying, -payment.amount, payment.id);
+        personBeingPaidFor.addDebt(payment.amount, payment.id);
+        personPaying.addDebt(-payment.amount, payment.id);
       }
     });
   }
@@ -114,5 +114,3 @@ export class Controller implements IPaymentController {
     return this.paymentCalculator.buildPayments(this.people);
   }
 }
-
-
