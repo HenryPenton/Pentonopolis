@@ -7,6 +7,7 @@ import {
   SuggestedPayment,
   TotalBalance,
 } from "../interfaces/payment";
+import { PersonMap } from "../interfaces/person";
 import { Person } from "../person/Person";
 
 interface IPaymentController {
@@ -29,7 +30,8 @@ interface IPaymentController {
 }
 
 export class Controller implements IPaymentController {
-  private people: Map<string, Person> = new Map();
+  private people: PersonMap = new Map();
+  private paymentCalculator: PaymentCalculator = new PaymentCalculator();
 
   private getPersonById(personId: string): Person {
     const person = this.people.get(personId);
@@ -41,28 +43,6 @@ export class Controller implements IPaymentController {
     throw new PersonDoesNotExistError("That person does not exist");
   }
 
-  private getLendersAndBorrowers(): LendersAndBorrowers {
-    const borrowers: TotalBalance[] = [];
-    const lenders: TotalBalance[] = [];
-
-    this.people.forEach((person) => {
-      const { id } = person;
-      const debt = this.getTotalBalanceByPersonId(person);
-      const totalDebt: TotalBalance = { personId: id, amount: debt };
-
-      if (debt > 0) {
-        borrowers.push(totalDebt);
-      } else if (debt < 0) {
-        lenders.push(totalDebt);
-      }
-    });
-
-    borrowers.sort((a, b) => b.amount - a.amount); //owes the most first
-    lenders.sort((a, b) => a.amount - b.amount); //is owed the most first
-
-    return { borrowers, lenders };
-  }
-
   private distributeDebts(paymentSet: PaymentSet, personPaying: Person): void {
     paymentSet.forEach((payment) => {
       const isPayingSelf = personPaying.id === payment.to;
@@ -72,37 +52,6 @@ export class Controller implements IPaymentController {
         personPaying.addDebt(personPaying, -payment.amount, payment.id);
       }
     });
-  }
-
-  private getTotalBalanceByPersonId = (person: Person): number => {
-    const debts = person.getDebts();
-
-    let totalDebt = 0;
-    debts.forEach((debt) => {
-      totalDebt += debt.amount;
-    });
-
-    return totalDebt;
-  };
-
-  private buildPayment(
-    borrower: TotalBalance,
-    lender: TotalBalance
-  ): SuggestedPayment {
-    const paymentAmount = Math.min(
-      Math.abs(borrower.amount),
-      Math.abs(lender.amount)
-    );
-
-    const payment = {
-      from: borrower.personId,
-      to: lender.personId,
-      amount: paymentAmount,
-    };
-
-    borrower.amount -= paymentAmount;
-    lender.amount += paymentAmount;
-    return payment;
   }
 
   addNewPerson(): string {
@@ -163,7 +112,70 @@ export class Controller implements IPaymentController {
   }
 
   getSuggestedPayments(): SuggestedPayment[] {
-    const { lenders, borrowers } = this.getLendersAndBorrowers();
+    return this.paymentCalculator.buildPayments(this.people);
+  }
+}
+
+interface IPaymentCalculator {
+  buildPayments: (people: PersonMap) => SuggestedPayment[];
+}
+
+class PaymentCalculator implements IPaymentCalculator {
+  private getLendersAndBorrowers(people: PersonMap): LendersAndBorrowers {
+    const borrowers: TotalBalance[] = [];
+    const lenders: TotalBalance[] = [];
+
+    people.forEach((person) => {
+      const { id } = person;
+      const debt = this.getTotalBalanceByPersonId(person);
+      const totalDebt: TotalBalance = { personId: id, amount: debt };
+
+      if (debt > 0) {
+        borrowers.push(totalDebt);
+      } else if (debt < 0) {
+        lenders.push(totalDebt);
+      }
+    });
+
+    borrowers.sort((a, b) => b.amount - a.amount); //owes the most first
+    lenders.sort((a, b) => a.amount - b.amount); //is owed the most first
+
+    return { borrowers, lenders };
+  }
+
+  private getTotalBalanceByPersonId = (person: Person): number => {
+    const debts = person.getDebts();
+
+    let totalDebt = 0;
+    debts.forEach((debt) => {
+      totalDebt += debt.amount;
+    });
+
+    return totalDebt;
+  };
+
+  private buildPayment(
+    borrower: TotalBalance,
+    lender: TotalBalance
+  ): SuggestedPayment {
+    const paymentAmount = Math.min(
+      Math.abs(borrower.amount),
+      Math.abs(lender.amount)
+    );
+
+    const payment = {
+      from: borrower.personId,
+      to: lender.personId,
+      amount: paymentAmount,
+    };
+
+    borrower.amount -= paymentAmount;
+    lender.amount += paymentAmount;
+    return payment;
+  }
+
+  buildPayments(people: PersonMap): SuggestedPayment[] {
+    const { lenders, borrowers } = this.getLendersAndBorrowers(people);
 
     let borrowerIndex = 0;
     let lenderIndex = 0;
