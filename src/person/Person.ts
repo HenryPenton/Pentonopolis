@@ -28,17 +28,7 @@ export class Person {
     return this.debts.has(debtId);
   }
 
-  getDebtIdsBelongingToPerson(ids: Set<string>): Set<string> {
-    const idsBelongingToPerson = new Set<string>();
 
-    ids.forEach((id) => {
-      if (this.debts.has(id)) {
-        idsBelongingToPerson.add(id);
-      }
-    });
-
-    return idsBelongingToPerson;
-  }
   addPaymentSet(payments: PaymentSetSetup): string {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
     payments.forEach((payment) =>
