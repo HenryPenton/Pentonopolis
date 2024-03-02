@@ -91,7 +91,10 @@ export class Controller implements IPaymentController {
     }
   }
 
-  getPaymentsByPerson(paymentSetIds: string[], personId: string): PaymentSetDTO[] {
+  getPaymentsByPerson(
+    paymentSetIds: string[],
+    personId: string
+  ): PaymentSetDTO[] {
     const paymentSets: PaymentSetDTO[] = [];
     const person = this.getPersonById(personId);
 
