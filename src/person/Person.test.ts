@@ -217,6 +217,28 @@ describe("Person", () => {
 
       expect(person.getDebts()).toEqual(expectedDebts);
     });
+
+    test("deleting a debt that exists returns true", () => {
+      const person = new Person();
+
+      person.addDebt(123, "some-id-1");
+      person.addDebt(321, "some-id-2");
+
+      const didDelete = person.deleteDebt("some-id-1");
+
+      expect(didDelete).toBeTruthy();
+    });
+
+    test("deleting a debt that doesn't exist returns false", () => {
+      const person = new Person();
+
+      person.addDebt(123, "some-id-1");
+      person.addDebt(321, "some-id-2");
+
+      const didDelete = person.deleteDebt("some-non-existent-id");
+
+      expect(didDelete).toBeFalsy();
+    });
   });
 
   describe("metadata", () => {

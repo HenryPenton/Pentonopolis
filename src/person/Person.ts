@@ -15,7 +15,7 @@ export interface IPerson {
   getPaymentHistory: () => PaymentMap;
   deletePaymentSetById: (paymentSetId: string) => boolean;
   getDebts: () => DebtMap;
-  deleteDebt: (debtId: string) => void;
+  deleteDebt: (debtId: string) => boolean;
   addDebt: (amount: number, debtId: string) => void;
 }
 
@@ -54,8 +54,8 @@ export class Person implements IPerson {
     return this.debts;
   }
 
-  deleteDebt(debtId: string): void {
-    this.debts.delete(debtId);
+  deleteDebt(debtId: string): boolean {
+    return this.debts.delete(debtId);
   }
 
   addDebt(amount: number, debtId: string): void {
