@@ -28,7 +28,6 @@ export class Person {
     return this.debts.has(debtId);
   }
 
-
   addPaymentSet(payments: PaymentSetSetup): string {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
     payments.forEach((payment) =>
