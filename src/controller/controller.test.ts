@@ -1,7 +1,11 @@
 import { PaymentSet, PaymentToOnePerson } from "../person/Person";
-import { Controller, SuggestedPayment } from "./controller";
+import {
+  Controller,
+  PersonDoesNotExistError,
+  SuggestedPayment,
+} from "./controller";
 describe("controller", () => {
-  describe("people", () => {
+  describe("People", () => {
     test("the controller gives back a person id when creating a person", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
@@ -533,251 +537,318 @@ describe("controller", () => {
   });
 
   describe("Payment sets", () => {
-    test("setting up a payment gets back the paymentset complete with set id", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+    describe("adding payment sets", () => {
+      test("setting up a payment gets back the paymentset complete with set id", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
-      const paymentSetId = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-      expect(paymentSetId).toEqual(expect.any(String));
+        expect(paymentSetId).toEqual(expect.any(String));
+      });
+
+      test("setting up a payment for a non existent person throws a PersonDoesNotExistError", () => {
+        const controller = new Controller();
+        controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+
+        expect(() =>
+          controller.addPaymentSetToPersonById(
+            paymentSetSetup,
+            "some-non-existent-person-id"
+          )
+        ).toThrow(PersonDoesNotExistError);
+      });
     });
+    describe("getting payment sets", () => {
+      test("get payment set for person", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-    test("get payment set for person", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-      const paymentSetId = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
+        const paymentSet = controller.getMapOfPaymentSetsForPerson(
+          [paymentSetId],
+          personId
+        );
 
-      const paymentSet = controller.getMapOfPaymentSetsForPerson(
-        [paymentSetId],
-        personId
-      );
-
-      const expectedPaymentHistory = new Map<string, PaymentSet>().set(
-        paymentSetId,
-        new Set<PaymentToOnePerson>().add({
-          to: person2Id,
-          amount: 444,
-          id: expect.any(String),
-        })
-      );
-
-      expect(paymentSet).toEqual(expectedPaymentHistory);
-    });
-
-    test("get all payment sets for a given person", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
-
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
-      const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
-
-      const paymentSet1Id = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
-
-      const paymentSet2Id = controller.addPaymentSetToPersonById(
-        paymentSet2Setup,
-        personId
-      );
-
-      const paymentSets = controller.getMapOfPaymentSetsForPerson(
-        [paymentSet1Id, paymentSet2Id],
-        personId
-      );
-
-      const expectedPaymentHistory = new Map<string, PaymentSet>()
-        .set(
-          paymentSet1Id,
+        const expectedPaymentHistory = new Map<string, PaymentSet>().set(
+          paymentSetId,
           new Set<PaymentToOnePerson>().add({
             to: person2Id,
             amount: 444,
             id: expect.any(String),
           })
-        )
-        .set(
-          paymentSet2Id,
+        );
+
+        expect(paymentSet).toEqual(expectedPaymentHistory);
+      });
+
+      test("get all payment sets for a given person", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
+
+        const paymentSet1Id = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
+
+        const paymentSet2Id = controller.addPaymentSetToPersonById(
+          paymentSet2Setup,
+          personId
+        );
+
+        const paymentSets = controller.getMapOfPaymentSetsForPerson(
+          [paymentSet1Id, paymentSet2Id],
+          personId
+        );
+
+        const expectedPaymentHistory = new Map<string, PaymentSet>()
+          .set(
+            paymentSet1Id,
+            new Set<PaymentToOnePerson>().add({
+              to: person2Id,
+              amount: 444,
+              id: expect.any(String),
+            })
+          )
+          .set(
+            paymentSet2Id,
+            new Set<PaymentToOnePerson>().add({
+              to: person2Id,
+              amount: 555,
+              id: expect.any(String),
+            })
+          );
+
+        expect(paymentSets).toEqual(expectedPaymentHistory);
+      });
+
+      test("get a map of payment sets for a given person", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
+
+        const paymentSet1Id = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
+
+        controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
+
+        const paymentSets = controller.getMapOfPaymentSetsForPerson(
+          [paymentSet1Id],
+          personId
+        );
+
+        const expectedPaymentHistory = new Map<string, PaymentSet>().set(
+          paymentSet1Id,
+
           new Set<PaymentToOnePerson>().add({
             to: person2Id,
-            amount: 555,
+            amount: 444,
             id: expect.any(String),
           })
         );
 
-      expect(paymentSets).toEqual(expectedPaymentHistory);
+        expect(paymentSets).toEqual(expectedPaymentHistory);
+      });
+      test("get a map of payment sets for a non existent person results in a PersonDoesNotExistError", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
+
+        const paymentSet1Id = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
+
+        controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
+
+        expect(() =>
+          controller.getMapOfPaymentSetsForPerson(
+            [paymentSet1Id],
+            "non-existent-person-id"
+          )
+        ).toThrow(PersonDoesNotExistError);
+      });
     });
+    describe("deleting payment sets", () => {
+      test("delete payment set for person", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-    test("get a map of payment sets for a given person", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
-      const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-      const paymentSet1Id = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
+        controller.deletePaymentSetsForPerson([paymentSetId], personId);
 
-      controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
+        const paymentSet = controller.getMapOfPaymentSetsForPerson(
+          [paymentSetId],
+          personId
+        );
 
-      const paymentSets = controller.getMapOfPaymentSetsForPerson(
-        [paymentSet1Id],
-        personId
-      );
+        expect(paymentSet).toEqual(new Map());
+      });
 
-      const expectedPaymentHistory = new Map<string, PaymentSet>().set(
-        paymentSet1Id,
+      test("delete two payment sets for person", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-        new Set<PaymentToOnePerson>().add({
-          to: person2Id,
-          amount: 444,
-          id: expect.any(String),
-        })
-      );
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-      expect(paymentSets).toEqual(expectedPaymentHistory);
-    });
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-    test("delete payment set for person", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+        const paymentSet2Id = controller.addPaymentSetToPersonById(
+          paymentSet2Setup,
+          personId
+        );
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        controller.deletePaymentSetsForPerson(
+          [paymentSetId, paymentSet2Id],
+          personId
+        );
 
-      const paymentSetId = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
+        const paymentSet = controller.getMapOfPaymentSetsForPerson(
+          [paymentSetId, paymentSet2Id],
+          personId
+        );
 
-      controller.deletePaymentSetsForPerson([paymentSetId], personId);
+        expect(paymentSet).toEqual(new Map());
+      });
 
-      const paymentSet = controller.getMapOfPaymentSetsForPerson(
-        [paymentSetId],
-        personId
-      );
+      test("deleting a payment set results in that amounts being stricken from someones balance", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-      expect(paymentSet).toEqual(new Map());
-    });
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-    test("delete two payment sets for person", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
-      const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Id = controller.addPaymentSetToPersonById(
+          paymentSet2Setup,
+          personId
+        );
 
-      const paymentSetId = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
+        controller.deletePaymentSetsForPerson([paymentSetId], personId);
 
-      const paymentSet2Id = controller.addPaymentSetToPersonById(
-        paymentSet2Setup,
-        personId
-      );
+        controller.getMapOfPaymentSetsForPerson(
+          [paymentSetId, paymentSet2Id],
+          personId
+        );
+        const balances = controller.getBalancesForListOfIds([
+          personId,
+          person2Id,
+        ]);
 
-      controller.deletePaymentSetsForPerson(
-        [paymentSetId, paymentSet2Id],
-        personId
-      );
+        expect(balances).toEqual([
+          { personId: personId, amount: -444 },
+          { personId: person2Id, amount: 444 },
+        ]);
+      });
 
-      const paymentSet = controller.getMapOfPaymentSetsForPerson(
-        [paymentSetId, paymentSet2Id],
-        personId
-      );
+      test("deleting all payment sets results in balances of 0", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-      expect(paymentSet).toEqual(new Map());
-    });
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-    test("deleting a payment set results in that amounts being stricken from someones balance", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
-      const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Id = controller.addPaymentSetToPersonById(
+          paymentSet2Setup,
+          personId
+        );
 
-      const paymentSetId = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
+        controller.deletePaymentSetsForPerson(
+          [paymentSetId, paymentSet2Id],
+          personId
+        );
 
-      const paymentSet2Id = controller.addPaymentSetToPersonById(
-        paymentSet2Setup,
-        personId
-      );
+        controller.getMapOfPaymentSetsForPerson(
+          [paymentSetId, paymentSet2Id],
+          personId
+        );
+        const balances = controller.getBalancesForListOfIds([
+          personId,
+          person2Id,
+        ]);
 
-      controller.deletePaymentSetsForPerson([paymentSetId], personId);
+        expect(balances).toEqual([
+          { personId: personId, amount: 0 },
+          { personId: person2Id, amount: 0 },
+        ]);
+      });
 
-      controller.getMapOfPaymentSetsForPerson(
-        [paymentSetId, paymentSet2Id],
-        personId
-      );
-      const balances = controller.getBalancesForListOfIds([
-        personId,
-        person2Id,
-      ]);
+      test("deleting a payment set for a person that does not exist results in a PersonDoesNotExistError", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
 
-      expect(balances).toEqual([
-        { personId: personId, amount: -444 },
-        { personId: person2Id, amount: 444 },
-      ]);
-    });
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-    test("deleting all payment sets results in balances of 0", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
 
-      const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
-      const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Id = controller.addPaymentSetToPersonById(
+          paymentSet2Setup,
+          personId
+        );
 
-      const paymentSetId = controller.addPaymentSetToPersonById(
-        paymentSetSetup,
-        personId
-      );
-
-      const paymentSet2Id = controller.addPaymentSetToPersonById(
-        paymentSet2Setup,
-        personId
-      );
-
-      controller.deletePaymentSetsForPerson(
-        [paymentSetId, paymentSet2Id],
-        personId
-      );
-
-      controller.getMapOfPaymentSetsForPerson(
-        [paymentSetId, paymentSet2Id],
-        personId
-      );
-      const balances = controller.getBalancesForListOfIds([
-        personId,
-        person2Id,
-      ]);
-
-      expect(balances).toEqual([
-        { personId: personId, amount: 0 },
-        { personId: person2Id, amount: 0 },
-      ]);
+        expect(() =>
+          controller.deletePaymentSetsForPerson(
+            [paymentSetId, paymentSet2Id],
+            "non-existent-person-id"
+          )
+        ).toThrow();
+      });
     });
   });
 });

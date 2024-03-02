@@ -54,6 +54,37 @@ export class Controller {
     });
   }
 
+  private getTotalBalanceByPersonId = (personId: string): number => {
+    const debts = this.getPersonById(personId).getDebts();
+
+    let totalDebt = 0;
+    debts.forEach((debt) => {
+      totalDebt += debt.amount;
+    });
+
+    return totalDebt;
+  };
+
+  private buildPayment(
+    borrower: TotalBalance,
+    lender: TotalBalance
+  ): SuggestedPayment {
+    const paymentAmount = Math.min(
+      Math.abs(borrower.amount),
+      Math.abs(lender.amount)
+    );
+
+    const payment = {
+      from: borrower.personId,
+      to: lender.personId,
+      amount: paymentAmount,
+    };
+
+    borrower.amount -= paymentAmount;
+    lender.amount += paymentAmount;
+    return payment;
+  }
+
   addNewPerson(): string {
     const newPerson = new Person();
     this.people.set(newPerson.id, newPerson);
@@ -107,17 +138,6 @@ export class Controller {
     return paymentSets;
   }
 
-  private getTotalBalanceByPersonId = (personId: string): number => {
-    const debts = this.getPersonById(personId).getDebts();
-
-    let totalDebt = 0;
-    debts.forEach((debt) => {
-      totalDebt += debt.amount;
-    });
-
-    return totalDebt;
-  };
-
   getBalancesForListOfIds(personIds: string[]): TotalBalance[] {
     const allDebts: TotalBalance[] = [];
     for (const personId of personIds) {
@@ -129,7 +149,6 @@ export class Controller {
 
     return allDebts;
   }
-  // deletepaymentsetforperson() {}
 
   getSuggestedPayments(): SuggestedPayment[] {
     const { lenders, borrowers } = this.getLendersAndBorrowers();
@@ -160,26 +179,6 @@ export class Controller {
 
     return payments;
   }
-
-  private buildPayment(
-    borrower: TotalBalance,
-    lender: TotalBalance
-  ): SuggestedPayment {
-    const paymentAmount = Math.min(
-      Math.abs(borrower.amount),
-      Math.abs(lender.amount)
-    );
-
-    const payment = {
-      from: borrower.personId,
-      to: lender.personId,
-      amount: paymentAmount,
-    };
-
-    borrower.amount -= paymentAmount;
-    lender.amount += paymentAmount;
-    return payment;
-  }
 }
 
-class PersonDoesNotExistError extends Error {}
+export class PersonDoesNotExistError extends Error {}
