@@ -41,10 +41,10 @@ describe("controller", () => {
       const paymentSetC = new Set([{ amount: 1500, to: D }]);
       const paymentSetD = new Set([{ amount: 2000, to: A }]);
 
-      controller.addPaymentSetToPersonById(paymentSetA, A);
-      controller.addPaymentSetToPersonById(paymentSetB, B);
-      controller.addPaymentSetToPersonById(paymentSetC, C);
-      controller.addPaymentSetToPersonById(paymentSetD, D);
+      controller.addPaymentSetToPerson(paymentSetA, A);
+      controller.addPaymentSetToPerson(paymentSetB, B);
+      controller.addPaymentSetToPerson(paymentSetC, C);
+      controller.addPaymentSetToPerson(paymentSetD, D);
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: B, amount: 500, from: A },
@@ -66,7 +66,7 @@ describe("controller", () => {
 
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
@@ -82,7 +82,7 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
         expect(() =>
-          controller.addPaymentSetToPersonById(
+          controller.addPaymentSetToPerson(
             paymentSetSetup,
             "some-non-existent-person-id"
           )
@@ -97,12 +97,15 @@ describe("controller", () => {
 
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        const paymentSet = controller.getAllPayments([paymentSetId], personId);
+        const paymentSet = controller.getPaymentsByPerson(
+          [paymentSetId],
+          personId
+        );
 
         const expectedPaymentHistory: PaymentSetDTO[] = [
           new Set<PaymentCore>().add({
@@ -122,17 +125,17 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
 
-        const paymentSet1Id = controller.addPaymentSetToPersonById(
+        const paymentSet1Id = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        const paymentSet2Id = controller.addPaymentSetToPersonById(
+        const paymentSet2Id = controller.addPaymentSetToPerson(
           paymentSet2Setup,
           personId
         );
 
-        const paymentSets = controller.getAllPayments(
+        const paymentSets = controller.getPaymentsByPerson(
           [paymentSet1Id, paymentSet2Id],
           personId
         );
@@ -159,14 +162,14 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
 
-        const paymentSet1Id = controller.addPaymentSetToPersonById(
+        const paymentSet1Id = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
+        controller.addPaymentSetToPerson(paymentSet2Setup, personId);
 
-        const paymentSets = controller.getAllPayments(
+        const paymentSets = controller.getPaymentsByPerson(
           [paymentSet1Id],
           personId
         );
@@ -188,15 +191,18 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
 
-        const paymentSet1Id = controller.addPaymentSetToPersonById(
+        const paymentSet1Id = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
+        controller.addPaymentSetToPerson(paymentSet2Setup, personId);
 
         expect(() =>
-          controller.getAllPayments([paymentSet1Id], "non-existent-person-id")
+          controller.getPaymentsByPerson(
+            [paymentSet1Id],
+            "non-existent-person-id"
+          )
         ).toThrow(PersonDoesNotExistError);
       });
     });
@@ -208,14 +214,17 @@ describe("controller", () => {
 
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
         controller.deletePaymentSetsForPerson([paymentSetId], personId);
 
-        const paymentSet = controller.getAllPayments([paymentSetId], personId);
+        const paymentSet = controller.getPaymentsByPerson(
+          [paymentSetId],
+          personId
+        );
 
         expect(paymentSet).toEqual([]);
       });
@@ -228,12 +237,12 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        const paymentSet2Id = controller.addPaymentSetToPersonById(
+        const paymentSet2Id = controller.addPaymentSetToPerson(
           paymentSet2Setup,
           personId
         );
@@ -243,7 +252,7 @@ describe("controller", () => {
           personId
         );
 
-        const paymentSet = controller.getAllPayments(
+        const paymentSet = controller.getPaymentsByPerson(
           [paymentSetId, paymentSet2Id],
           personId
         );
@@ -259,12 +268,12 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
+        controller.addPaymentSetToPerson(paymentSet2Setup, personId);
 
         controller.deletePaymentSetsForPerson([paymentSetId], personId);
 
@@ -283,12 +292,12 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        const paymentSet2Id = controller.addPaymentSetToPersonById(
+        const paymentSet2Id = controller.addPaymentSetToPerson(
           paymentSet2Setup,
           personId
         );
@@ -321,12 +330,12 @@ describe("controller", () => {
           { amount: 616, to: person4Id },
         ]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        const paymentSet2Id = controller.addPaymentSetToPersonById(
+        const paymentSet2Id = controller.addPaymentSetToPerson(
           paymentSet2Setup,
           person2Id
         );
@@ -347,12 +356,12 @@ describe("controller", () => {
         const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
         const paymentSet2Setup = new Set([{ amount: 444, to: person2Id }]);
 
-        const paymentSetId = controller.addPaymentSetToPersonById(
+        const paymentSetId = controller.addPaymentSetToPerson(
           paymentSetSetup,
           personId
         );
 
-        const paymentSet2Id = controller.addPaymentSetToPersonById(
+        const paymentSet2Id = controller.addPaymentSetToPerson(
           paymentSet2Setup,
           personId
         );

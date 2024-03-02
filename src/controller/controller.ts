@@ -10,7 +10,7 @@ import { PaymentCalculator } from "../paymentCalculator/paymentCalculator";
 import { IPerson, Person } from "../person/Person";
 
 interface IPaymentController {
-  getAllPaymentsByPerson: (
+  getPaymentsByPerson: (
     paymentSetIds: string[],
     personId: string
   ) => PaymentSetDTO[];
@@ -91,7 +91,7 @@ export class Controller implements IPaymentController {
     }
   }
 
-  getAllPaymentsByPerson(paymentSetIds: string[], personId: string): PaymentSetDTO[] {
+  getPaymentsByPerson(paymentSetIds: string[], personId: string): PaymentSetDTO[] {
     const paymentSets: PaymentSetDTO[] = [];
     const person = this.getPersonById(personId);
 
