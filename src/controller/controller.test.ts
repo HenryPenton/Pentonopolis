@@ -824,6 +824,43 @@ describe("controller", () => {
         ]);
       });
 
+      test("deleting all payment sets results in balances of 0 (more complex set of payments)", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 256, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 573, to: personId }]);
+
+        const paymentSetId = controller.addPaymentSetToPersonById(
+          paymentSetSetup,
+          personId
+        );
+
+        const paymentSet2Id = controller.addPaymentSetToPersonById(
+          paymentSet2Setup,
+          person2Id
+        );
+
+        controller.deletePaymentSetsForPerson([paymentSetId], personId);
+
+        controller.deletePaymentSetsForPerson([paymentSet2Id], person2Id);
+
+        controller.getMapOfPaymentSetsForPerson(
+          [paymentSetId, paymentSet2Id],
+          personId
+        );
+        const balances = controller.getBalancesForListOfIds([
+          personId,
+          person2Id,
+        ]);
+
+        expect(balances).toEqual([
+          { personId: personId, amount: 0 },
+          { personId: person2Id, amount: 0 },
+        ]);
+      });
+
       test("deleting a payment set for a person that does not exist results in a PersonDoesNotExistError", () => {
         const controller = new Controller();
         const personId = controller.addNewPerson();
