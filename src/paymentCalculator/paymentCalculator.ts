@@ -4,7 +4,7 @@ import {
   TotalBalance,
 } from "../interfaces/payment";
 import { PersonMap } from "../interfaces/person";
-import { Person } from "../person/Person";
+import { IPerson } from "../person/Person";
 
 interface IPaymentCalculator {
   buildPayments: (people: PersonMap) => SuggestedPayment[];
@@ -32,7 +32,7 @@ export class PaymentCalculator implements IPaymentCalculator {
     return { borrowers, lenders };
   }
 
-  private getTotalBalanceByPersonId = (person: Person): number => {
+  private getTotalBalanceByPersonId = (person: IPerson): number => {
     const debts = person.getDebts();
 
     let totalDebt = 0;

@@ -4,17 +4,28 @@ import {
   PaymentMap,
   PaymentSet,
   PaymentSetDTO,
-  PaymentToOnePerson,
+  PaymentModel,
 } from "../interfaces/payment";
 import { generateNewId } from "../utils/uuid";
 
-export class Person {
+export interface IPerson {
+  id: string;
+  addPaymentSet: (payments: PaymentSetDTO) => string;
+  getPaymentSetById: (paymentSetId: string) => PaymentSet;
+  getPaymentHistory: () => PaymentMap;
+  deletePaymentSetById: (paymentSetId: string) => void;
+  getDebts: () => DebtMap;
+  deleteDebt: (debtId: string) => void;
+  addDebt: (amount: number, debtId: string) => void;
+}
+
+export class Person implements IPerson {
   private payments: PaymentMap = new Map();
   private debts: DebtMap = new Map();
   public id = generateNewId();
 
   addPaymentSet(payments: PaymentSetDTO): string {
-    const paymentsWithId: Set<PaymentToOnePerson> = new Set();
+    const paymentsWithId: Set<PaymentModel> = new Set();
     payments.forEach((payment) =>
       paymentsWithId.add({ ...payment, id: generateNewId() })
     );

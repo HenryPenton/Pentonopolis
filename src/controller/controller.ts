@@ -6,8 +6,8 @@ import {
   SuggestedPayment,
 } from "../interfaces/payment";
 import { PersonMap } from "../interfaces/person";
-import { Person } from "../person/Person";
 import { PaymentCalculator } from "../paymentCalculator/paymentCalculator";
+import { IPerson, Person } from "../person/Person";
 
 interface IPaymentController {
   getAllPayments: (
@@ -32,7 +32,7 @@ export class Controller implements IPaymentController {
   private people: PersonMap = new Map();
   private paymentCalculator: PaymentCalculator = new PaymentCalculator();
 
-  private getPersonById(personId: string): Person {
+  private getPersonById(personId: string): IPerson {
     const person = this.people.get(personId);
 
     if (person) {
@@ -42,7 +42,7 @@ export class Controller implements IPaymentController {
     throw new PersonDoesNotExistError("That person does not exist");
   }
 
-  private distributeDebts(paymentSet: PaymentSet, personPaying: Person): void {
+  private distributeDebts(paymentSet: PaymentSet, personPaying: IPerson): void {
     paymentSet.forEach((payment) => {
       const isPayingSelf = personPaying.id === payment.to;
       if (!isPayingSelf) {
