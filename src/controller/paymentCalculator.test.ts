@@ -197,154 +197,166 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
-    // test("large number of payments", () => {
-    //   const paymentCalculator = new PaymentCalculator();
+    test("large number of payments", () => {
+      const paymentCalculator = new PaymentCalculator();
 
-    //   //group 1
-    //   const person1 = paymentCalculator.addNewPerson();
-    //   const person2 = paymentCalculator.addNewPerson();
-    //   const person3 = paymentCalculator.addNewPerson();
-    //   const person4 = paymentCalculator.addNewPerson();
-    //   const person5 = paymentCalculator.addNewPerson();
+      //group 1
+      const person1 = new Person();
+      const person2 = new Person();
+      const person3 = new Person();
+      const person4 = new Person();
+      const person5 = new Person();
 
-    //   //group 2
-    //   const person6 = paymentCalculator.addNewPerson();
-    //   const person7 = paymentCalculator.addNewPerson();
-    //   const person8 = paymentCalculator.addNewPerson();
-    //   const person9 = paymentCalculator.addNewPerson();
-    //   const person10 = paymentCalculator.addNewPerson();
+      //group 2
+      const person6 = new Person();
+      const person7 = new Person();
+      const person8 = new Person();
+      const person9 = new Person();
+      const person10 = new Person();
 
-    //   //group 3
-    //   const person11 = paymentCalculator.addNewPerson();
-    //   const person12 = paymentCalculator.addNewPerson();
-    //   const person13 = paymentCalculator.addNewPerson();
-    //   const person14 = paymentCalculator.addNewPerson();
-    //   const person15 = paymentCalculator.addNewPerson();
+      //group 3
+      const person11 = new Person();
+      const person12 = new Person();
+      const person13 = new Person();
+      const person14 = new Person();
+      const person15 = new Person();
 
-    //   //group 4
-    //   const person16 = paymentCalculator.addNewPerson();
-    //   const person17 = paymentCalculator.addNewPerson();
-    //   const person18 = paymentCalculator.addNewPerson();
-    //   const person19 = paymentCalculator.addNewPerson();
-    //   const person20 = paymentCalculator.addNewPerson();
+      //group 4
+      const person16 = new Person();
+      const person17 = new Person();
+      const person18 = new Person();
+      const person19 = new Person();
+      const person20 = new Person();
 
-    //   //journey 1
+      const people: PersonMap = new Map()
+        .set(person1.id, person1)
+        .set(person2.id, person2)
+        .set(person3.id, person3)
+        .set(person4.id, person4)
+        .set(person5.id, person5)
+        .set(person6.id, person6)
+        .set(person7.id, person7)
+        .set(person8.id, person8)
+        .set(person9.id, person9)
+        .set(person10.id, person10)
+        .set(person11.id, person11)
+        .set(person12.id, person12)
+        .set(person13.id, person13)
+        .set(person14.id, person14)
+        .set(person15.id, person15)
+        .set(person16.id, person16)
+        .set(person17.id, person17)
+        .set(person18.id, person18)
+        .set(person19.id, person19)
+        .set(person20.id, person20);
 
-    //   const paymentSetGroup1Journey1 = new Set([
-    //     { amount: 573, to: person2 },
-    //     { amount: 573, to: person3 },
-    //     { amount: 573, to: person4 },
-    //     { amount: 573, to: person5 },
-    //   ]);
+      //journey 1
 
-    //   const paymentSetGroup2Journey1 = new Set([
-    //     { amount: 666, to: person7 },
-    //     { amount: 666, to: person8 },
-    //     { amount: 666, to: person9 },
-    //     { amount: 666, to: person10 },
-    //   ]);
+      //person 1 pays for group 1
+      person1.addDebt(-573, generateNewId());
+      person1.addDebt(-573, generateNewId());
+      person1.addDebt(-573, generateNewId());
+      person1.addDebt(-573, generateNewId());
+      person2.addDebt(573, generateNewId());
+      person3.addDebt(573, generateNewId());
+      person4.addDebt(573, generateNewId());
+      person5.addDebt(573, generateNewId());
 
-    //   const paymentSetGroup3Journey1 = new Set([
-    //     { amount: 444, to: person12 },
-    //     { amount: 444, to: person13 },
-    //     { amount: 444, to: person14 },
-    //     { amount: 444, to: person15 },
-    //   ]);
+      //person 6 pays for group 2
+      person6.addDebt(-666, generateNewId());
+      person6.addDebt(-666, generateNewId());
+      person6.addDebt(-666, generateNewId());
+      person6.addDebt(-666, generateNewId());
+      person7.addDebt(666, generateNewId());
+      person8.addDebt(666, generateNewId());
+      person9.addDebt(666, generateNewId());
+      person10.addDebt(666, generateNewId());
 
-    //   const paymentSetGroup4Journey1 = new Set([
-    //     { amount: 333, to: person17 },
-    //     { amount: 333, to: person18 },
-    //     { amount: 333, to: person19 },
-    //     { amount: 333, to: person20 },
-    //   ]);
+      //person 11 pays for group 3
+      person11.addDebt(-444, generateNewId());
+      person11.addDebt(-444, generateNewId());
+      person11.addDebt(-444, generateNewId());
+      person11.addDebt(-444, generateNewId());
+      person12.addDebt(444, generateNewId());
+      person13.addDebt(444, generateNewId());
+      person14.addDebt(444, generateNewId());
+      person15.addDebt(444, generateNewId());
 
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup1Journey1,
-    //     person1
-    //   ); // person 1 pays for group 1
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup2Journey1,
-    //     person6
-    //   ); // person 6 pays for group 2
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup3Journey1,
-    //     person11
-    //   ); // person 11 pays for group 3
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup4Journey1,
-    //     person16
-    //   ); // person 16 pays for group 4
+      //person 16 pays for group 4
+      person16.addDebt(-333, generateNewId());
+      person16.addDebt(-333, generateNewId());
+      person16.addDebt(-333, generateNewId());
+      person16.addDebt(-333, generateNewId());
+      person17.addDebt(333, generateNewId());
+      person18.addDebt(333, generateNewId());
+      person19.addDebt(333, generateNewId());
+      person20.addDebt(333, generateNewId());
 
-    //   //journey 2
+      //journey 2
 
-    //   const paymentSetGroup1Journey2 = new Set([
-    //     { amount: 777, to: person17 },
-    //     { amount: 777, to: person18 },
-    //     { amount: 777, to: person19 },
-    //     { amount: 777, to: person20 },
-    //   ]);
+      //person 1 pays for group 1
+      person1.addDebt(-777, generateNewId());
+      person1.addDebt(-777, generateNewId());
+      person1.addDebt(-777, generateNewId());
+      person1.addDebt(-777, generateNewId());
+      person17.addDebt(777, generateNewId());
+      person18.addDebt(777, generateNewId());
+      person19.addDebt(777, generateNewId());
+      person20.addDebt(777, generateNewId());
 
-    //   const paymentSetGroup2Journey2 = new Set([
-    //     { amount: 684, to: person12 },
-    //     { amount: 684, to: person13 },
-    //     { amount: 684, to: person14 },
-    //     { amount: 684, to: person15 },
-    //   ]);
+      //person 6 pays for group 2
+      person6.addDebt(-684, generateNewId());
+      person6.addDebt(-684, generateNewId());
+      person6.addDebt(-684, generateNewId());
+      person6.addDebt(-684, generateNewId());
+      person12.addDebt(684, generateNewId());
+      person13.addDebt(684, generateNewId());
+      person14.addDebt(684, generateNewId());
+      person15.addDebt(684, generateNewId());
 
-    //   const paymentSetGroup3Journey2 = new Set([
-    //     { amount: 1220, to: person7 },
-    //     { amount: 1220, to: person8 },
-    //     { amount: 1220, to: person9 },
-    //     { amount: 1220, to: person10 },
-    //   ]);
+      //person 11 pays for group 3
+      person11.addDebt(-1220, generateNewId());
+      person11.addDebt(-1220, generateNewId());
+      person11.addDebt(-1220, generateNewId());
+      person11.addDebt(-1220, generateNewId());
+      person7.addDebt(1220, generateNewId());
+      person8.addDebt(1220, generateNewId());
+      person9.addDebt(1220, generateNewId());
+      person10.addDebt(1220, generateNewId());
 
-    //   const paymentSetGroup4Journey2 = new Set([
-    //     { amount: 332, to: person2 },
-    //     { amount: 332, to: person3 },
-    //     { amount: 332, to: person4 },
-    //     { amount: 332, to: person5 },
-    //   ]);
+      //person 16 pays for group 4
+      person16.addDebt(-332, generateNewId());
+      person16.addDebt(-332, generateNewId());
+      person16.addDebt(-332, generateNewId());
+      person16.addDebt(-332, generateNewId());
+      person2.addDebt(332, generateNewId());
+      person3.addDebt(332, generateNewId());
+      person4.addDebt(332, generateNewId());
+      person5.addDebt(332, generateNewId());
 
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup1Journey2,
-    //     person1
-    //   ); // person 1 pays for group 1
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup2Journey2,
-    //     person6
-    //   ); // person 6 pays for group 2
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup3Journey2,
-    //     person11
-    //   ); // person 11 pays for group 3
-    //   paymentCalculator.addPaymentSetToPersonById(
-    //     paymentSetGroup4Journey2,
-    //     person16
-    //   ); // person 16 pays for group 4
+      const payments = paymentCalculator.buildPayments(people);
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { amount: 1886, from: person7.id, to: person11.id },
+        { amount: 1886, from: person8.id, to: person11.id },
+        { amount: 1886, from: person9.id, to: person11.id },
+        { amount: 998, from: person10.id, to: person11.id },
+        { amount: 888, from: person10.id, to: person1.id },
+        { amount: 1128, from: person12.id, to: person1.id },
+        { amount: 1128, from: person13.id, to: person1.id },
+        { amount: 1128, from: person14.id, to: person1.id },
+        { amount: 1128, from: person15.id, to: person1.id },
+        { amount: 1110, from: person17.id, to: person6.id },
+        { amount: 1110, from: person18.id, to: person6.id },
+        { amount: 1110, from: person19.id, to: person6.id },
+        { amount: 1110, from: person20.id, to: person6.id },
+        { amount: 905, from: person2.id, to: person6.id },
+        { amount: 55, from: person3.id, to: person6.id },
+        { amount: 850, from: person3.id, to: person16.id },
+        { amount: 905, from: person4.id, to: person16.id },
+        { amount: 905, from: person5.id, to: person16.id },
+      ];
 
-    //   const payments = paymentCalculator.getSuggestedPayments();
-    //   const expectedSuggestedPayments = [
-    //     { amount: 1886, from: person7, to: person11 },
-    //     { amount: 1886, from: person8, to: person11 },
-    //     { amount: 1886, from: person9, to: person11 },
-    //     { amount: 998, from: person10, to: person11 },
-    //     { amount: 888, from: person10, to: person1 },
-    //     { amount: 1128, from: person12, to: person1 },
-    //     { amount: 1128, from: person13, to: person1 },
-    //     { amount: 1128, from: person14, to: person1 },
-    //     { amount: 1128, from: person15, to: person1 },
-    //     { amount: 1110, from: person17, to: person6 },
-    //     { amount: 1110, from: person18, to: person6 },
-    //     { amount: 1110, from: person19, to: person6 },
-    //     { amount: 1110, from: person20, to: person6 },
-    //     { amount: 905, from: person2, to: person6 },
-    //     { amount: 55, from: person3, to: person6 },
-    //     { amount: 850, from: person3, to: person16 },
-    //     { amount: 905, from: person4, to: person16 },
-    //     { amount: 905, from: person5, to: person16 },
-    //   ];
-
-    //   expect(payments).toEqual(expectedSuggestedPayments);
-    // });
+      expect(payments).toEqual(expectedSuggestedPayments);
+    });
   });
 });
