@@ -10,13 +10,13 @@ import { PaymentCalculator } from "../paymentCalculator/paymentCalculator";
 import { IPerson, Person } from "../person/Person";
 
 interface IPaymentController {
-  getAllPayments: (
+  getAllPaymentsByPerson: (
     paymentSetIds: string[],
     personId: string
   ) => PaymentSetDTO[];
   addNewPerson: () => string;
   removePersonById: (personId: string) => boolean;
-  addPaymentSetToPersonById: (
+  addPaymentSetToPerson: (
     paymentSetSetup: PaymentSetDTO,
     personId: string
   ) => string;
@@ -62,7 +62,7 @@ export class Controller implements IPaymentController {
     return this.people.delete(personId);
   }
 
-  addPaymentSetToPersonById(
+  addPaymentSetToPerson(
     paymentSetSetup: PaymentSetDTO,
     personId: string
   ): string {
@@ -91,7 +91,7 @@ export class Controller implements IPaymentController {
     }
   }
 
-  getAllPayments(paymentSetIds: string[], personId: string): PaymentSetDTO[] {
+  getAllPaymentsByPerson(paymentSetIds: string[], personId: string): PaymentSetDTO[] {
     const paymentSets: PaymentSetDTO[] = [];
     const person = this.getPersonById(personId);
 
