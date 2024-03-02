@@ -147,7 +147,6 @@ describe("Person", () => {
     test("add negative payments from other people", () => {
       const person = new Person();
 
-
       person.addDebt(123, "some-id-1");
       person.addDebt(321, "some-id-2");
 
@@ -170,44 +169,6 @@ describe("Person", () => {
       const expectedDebts: DebtMap = new Map();
 
       expect(person.getDebts()).toEqual(expectedDebts);
-    });
-
-    test("has debt", () => {
-      const person = new Person();
-      const person2 = new Person();
-      const person3 = new Person();
-
-      person.addDebt(123, "some-id-1");
-      person3.addDebt(123, "some-id-2");
-      person.addDebt(123, "some-id-3");
-      person.addDebt(123, "some-id-4");
-      person2.addDebt(321, "some-id-5");
-      person.addDebt(321, "some-id-6");
-      person2.addDebt(321, "some-id-7");
-      person.addDebt(321, "some-id-8");
-
-      const personHasDebt = person.hasDebt("some-id-4");
-
-      expect(personHasDebt).toBeTruthy();
-    });
-
-    test("does not have debt", () => {
-      const person = new Person();
-      const person2 = new Person();
-      const person3 = new Person();
-
-      person.addDebt(123, "some-id-1");
-      person3.addDebt(123, "some-id-2");
-      person.addDebt(123, "some-id-3");
-      person.addDebt(123, "some-id-4");
-      person2.addDebt(321, "some-id-5");
-      person.addDebt(321, "some-id-6");
-      person2.addDebt(321, "some-id-7");
-      person.addDebt(321, "some-id-8");
-
-      const personHasDebt = person.hasDebt("some-id-5");
-
-      expect(personHasDebt).toBeFalsy();
     });
   });
 

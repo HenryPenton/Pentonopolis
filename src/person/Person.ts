@@ -19,9 +19,6 @@ export class Person {
     this.id = generateNewId();
   }
 
-  hasDebt(debtId: string): boolean {
-    return this.debts.has(debtId);
-  }
 
   addPaymentSet(payments: PaymentSetDTO): string {
     const paymentsWithId: Set<PaymentToOnePerson> = new Set();
