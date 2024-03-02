@@ -7,7 +7,7 @@ import {
 } from "../interfaces/payment";
 import { PersonMap } from "../interfaces/person";
 import { Person } from "../person/Person";
-import { PaymentCalculator } from "./paymentCalculator";
+import { PaymentCalculator } from "../paymentCalculator/paymentCalculator";
 
 interface IPaymentController {
   getAllPayments: (
