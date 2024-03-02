@@ -17,248 +17,17 @@ describe("controller", () => {
     test("the controller allows removal of a person", () => {
       const controller = new Controller();
       const personId = controller.addNewPerson();
-      controller.removePersonById(personId);
 
-      expect(() => controller.getBalancesForPeople([personId])).toThrow();
+      expect(controller.removePersonById(personId)).toBeTruthy();
+    });
+
+    test("the controller returns false if the person being removed does not exist", () => {
+      const controller = new Controller();
+
+      expect(controller.removePersonById("some-non-existent-id")).toBeFalsy();
     });
   });
 
-  describe("Balance", () => {
-    test("the controller can tell me a single persons balance (0.00)", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-
-      expect(controller.getBalancesForPeople([personId])).toEqual([
-        { amount: 0, personId },
-      ]);
-    });
-
-    test("the controller can tell me a single persons balance (527, single debt)", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const personOwedMoneyId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 527, to: personId }]);
-
-      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-
-      expect(controller.getBalancesForPeople([personId])).toEqual([
-        { amount: 527, personId },
-      ]);
-    });
-
-    test("the controller can tell me a single persons balance (8.88, two debts)", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const personOwedMoneyId = controller.addNewPerson();
-      const secondPersonOwedMoneyId = controller.addNewPerson();
-
-      const paymentSet = new Set([{ amount: 422, to: personId }]);
-
-      const paymentSetTwo = new Set([{ amount: 466, to: personId }]);
-
-      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-      controller.addPaymentSetToPersonById(
-        paymentSetTwo,
-        secondPersonOwedMoneyId
-      );
-
-      expect(controller.getBalancesForPeople([personId])).toEqual([
-        { amount: 888, personId },
-      ]);
-    });
-
-    test("the controller can tell me all people's balance", () => {
-      const controller = new Controller();
-      const person1Id = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
-      const personOwedMoneyId = controller.addNewPerson();
-
-      const paymentSet = new Set([
-        { amount: 999, to: person1Id },
-        { amount: 444, to: person2Id },
-      ]);
-
-      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-      const allDebts = controller.getBalancesForPeople([
-        person1Id,
-        person2Id,
-        personOwedMoneyId,
-      ]);
-
-      expect(allDebts).toEqual([
-        { personId: person1Id, amount: 999 },
-        { personId: person2Id, amount: 444 },
-        { personId: personOwedMoneyId, amount: -1443 },
-      ]);
-    });
-
-    test("the controller can tell me the separate balances of a sub list of people", () => {
-      const controller = new Controller();
-      const personId = controller.addNewPerson();
-      const person2Id = controller.addNewPerson();
-      const personOwedMoneyId = controller.addNewPerson();
-
-      const paymentSet = new Set([
-        { amount: 999, to: personId },
-        { amount: 444, to: person2Id },
-      ]);
-
-      controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-      const allDebts = controller.getBalancesForPeople([
-        personId,
-        personOwedMoneyId,
-      ]);
-
-      expect(allDebts).toEqual([
-        { personId, amount: 999 },
-        { personId: personOwedMoneyId, amount: -1443 },
-      ]);
-    });
-
-    describe("errors", () => {
-      test("the controller throws an PersonDoesNotExist error if the person id doesn't relate to a person when retrieving a persons total spend", () => {
-        const controller = new Controller();
-        const debtPayerId = controller.addNewPerson();
-        const personOwedMoneyId = controller.addNewPerson();
-        const paymentSet = new Set([{ amount: 527, to: debtPayerId }]);
-
-        controller.addPaymentSetToPersonById(paymentSet, personOwedMoneyId);
-
-        expect(() =>
-          controller.getBalancesForPeople(["non-existent-debt-payer"])
-        ).toThrow(new Error("That person does not exist"));
-      });
-    });
-  });
-
-  describe("payment to debt linking", () => {
-    test("if person A pays for person B person B is in debt by that amount (573)", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 573, to: personBId }]);
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-
-      expect(controller.getBalancesForPeople([personBId])).toEqual([
-        { amount: 573, personId: personBId },
-      ]);
-    });
-
-    test("if person A pays for person B twice person B owes the sum (666)", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 222, to: personBId }]);
-      const paymentSet2 = new Set([{ amount: 444, to: personBId }]);
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-      controller.addPaymentSetToPersonById(paymentSet2, personAId);
-
-      expect(controller.getBalancesForPeople([personBId])).toEqual([
-        { amount: 666, personId: personBId },
-      ]);
-    });
-
-    test("if person A pays for person B and C person B and C owe the amount (1.23 and 3.21)", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const personCId = controller.addNewPerson();
-      const paymentSet = new Set([
-        { amount: 123, to: personBId },
-        { amount: 321, to: personCId },
-      ]);
-
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-
-      expect(controller.getBalancesForPeople([personBId])).toEqual([
-        { amount: 123, personId: personBId },
-      ]);
-      expect(controller.getBalancesForPeople([personCId])).toEqual([
-        { amount: 321, personId: personCId },
-      ]);
-    });
-
-    test("if person A pays for person B and C person in two separate payments B and C owe the amount (555 and 666)", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const personCId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 555, to: personBId }]);
-      const paymentSet2 = new Set([{ amount: 666, to: personCId }]);
-
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-      controller.addPaymentSetToPersonById(paymentSet2, personAId);
-
-      expect(controller.getBalancesForPeople([personBId])).toEqual([
-        { amount: 555, personId: personBId },
-      ]);
-      expect(controller.getBalancesForPeople([personCId])).toEqual([
-        { amount: 666, personId: personCId },
-      ]);
-    });
-
-    test("if person A pays for person B person A's balance is the inverse of the payment", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 573, to: personBId }]);
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-
-      expect(controller.getBalancesForPeople([personAId])).toEqual([
-        { amount: -573, personId: personAId },
-      ]);
-    });
-
-    test("if person A pays for person B person B's balance is the amount", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const paymentSet = new Set([{ amount: 599, to: personBId }]);
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-
-      expect(controller.getBalancesForPeople([personBId])).toEqual([
-        { amount: 599, personId: personBId },
-      ]);
-    });
-
-    test("a person cannot owe themselves", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-
-      const paymentSet = new Set([
-        {
-          amount: 221,
-          to: personAId,
-        },
-      ]);
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-
-      expect(controller.getBalancesForPeople([personAId])).toEqual([
-        { amount: 0, personId: personAId },
-      ]);
-    });
-
-    test("a person is owed the proportion of the bill that wasn't for them", () => {
-      const controller = new Controller();
-      const personAId = controller.addNewPerson();
-      const personBId = controller.addNewPerson();
-      const paymentSet = new Set([
-        {
-          amount: 221,
-          to: personAId,
-        },
-        {
-          amount: 599,
-          to: personBId,
-        },
-      ]);
-      controller.addPaymentSetToPersonById(paymentSet, personAId);
-
-      expect(controller.getBalancesForPeople([personAId])).toEqual([
-        { amount: -599, personId: personAId },
-      ]);
-    });
-  });
   describe("suggested payments", () => {
     test("no payments if no debt", () => {
       const controller = new Controller();
@@ -731,7 +500,7 @@ describe("controller", () => {
         expect(paymentSet).toEqual([]);
       });
 
-      test("deleting a payment set results in that amounts being stricken from someones balance", () => {
+      test("deleting a payment set results in suggest payments being updated", () => {
         const controller = new Controller();
         const personId = controller.addNewPerson();
         const person2Id = controller.addNewPerson();
@@ -744,23 +513,18 @@ describe("controller", () => {
           personId
         );
 
-        const paymentSet2Id = controller.addPaymentSetToPersonById(
-          paymentSet2Setup,
-          personId
-        );
+        controller.addPaymentSetToPersonById(paymentSet2Setup, personId);
 
         controller.deletePaymentSetsForPerson([paymentSetId], personId);
 
-        controller.getAllPayments([paymentSetId, paymentSet2Id], personId);
-        const balances = controller.getBalancesForPeople([personId, person2Id]);
+        const balances = controller.getSuggestedPayments();
 
         expect(balances).toEqual([
-          { personId: personId, amount: -444 },
-          { personId: person2Id, amount: 444 },
+          { to: personId, from: person2Id, amount: 444 },
         ]);
       });
 
-      test("deleting all payment sets results in balances of 0", () => {
+      test("deleting all payment sets results in no suggested payments", () => {
         const controller = new Controller();
         const personId = controller.addNewPerson();
         const person2Id = controller.addNewPerson();
@@ -783,16 +547,12 @@ describe("controller", () => {
           personId
         );
 
-        controller.getAllPayments([paymentSetId, paymentSet2Id], personId);
-        const balances = controller.getBalancesForPeople([personId, person2Id]);
+        const suggestedPayments = controller.getSuggestedPayments();
 
-        expect(balances).toEqual([
-          { personId: personId, amount: 0 },
-          { personId: person2Id, amount: 0 },
-        ]);
+        expect(suggestedPayments).toEqual([]);
       });
 
-      test("deleting all payment sets results in balances of 0 (more complex set of payments)", () => {
+      test("deleting all payment sets results no suggested payments (more complex set of payments)", () => {
         const controller = new Controller();
         const personId = controller.addNewPerson();
         const person2Id = controller.addNewPerson();
@@ -821,16 +581,11 @@ describe("controller", () => {
         );
 
         controller.deletePaymentSetsForPerson([paymentSetId], personId);
-
         controller.deletePaymentSetsForPerson([paymentSet2Id], person2Id);
 
-        controller.getAllPayments([paymentSetId, paymentSet2Id], personId);
-        const balances = controller.getBalancesForPeople([personId, person2Id]);
+        const suggestedPayments = controller.getSuggestedPayments();
 
-        expect(balances).toEqual([
-          { personId: personId, amount: 0 },
-          { personId: person2Id, amount: 0 },
-        ]);
+        expect(suggestedPayments).toEqual([]);
       });
 
       test("deleting a payment set for a person that does not exist results in a PersonDoesNotExistError", () => {

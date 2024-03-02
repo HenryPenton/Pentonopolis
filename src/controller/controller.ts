@@ -15,7 +15,7 @@ interface IPaymentController {
     personId: string
   ) => PaymentSetDTO[];
   addNewPerson: () => string;
-  removePersonById: (personId: string) => void;
+  removePersonById: (personId: string) => boolean;
   addPaymentSetToPersonById: (
     paymentSetSetup: PaymentSetDTO,
     personId: string
@@ -24,7 +24,7 @@ interface IPaymentController {
     paymentSetIds: string[],
     personId: string
   ) => void;
-  getBalancesForPeople: (personIds: string[]) => TotalBalance[];
+
   getSuggestedPayments: () => SuggestedPayment[];
 }
 
@@ -112,8 +112,8 @@ export class Controller implements IPaymentController {
     return newPerson.id;
   }
 
-  removePersonById(personId: string): void {
-    this.people.delete(personId);
+  removePersonById(personId: string): boolean {
+    return this.people.delete(personId);
   }
 
   addPaymentSetToPersonById(
@@ -161,18 +161,6 @@ export class Controller implements IPaymentController {
     });
 
     return paymentSets;
-  }
-
-  getBalancesForPeople(personIds: string[]): TotalBalance[] {
-    const allDebts: TotalBalance[] = [];
-    for (const personId of personIds) {
-      allDebts.push({
-        personId,
-        amount: this.getTotalBalanceByPersonId(personId),
-      });
-    }
-
-    return allDebts;
   }
 
   getSuggestedPayments(): SuggestedPayment[] {
