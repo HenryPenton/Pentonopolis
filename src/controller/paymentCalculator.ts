@@ -69,7 +69,7 @@ export class PaymentCalculator implements IPaymentCalculator {
     let borrowerIndex = 0;
     let lenderIndex = 0;
     const payments: SuggestedPayment[] = [];
-    console.log({ borrowers, lenders });
+
     while (borrowerIndex < borrowers.length && lenderIndex < lenders.length) {
       const borrower = borrowers[borrowerIndex];
       const lender = lenders[lenderIndex];
@@ -89,7 +89,7 @@ export class PaymentCalculator implements IPaymentCalculator {
         lenderIndex++;
       }
     }
-    console.log({ payments });
+
     return payments;
   }
 }
