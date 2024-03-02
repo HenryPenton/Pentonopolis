@@ -1,3 +1,4 @@
+import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
 import { generateNewId } from "../utils/uuid";
 
 export interface PaymentCore {
@@ -66,5 +67,3 @@ export class Person {
     this.debts.set(debtId, { by: person, amount });
   }
 }
-
-export class PaymentSetDoesNotExistError extends Error {}

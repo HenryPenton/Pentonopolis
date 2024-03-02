@@ -1,9 +1,5 @@
-import {
-  Debt,
-  PaymentSet,
-  PaymentSetDoesNotExistError,
-  Person,
-} from "./Person";
+import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
+import { Debt, PaymentSet, Person } from "./Person";
 
 describe("Person", () => {
   describe("payment", () => {

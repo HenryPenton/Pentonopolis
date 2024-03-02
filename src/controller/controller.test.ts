@@ -1,9 +1,6 @@
+import { PersonDoesNotExistError } from "../exceptions/Person";
 import { PaymentCore, PaymentSetDTO } from "../person/Person";
-import {
-  Controller,
-  PersonDoesNotExistError,
-  SuggestedPayment,
-} from "./controller";
+import { Controller, SuggestedPayment } from "./controller";
 describe("controller", () => {
   describe("People", () => {
     test("the controller gives back a person id when creating a person", () => {

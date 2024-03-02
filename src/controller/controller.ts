@@ -1,3 +1,4 @@
+import { PersonDoesNotExistError } from "../exceptions/Person";
 import {
   PaymentCore,
   PaymentSet,
@@ -208,5 +209,3 @@ export class Controller implements IPaymentController {
     return payments;
   }
 }
-
-export class PersonDoesNotExistError extends Error {}
