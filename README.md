@@ -25,7 +25,9 @@ const paymentSetSetup: PaymentSetDTO = new Set([
   { amount: 3300, to: aliceId },
 ]);
 
-controller.addPaymentSetToPerson(paymentSetSetup, gregId);
+const paymentSetId = controller.addPaymentSetToPerson(paymentSetSetup, gregId);
+
+//paymentSetId => 688ca822-a075-4d41-85d5-7a383bac10c8
 ```
 
 The system works based in cents, so Bob and Alice owe 3300 cents each.
@@ -36,6 +38,7 @@ This retrieves a list of payments that have been made for a given person. The li
 
 ```javascript
 const paymentSetId = controller.addPaymentSetToPerson(paymentSetSetup, gregId);
+//paymentSetId => 688ca822-a075-4d41-85d5-7a383bac10c8
 
 const paymentSets = controller.getPaymentsByPerson([paymentSetId], personId);
 ```
@@ -43,6 +46,11 @@ const paymentSets = controller.getPaymentsByPerson([paymentSetId], personId);
 ## addNewPerson
 
 Functionality to add a new person to the group. The ID of the new person is returned when you create them.
+
+```javascript
+const newPersonId = controller.addNewPerson();
+//newPersonId => ffdec365-376f-4d88-821b-8c425dd13cd5
+```
 
 ## removePersonById
 
