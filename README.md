@@ -101,3 +101,9 @@ The payments suggested to balance all debts.
 ```
 
 The `from` and `to` properties are the IDs of people.
+
+## Exceptions
+
+Attempting to perform an action on a person that does not exist will result in a `PersonDoesNotExistError`.
+
+Attempting to perform an action on a payment set that does not exist will result in a `PaymentSetDoesNotExistError`.
