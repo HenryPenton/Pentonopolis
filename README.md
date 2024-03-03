@@ -46,10 +46,18 @@ Functionality to add a new person to the group. The ID of the new person is retu
 
 ## removePersonById
 
-Functionality to remove a new person from the group. This should be passed the ID returned when the person was created. If a person is removed from the system then system leaves the following responsibilities to you:
+Functionality to remove a new person from the group. This should be passed the ID returned when the person was created. If a person is removed from the system then the system leaves the following responsibilities to you:
 
 - Deleting any payment sets owned by that person (this should be done before deleting the person).
-- Updating payment sets owned by anyone else to remove that person (this can be achieved by deleting and recreating the payment set with an omission of the person that has now been removed).
+
+```javascript
+controller.deletePaymentsByPerson(
+  [...allPaymentSetIdsForPersonBeingRemoved],
+  idOfPersonBeingRemoved
+);
+```
+
+- Updating payment sets owned by anyone else to remove that person (this can be achieved by deleting and recreating the payment set with an omission of the person that has now been removed). This action can be done before or after person removal, however, the `controller.removePersonById(id)` process will return you a list of payment sets that need updating for each person in the system.
 
 ## deletePaymentSetsForPerson
 
