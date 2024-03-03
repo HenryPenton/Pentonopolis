@@ -115,7 +115,7 @@ export class Controller implements IPaymentController {
     const ids = new Set<string>();
     person
       .getPaymentHistory()
-      .forEach((paymentSet, paymentSetId) => ids.add(paymentSetId));
+      .forEach((_, paymentSetId) => ids.add(paymentSetId));
 
     return ids;
   }
