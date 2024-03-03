@@ -6,8 +6,12 @@ import {
   SuggestedPayment,
 } from "../interfaces/payment";
 import { PersonMap, UpdateMap } from "../interfaces/person";
-import { PaymentCalculator } from "../paymentCalculator/paymentCalculator";
+import {
+  IPaymentCalculator,
+  PaymentCalculator,
+} from "../paymentCalculator/paymentCalculator";
 import { IPerson, Person } from "../person/Person";
+import { IUpdateMapBuilder, UpdateMapBuilder } from "./updateMapBuilder";
 
 interface IPaymentController {
   getPaymentsByPerson: (
@@ -29,7 +33,8 @@ interface IPaymentController {
 
 export class Controller implements IPaymentController {
   private people: PersonMap = new Map();
-  private paymentCalculator: PaymentCalculator = new PaymentCalculator();
+  private paymentCalculator: IPaymentCalculator = new PaymentCalculator();
+  private updateMapBuilder: IUpdateMapBuilder = new UpdateMapBuilder();
 
   private getPersonById(personId: string): IPerson {
     const person = this.people.get(personId);
@@ -52,40 +57,6 @@ export class Controller implements IPaymentController {
     });
   }
 
-  private updatesForGivenPerson(
-    person: IPerson,
-    personId: string
-  ): Set<string> {
-    const paymentSetsToAmend: Set<string> = new Set<string>();
-    person.getPaymentHistory().forEach((paymentSet, paymentSetId) => {
-      paymentSet.forEach((payment) => {
-        const needsRemoval = payment.to === personId;
-        if (needsRemoval) {
-          paymentSetsToAmend.add(paymentSetId);
-        }
-      });
-    });
-
-    return paymentSetsToAmend;
-  }
-
-  private buildUpdateMap(personId: string): UpdateMap {
-    const updateMap: UpdateMap = new Map();
-
-    this.people.forEach((person) => {
-      const paymentSetsToAmend: Set<string> = this.updatesForGivenPerson(
-        person,
-        personId
-      );
-
-      if (paymentSetsToAmend.size > 0) {
-        updateMap.set(person.id, paymentSetsToAmend);
-      }
-    });
-
-    return updateMap;
-  }
-
   addNewPerson(): string {
     const newPerson = new Person();
     this.people.set(newPerson.id, newPerson);
@@ -97,7 +68,10 @@ export class Controller implements IPaymentController {
     const paymentSetsToRemove = Array.from(person.getPaymentHistory().keys());
     this.deletePaymentSetsForPerson(paymentSetsToRemove, personId);
 
-    const paymentSetsToAmend: UpdateMap = this.buildUpdateMap(personId);
+    const paymentSetsToAmend: UpdateMap = this.updateMapBuilder.buildUpdateMap(
+      this.people,
+      personId
+    );
 
     this.people.delete(personId);
     return paymentSetsToAmend;

@@ -6,7 +6,7 @@ import {
 import { PersonMap } from "../interfaces/person";
 import { IPerson } from "../person/Person";
 
-interface IPaymentCalculator {
+export interface IPaymentCalculator {
   buildPayments: (people: PersonMap) => SuggestedPayment[];
 }
 export class PaymentCalculator implements IPaymentCalculator {
