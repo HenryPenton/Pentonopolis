@@ -1,9 +1,6 @@
 import { PersonDoesNotExistError } from "../exceptions/Person";
-import {
-  PaymentCore,
-  PaymentSetDTO,
-  SuggestedPayment,
-} from "../interfaces/payment";
+import { PaymentCore, SuggestedPayment } from "../interfaces/payment";
+import { UpdateMap } from "../interfaces/person";
 import { Controller } from "./controller";
 describe("controller", () => {
   describe("People", () => {
@@ -39,11 +36,10 @@ describe("controller", () => {
 
       const paymentSetsThatNeedUpdating = controller.removePersonById(B);
 
-      const expectedPaymentSetsThatNeedUpdating: Set<string> = new Set();
+      const expectedPaymentSetsThatNeedUpdating: UpdateMap = new Map();
       expectedPaymentSetsThatNeedUpdating
-        .add(paymentSetA2Id)
-        .add(paymentSetAId)
-        .add(paymentSetDId);
+        .set(A, new Set<string>().add(paymentSetA2Id).add(paymentSetAId))
+        .set(D, new Set<string>().add(paymentSetDId));
 
       expect(paymentSetsThatNeedUpdating).toEqual(
         expectedPaymentSetsThatNeedUpdating

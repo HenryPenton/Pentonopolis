@@ -5,7 +5,7 @@ import {
   PaymentSetDTO,
   SuggestedPayment,
 } from "../interfaces/payment";
-import { PersonMap } from "../interfaces/person";
+import { PersonMap, UpdateMap } from "../interfaces/person";
 import { PaymentCalculator } from "../paymentCalculator/paymentCalculator";
 import { IPerson, Person } from "../person/Person";
 
@@ -15,7 +15,7 @@ interface IPaymentController {
     personId: string
   ) => Map<string, PaymentSetDTO>;
   addNewPerson: () => string;
-  removePersonById: (personId: string) => Set<string>;
+  removePersonById: (personId: string) => UpdateMap;
   addPaymentSetToPerson: (
     paymentSetSetup: PaymentSetDTO,
     personId: string
@@ -51,21 +51,39 @@ export class Controller implements IPaymentController {
       }
     });
   }
-  private buildUpdateMap(personId: string): Set<string> {
-    const paymentSetsToAmend: Set<string> = new Set();
 
-    this.people.forEach((person) => {
-      person.getPaymentHistory().forEach((paymentSet, paymentSetId) => {
-        paymentSet.forEach((payment) => {
-          const needsRemoval = payment.to === personId;
-          if (needsRemoval) {
-            paymentSetsToAmend.add(paymentSetId);
-          }
-        });
+  private updatesForGivenPerson(
+    person: IPerson,
+    personId: string
+  ): Set<string> {
+    const paymentSetsToAmend: Set<string> = new Set<string>();
+    person.getPaymentHistory().forEach((paymentSet, paymentSetId) => {
+      paymentSet.forEach((payment) => {
+        const needsRemoval = payment.to === personId;
+        if (needsRemoval) {
+          paymentSetsToAmend.add(paymentSetId);
+        }
       });
     });
 
     return paymentSetsToAmend;
+  }
+
+  private buildUpdateMap(personId: string): UpdateMap {
+    const updateMap: UpdateMap = new Map();
+
+    this.people.forEach((person) => {
+      const paymentSetsToAmend: Set<string> = this.updatesForGivenPerson(
+        person,
+        personId
+      );
+
+      if (paymentSetsToAmend.size > 0) {
+        updateMap.set(person.id, paymentSetsToAmend);
+      }
+    });
+
+    return updateMap;
   }
 
   addNewPerson(): string {
@@ -74,12 +92,12 @@ export class Controller implements IPaymentController {
     return newPerson.id;
   }
 
-  removePersonById(personId: string): Set<string> {
+  removePersonById(personId: string): UpdateMap {
     const person = this.getPersonById(personId);
     const paymentSetsToRemove = Array.from(person.getPaymentHistory().keys());
     this.deletePaymentSetsForPerson(paymentSetsToRemove, personId);
 
-    const paymentSetsToAmend: Set<string> = this.buildUpdateMap(personId);
+    const paymentSetsToAmend: UpdateMap = this.buildUpdateMap(personId);
 
     this.people.delete(personId);
     return paymentSetsToAmend;
