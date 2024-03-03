@@ -1,6 +1,6 @@
 {
   "name": "who-owes-who",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "A calculator to work out payments in groups",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
