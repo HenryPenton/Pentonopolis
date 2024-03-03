@@ -11,7 +11,10 @@ import {
   PaymentCalculator,
 } from "../paymentCalculator/paymentCalculator";
 import { IPerson, Person } from "../person/Person";
-import { IUpdateMapBuilder, UpdateMapBuilder } from "../updateMapBuilder/updateMapBuilder";
+import {
+  IUpdateMapBuilder,
+  UpdateMapBuilder,
+} from "../updateMapBuilder/updateMapBuilder";
 
 interface IPaymentController {
   getPaymentsByPerson: (
@@ -20,6 +23,7 @@ interface IPaymentController {
   ) => Map<string, PaymentSetDTO>;
   addNewPerson: () => string;
   removePersonById: (personId: string) => UpdateMap;
+  getPaymentSetIdsByPerson: (personId: string) => Set<string>;
   addPaymentSetToPerson: (
     paymentSetSetup: PaymentSetDTO,
     personId: string
@@ -104,6 +108,16 @@ export class Controller implements IPaymentController {
 
       paymentSetOwner.deletePaymentSetById(paymentSetId);
     }
+  }
+
+  getPaymentSetIdsByPerson(personId: string): Set<string> {
+    const person = this.getPersonById(personId);
+    const ids = new Set<string>();
+    person
+      .getPaymentHistory()
+      .forEach((paymentSet, paymentSetId) => ids.add(paymentSetId));
+
+    return ids;
   }
 
   getPaymentsByPerson(

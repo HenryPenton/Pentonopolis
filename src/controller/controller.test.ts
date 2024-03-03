@@ -275,6 +275,50 @@ describe("controller", () => {
         ).toThrow(PersonDoesNotExistError);
       });
     });
+
+    describe("getting payment set ids", () => {
+      test("get payment set ids for person (one id)", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+
+        const paymentSetId = controller.addPaymentSetToPerson(
+          paymentSetSetup,
+          personId
+        );
+
+        const paymentSetIds = controller.getPaymentSetIdsByPerson(personId);
+
+        expect(paymentSetIds).toEqual(new Set().add(paymentSetId));
+      });
+
+      test("get payment set ids for person (multi id)", () => {
+        const controller = new Controller();
+        const personId = controller.addNewPerson();
+        const person2Id = controller.addNewPerson();
+
+        const paymentSetSetup = new Set([{ amount: 444, to: person2Id }]);
+        const paymentSet2Setup = new Set([{ amount: 555, to: person2Id }]);
+
+        const paymentSet1Id = controller.addPaymentSetToPerson(
+          paymentSetSetup,
+          personId
+        );
+
+        const paymentSet2Id = controller.addPaymentSetToPerson(
+          paymentSet2Setup,
+          personId
+        );
+
+        const paymentSetIds = controller.getPaymentSetIdsByPerson(personId);
+
+        expect(paymentSetIds).toEqual(
+          new Set().add(paymentSet1Id).add(paymentSet2Id)
+        );
+      });
+    });
     describe("deleting payment sets", () => {
       test("delete payment set for person", () => {
         const controller = new Controller();
