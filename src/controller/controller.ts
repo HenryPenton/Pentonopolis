@@ -11,7 +11,7 @@ import {
   PaymentCalculator,
 } from "../paymentCalculator/paymentCalculator";
 import { IPerson, Person } from "../person/Person";
-import { IUpdateMapBuilder, UpdateMapBuilder } from "./updateMapBuilder";
+import { IUpdateMapBuilder, UpdateMapBuilder } from "../updateMapBuilder/updateMapBuilder";
 
 interface IPaymentController {
   getPaymentsByPerson: (
