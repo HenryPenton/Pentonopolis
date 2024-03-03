@@ -61,12 +61,24 @@ export class Controller implements IPaymentController {
     });
   }
 
+  /**
+   * Adds a person to the system and returns their ID.
+   *
+   * @returns {string}
+   */
   addNewPerson(): string {
     const newPerson = new Person();
     this.people.set(newPerson.id, newPerson);
     return newPerson.id;
   }
 
+  /**
+   * Removes a person from the system and returns a collection of payment sets that need updating.
+   *
+   * @returns {UpdateMap}
+   * @throws {PersonDoesNotExistError}
+   * @param {string} personId
+   */
   removePersonById(personId: string): UpdateMap {
     const person = this.getPersonById(personId);
     const paymentSetsToRemove = Array.from(person.getPaymentHistory().keys());
@@ -81,6 +93,13 @@ export class Controller implements IPaymentController {
     return paymentSetsToAmend;
   }
 
+  /**
+   * Add a payment set to a person that has paid for something. Returns the ID of the new payment set.
+   *
+   * @returns {string}
+   * @param {PaymentSetDTO} paymentSetSetup
+   * @param {string} personId
+   */
   addPaymentSetToPerson(
     paymentSetSetup: PaymentSetDTO,
     personId: string
@@ -94,6 +113,14 @@ export class Controller implements IPaymentController {
     return paymentSetId;
   }
 
+  /**
+   * Delete a payment set that was previously created.
+   *
+   * @throws {PersonDoesNotExistError}
+   * @throws {PersonDoesNotExistError}
+   * @param {string[]} paymentSetIds
+   * @param {string} personId
+   */
   deletePaymentSetsForPerson(paymentSetIds: string[], personId: string): void {
     const paymentSetOwner = this.getPersonById(personId);
 
@@ -110,6 +137,13 @@ export class Controller implements IPaymentController {
     }
   }
 
+  /**
+   * Get all of the payment set IDs for a given person.
+   *
+   * @returns {Set<string>}
+   * @throws {PersonDoesNotExistError}
+   * @param {string} personId
+   */
   getPaymentSetIdsByPerson(personId: string): Set<string> {
     const person = this.getPersonById(personId);
     const ids = new Set<string>();
@@ -120,6 +154,14 @@ export class Controller implements IPaymentController {
     return ids;
   }
 
+  /**
+   * Get any number of payment of a given person's payment sets. Takes a list of the desired payment set IDs.
+   *
+   * @returns {Set<string>}
+   * @throws {PersonDoesNotExistError}
+   * @param {string[]} paymentSetIds
+   * @param {string} personId
+   */
   getPaymentsByPerson(
     paymentSetIds: string[],
     personId: string
@@ -141,6 +183,11 @@ export class Controller implements IPaymentController {
     return paymentSets;
   }
 
+  /**
+   * Get payments suggested to balance the debts in the system.
+   *
+   * @returns {SuggestedPayment[]}
+   */
   getSuggestedPayments(): SuggestedPayment[] {
     return this.paymentCalculator.buildPayments(this.people);
   }
