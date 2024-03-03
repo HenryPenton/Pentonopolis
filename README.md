@@ -69,6 +69,10 @@ const paymentSetId = controller.addPaymentSetToPerson(paymentSetSetup, gregId);
 controller.deletePaymentsByPerson([paymentSetId], personId);
 ```
 
+## getPaymentSetIdsByPerson
+
+Get all of the paymentSetIds for a given person.
+
 ## getSuggestedPayments
 
 The payments suggested to balance all debts.
