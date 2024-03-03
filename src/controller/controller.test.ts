@@ -14,17 +14,83 @@ describe("controller", () => {
       expect(personId).toStrictEqual(expect.any(String));
     });
 
-    test("the controller allows removal of a person", () => {
+    test("removing a person returns a list of other people's payment set ids that need updating", () => {
       const controller = new Controller();
-      const personId = controller.addNewPerson();
+      const A = controller.addNewPerson();
+      const B = controller.addNewPerson();
+      const C = controller.addNewPerson();
+      const D = controller.addNewPerson();
 
-      expect(controller.removePersonById(personId)).toBeTruthy();
+      const paymentSetA = new Set([{ amount: 500, to: B }]);
+      const paymentSetA2 = new Set([{ amount: 700, to: B }]);
+
+      const paymentSetB = new Set([{ amount: 1000, to: C }]);
+      const paymentSetC = new Set([{ amount: 1500, to: D }]);
+      const paymentSetD = new Set([
+        { amount: 2000, to: A },
+        { amount: 2000, to: B },
+      ]);
+
+      const paymentSetAId = controller.addPaymentSetToPerson(paymentSetA, A);
+      const paymentSetA2Id = controller.addPaymentSetToPerson(paymentSetA2, A);
+      controller.addPaymentSetToPerson(paymentSetB, B);
+      controller.addPaymentSetToPerson(paymentSetC, C);
+      const paymentSetDId = controller.addPaymentSetToPerson(paymentSetD, D);
+
+      const paymentSetsThatNeedUpdating = controller.removePersonById(B);
+
+      const expectedPaymentSetsThatNeedUpdating: Set<string> = new Set();
+      expectedPaymentSetsThatNeedUpdating
+        .add(paymentSetA2Id)
+        .add(paymentSetAId)
+        .add(paymentSetDId);
+
+      expect(paymentSetsThatNeedUpdating).toEqual(
+        expectedPaymentSetsThatNeedUpdating
+      );
     });
 
-    test("the controller returns false if the person being removed does not exist", () => {
+    test("removing a person results in the expected payments being updated", () => {
       const controller = new Controller();
+      const A = controller.addNewPerson();
+      const B = controller.addNewPerson();
+      const C = controller.addNewPerson();
+      const D = controller.addNewPerson();
 
-      expect(controller.removePersonById("some-non-existent-id")).toBeFalsy();
+      const paymentSetA = new Set([{ amount: 500, to: B }]);
+      const paymentSetB = new Set([{ amount: 1000, to: C }]);
+      const paymentSetC = new Set([{ amount: 1500, to: D }]);
+      const paymentSetD = new Set([{ amount: 2000, to: A }]);
+
+      controller.addPaymentSetToPerson(paymentSetA, A);
+      controller.addPaymentSetToPerson(paymentSetB, B);
+      controller.addPaymentSetToPerson(paymentSetC, C);
+      controller.addPaymentSetToPerson(paymentSetD, D);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: B, amount: 500, from: A },
+        { to: C, amount: 500, from: A },
+        { to: D, amount: 500, from: A },
+      ];
+
+      controller.removePersonById(A);
+
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(suggestedPayments).not.toEqual(expectedSuggestedPayments);
+    });
+
+    test("payment sets cannot be added to a person that has been removed from the system", () => {
+      const controller = new Controller();
+      const A = controller.addNewPerson();
+      const B = controller.addNewPerson();
+
+      const paymentSetA = new Set([{ amount: 500, to: B }]);
+
+      controller.removePersonById(A);
+      expect(() => controller.addPaymentSetToPerson(paymentSetA, A)).toThrow(
+        PersonDoesNotExistError
+      );
     });
   });
 

@@ -15,7 +15,7 @@ interface IPaymentController {
     personId: string
   ) => PaymentSetDTO[];
   addNewPerson: () => string;
-  removePersonById: (personId: string) => boolean;
+  removePersonById: (personId: string) => Set<string>;
   addPaymentSetToPerson: (
     paymentSetSetup: PaymentSetDTO,
     personId: string
@@ -51,6 +51,22 @@ export class Controller implements IPaymentController {
       }
     });
   }
+  private buildUpdateMap(personId: string): Set<string> {
+    const paymentSetsToAmend: Set<string> = new Set();
+
+    this.people.forEach((person) => {
+      person.getPaymentHistory().forEach((paymentSet, paymentSetId) => {
+        paymentSet.forEach((payment) => {
+          const needsRemoval = payment.to === personId;
+          if (needsRemoval) {
+            paymentSetsToAmend.add(paymentSetId);
+          }
+        });
+      });
+    });
+
+    return paymentSetsToAmend;
+  }
 
   addNewPerson(): string {
     const newPerson = new Person();
@@ -58,8 +74,15 @@ export class Controller implements IPaymentController {
     return newPerson.id;
   }
 
-  removePersonById(personId: string): boolean {
-    return this.people.delete(personId);
+  removePersonById(personId: string): Set<string> {
+    const person = this.getPersonById(personId);
+    const paymentSetsToRemove = Array.from(person.getPaymentHistory().keys());
+    this.deletePaymentSetsForPerson(paymentSetsToRemove, personId);
+
+    const paymentSetsToAmend: Set<string> = this.buildUpdateMap(personId);
+
+    this.people.delete(personId);
+    return paymentSetsToAmend;
   }
 
   addPaymentSetToPerson(
