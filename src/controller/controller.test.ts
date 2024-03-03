@@ -173,12 +173,13 @@ describe("controller", () => {
           personId
         );
 
-        const expectedPaymentHistory: PaymentSetDTO[] = [
+        const expectedPaymentHistory = new Map().set(
+          paymentSetId,
           new Set<PaymentCore>().add({
             to: person2Id,
             amount: 444,
-          }),
-        ];
+          })
+        );
 
         expect(paymentSet).toEqual(expectedPaymentHistory);
       });
@@ -206,16 +207,21 @@ describe("controller", () => {
           personId
         );
 
-        const expectedPaymentHistory = [
-          new Set<PaymentCore>().add({
-            to: person2Id,
-            amount: 444,
-          }),
-          new Set<PaymentCore>().add({
-            to: person2Id,
-            amount: 555,
-          }),
-        ];
+        const expectedPaymentHistory = new Map()
+          .set(
+            paymentSet1Id,
+            new Set<PaymentCore>().add({
+              to: person2Id,
+              amount: 444,
+            })
+          )
+          .set(
+            paymentSet2Id,
+            new Set<PaymentCore>().add({
+              to: person2Id,
+              amount: 555,
+            })
+          );
 
         expect(paymentSets).toEqual(expectedPaymentHistory);
       });
@@ -240,12 +246,13 @@ describe("controller", () => {
           personId
         );
 
-        const expectedPaymentHistory = [
+        const expectedPaymentHistory = new Map().set(
+          paymentSet1Id,
           new Set<PaymentCore>().add({
             to: person2Id,
             amount: 444,
-          }),
-        ];
+          })
+        );
 
         expect(paymentSets).toEqual(expectedPaymentHistory);
       });
@@ -292,7 +299,7 @@ describe("controller", () => {
           personId
         );
 
-        expect(paymentSet).toEqual([]);
+        expect(paymentSet).toEqual(new Map());
       });
 
       test("delete two payment sets for person", () => {
@@ -323,7 +330,7 @@ describe("controller", () => {
           personId
         );
 
-        expect(paymentSet).toEqual([]);
+        expect(paymentSet).toEqual(new Map());
       });
 
       test("deleting a payment set results in suggest payments being updated", () => {

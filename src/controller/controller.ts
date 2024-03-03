@@ -13,7 +13,7 @@ interface IPaymentController {
   getPaymentsByPerson: (
     paymentSetIds: string[],
     personId: string
-  ) => PaymentSetDTO[];
+  ) => Map<string, PaymentSetDTO>;
   addNewPerson: () => string;
   removePersonById: (personId: string) => Set<string>;
   addPaymentSetToPerson: (
@@ -117,8 +117,8 @@ export class Controller implements IPaymentController {
   getPaymentsByPerson(
     paymentSetIds: string[],
     personId: string
-  ): PaymentSetDTO[] {
-    const paymentSets: PaymentSetDTO[] = [];
+  ): Map<string, PaymentSetDTO> {
+    const paymentSets: Map<string, PaymentSetDTO> = new Map();
     const person = this.getPersonById(personId);
 
     const entirePaymentHistory = person.getPaymentHistory();
@@ -128,7 +128,7 @@ export class Controller implements IPaymentController {
         paymentSet.forEach((payment) =>
           cores.add({ to: payment.to, amount: payment.amount })
         );
-        paymentSets.push(cores);
+        paymentSets.set(id, cores);
       }
     });
 
