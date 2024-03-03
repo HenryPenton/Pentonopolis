@@ -38,7 +38,7 @@ This retrieves a list of payments that have been made for a given person. The li
 
 ```javascript
 const paymentSetId = controller.addPaymentSetToPerson(paymentSetSetup, gregId);
-//paymentSetId => 688ca822-a075-4d41-85d5-7a383bac10c8
+//paymentSetId => fa43c43f-7857-451b-89fb-cf3f9a06a1df
 
 const paymentSets = controller.getPaymentsByPerson([paymentSetId], personId);
 ```
