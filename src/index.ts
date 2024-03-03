@@ -1,3 +1,7 @@
 export * from "./controller/controller";
-export { PaymentSetDTO } from "./interfaces/payment";
+export {
+  PaymentSetDTO,
+  PaymentCore,
+  SuggestedPayment,
+} from "./interfaces/payment";
 export { UpdateMap } from "./interfaces/person";
