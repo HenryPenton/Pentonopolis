@@ -117,6 +117,33 @@ describe("controller", () => {
 
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
+
+    test("people cannot owe themselves", () => {
+      const controller = new Controller();
+      const A = controller.addNewPerson();
+      const B = controller.addNewPerson();
+      const C = controller.addNewPerson();
+      const D = controller.addNewPerson();
+
+      const paymentSetA = new Set([{ amount: 500, to: B },{ amount: 500, to: A }]);
+      const paymentSetB = new Set([{ amount: 1000, to: C }]);
+      const paymentSetC = new Set([{ amount: 1500, to: D }]);
+      const paymentSetD = new Set([{ amount: 2000, to: A }]);
+
+      controller.addPaymentSetToPerson(paymentSetA, A);
+      controller.addPaymentSetToPerson(paymentSetB, B);
+      controller.addPaymentSetToPerson(paymentSetC, C);
+      controller.addPaymentSetToPerson(paymentSetD, D);
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: B, amount: 500, from: A },
+        { to: C, amount: 500, from: A },
+        { to: D, amount: 500, from: A },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(suggestedPayments).toEqual(expectedSuggestedPayments);
+    });
   });
 
   describe("Payment sets", () => {
