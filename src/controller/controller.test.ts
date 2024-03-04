@@ -125,7 +125,10 @@ describe("controller", () => {
       const C = controller.addNewPerson();
       const D = controller.addNewPerson();
 
-      const paymentSetA = new Set([{ amount: 500, to: B },{ amount: 500, to: A }]);
+      const paymentSetA = new Set([
+        { amount: 500, to: B },
+        { amount: 500, to: A },
+      ]);
       const paymentSetB = new Set([{ amount: 1000, to: C }]);
       const paymentSetC = new Set([{ amount: 1500, to: D }]);
       const paymentSetD = new Set([{ amount: 2000, to: A }]);
@@ -175,7 +178,7 @@ describe("controller", () => {
             paymentSetSetup,
             "some-non-existent-person-id"
           )
-        ).toThrow(PersonDoesNotExistError);
+        ).toThrow(new PersonDoesNotExistError("That person does not exist"));
       });
     });
     describe("getting payment sets", () => {
