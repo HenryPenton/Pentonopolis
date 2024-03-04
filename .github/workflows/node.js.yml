@@ -31,3 +31,4 @@ jobs:
 
       - run: pnpm i
       - run: pnpm test
+      - run: pnpm mutate
