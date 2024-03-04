@@ -8,7 +8,7 @@
     "build": "tsc",
     "test": "jest",
     "prepare": "npm run build",
-    "mutate": "stryker run -c stryker.config.json --concurrency 2",
+    "mutate": "stryker run -c stryker.config.json --concurrency 8",
     "prepublishOnly": "npm test",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
