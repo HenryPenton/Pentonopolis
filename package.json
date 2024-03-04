@@ -6,13 +6,35 @@
   "types": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest --config jestconfig.json",
+    "test": "jest",
     "prepare": "npm run build",
+    "mutate": "stryker run -c stryker.config.json --concurrency 2",
     "prepublishOnly": "npm test",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "lint": "eslint . --ext .ts",
     "dev": "ts-node src/dev.ts"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(t|j)sx?$": "ts-jest"
+    },
+    "testPathIgnorePatterns": [
+      "<rootDir>/__tests__/mockingFunctions/mocks.ts",
+      "<rootDir>/old"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec|steps))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ],
+    "restoreMocks": true,
+    "clearMocks": true,
+    "resetMocks": true
   },
   "files": [
     "lib/**/*"
@@ -33,6 +55,9 @@
   },
   "homepage": "https://github.com/HenryPenton/who-owes-who#readme",
   "devDependencies": {
+    "@stryker-mutator/core": "^8.2.6",
+    "@stryker-mutator/jest-runner": "^8.2.6",
+    "@stryker-mutator/typescript-checker": "8.2.6",
     "@types/jest": "29.5.12",
     "@types/uuid": "^9.0.8",
     "@typescript-eslint/eslint-plugin": "7.1.0",

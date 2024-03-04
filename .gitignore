@@ -107,3 +107,6 @@ dist
 
 # Mac
 .DS_Store
+# stryker temp files
+.stryker-tmp
+mutation.html
