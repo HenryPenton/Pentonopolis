@@ -1,12 +1,12 @@
-import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
-import { DebtMap } from "../interfaces/debt";
+import { PaymentSetDoesNotExistError } from '../exceptions/Payment';
+import { DebtMap } from '../interfaces/debt';
 import {
   PaymentMap,
   PaymentModel,
   PaymentSet,
   PaymentSetDTO,
-} from "../interfaces/payment";
-import { generateNewId } from "../utils/uuid";
+} from '../interfaces/payment';
+import { generateNewId } from '../utils/uuid';
 
 export interface IPerson {
   id: string;
@@ -27,7 +27,7 @@ export class Person implements IPerson {
   addPaymentSet(payments: PaymentSetDTO): string {
     const paymentsWithId: Set<PaymentModel> = new Set();
     payments.forEach((payment) =>
-      paymentsWithId.add({ ...payment, id: generateNewId() })
+      paymentsWithId.add({ ...payment, id: generateNewId() }),
     );
 
     const paymentSetId = generateNewId();

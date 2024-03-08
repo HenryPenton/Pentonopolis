@@ -1,11 +1,11 @@
-import { SuggestedPayment } from "../interfaces/payment";
-import { PersonMap } from "../interfaces/person";
-import { Person } from "../person/Person";
-import { generateNewId } from "../utils/uuid";
-import { PaymentCalculator } from "./paymentCalculator";
-describe("controller", () => {
-  describe("suggested payments", () => {
-    test("no payments if no debt", () => {
+import { SuggestedPayment } from '../interfaces/payment';
+import { PersonMap } from '../interfaces/person';
+import { Person } from '../person/Person';
+import { generateNewId } from '../utils/uuid';
+import { PaymentCalculator } from './paymentCalculator';
+describe('controller', () => {
+  describe('suggested payments', () => {
+    test('no payments if no debt', () => {
       const paymentCalculator = new PaymentCalculator();
 
       const personA = new Person();
@@ -20,7 +20,7 @@ describe("controller", () => {
       expect(expectedSuggestedPayments).toEqual(suggestedPayments);
     });
 
-    test("person b owes person a 5.84", () => {
+    test('person b owes person a 5.84', () => {
       const paymentCalculator = new PaymentCalculator();
 
       const personA = new Person();
@@ -40,7 +40,7 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
-    test("person b owes person a 5.84 and person c owes person a 2.61", () => {
+    test('person b owes person a 5.84 and person c owes person a 2.61', () => {
       const paymentCalculator = new PaymentCalculator();
 
       const personA = new Person();
@@ -66,7 +66,7 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
-    test("person c owes person a 5.84 and person c owes person b 2.61", () => {
+    test('person c owes person a 5.84 and person c owes person b 2.61', () => {
       const paymentCalculator = new PaymentCalculator();
 
       const personA = new Person();
@@ -93,7 +93,7 @@ describe("controller", () => {
       expect(expectedSuggestedPayments).toEqual(suggestedPayments);
     });
 
-    test("person c owes person a 5.84 and person c owes person b 2.61 and person d owes person b 1.00", () => {
+    test('person c owes person a 5.84 and person c owes person b 2.61 and person d owes person b 1.00', () => {
       const paymentCalculator = new PaymentCalculator();
       const personA = new Person();
       const personB = new Person();
@@ -124,7 +124,7 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
-    test("person c owes person a 5.84 and person c owes person b 2.61 and person d owes person b 1.00", () => {
+    test('person c owes person a 5.84 and person c owes person b 2.61 and person d owes person b 1.00', () => {
       const paymentCalculator = new PaymentCalculator();
       const personA = new Person();
       const personB = new Person();
@@ -162,7 +162,7 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
-    test("B owes A, C owes B, D owes C, A owes D", () => {
+    test('B owes A, C owes B, D owes C, A owes D', () => {
       const paymentCalculator = new PaymentCalculator();
       const personA = new Person();
       const personB = new Person();
@@ -197,7 +197,7 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
-    test("large number of payments", () => {
+    test('large number of payments', () => {
       const paymentCalculator = new PaymentCalculator();
 
       //group 1

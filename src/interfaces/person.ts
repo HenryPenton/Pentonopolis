@@ -1,4 +1,4 @@
-import { IPerson } from "../person/Person";
+import { IPerson } from '../person/Person';
 
 export type PersonMap = Map<string, IPerson>;
 

@@ -1,36 +1,36 @@
-import { PersonDoesNotExistError } from "../exceptions/Person";
+import { PersonDoesNotExistError } from '../exceptions/Person';
 import {
   PaymentCore,
   PaymentSet,
   PaymentSetDTO,
   SuggestedPayment,
-} from "../interfaces/payment";
-import { PersonMap, UpdateMap } from "../interfaces/person";
+} from '../interfaces/payment';
+import { PersonMap, UpdateMap } from '../interfaces/person';
 import {
   IPaymentCalculator,
   PaymentCalculator,
-} from "../paymentCalculator/paymentCalculator";
-import { IPerson, Person } from "../person/Person";
+} from '../paymentCalculator/paymentCalculator';
+import { IPerson, Person } from '../person/Person';
 import {
   IUpdateMapBuilder,
   UpdateMapBuilder,
-} from "../updateMapBuilder/updateMapBuilder";
+} from '../updateMapBuilder/updateMapBuilder';
 
 interface IPaymentController {
   getPaymentsByPerson: (
     paymentSetIds: string[],
-    personId: string
+    personId: string,
   ) => Map<string, PaymentSetDTO>;
   addNewPerson: () => string;
   removePersonById: (personId: string) => UpdateMap;
   getPaymentSetIdsByPerson: (personId: string) => Set<string>;
   addPaymentSetToPerson: (
     paymentSetSetup: PaymentSetDTO,
-    personId: string
+    personId: string,
   ) => string;
   deletePaymentSetsForPerson: (
     paymentSetIds: string[],
-    personId: string
+    personId: string,
   ) => void;
   getSuggestedPayments: () => SuggestedPayment[];
 }
@@ -47,7 +47,7 @@ export class Controller implements IPaymentController {
       return person;
     }
 
-    throw new PersonDoesNotExistError("That person does not exist");
+    throw new PersonDoesNotExistError('That person does not exist');
   }
 
   private distributeDebts(paymentSet: PaymentSet, personPaying: IPerson): void {
@@ -86,7 +86,7 @@ export class Controller implements IPaymentController {
 
     const paymentSetsToAmend: UpdateMap = this.updateMapBuilder.buildUpdateMap(
       this.people,
-      personId
+      personId,
     );
 
     this.people.delete(personId);
@@ -102,7 +102,7 @@ export class Controller implements IPaymentController {
    */
   addPaymentSetToPerson(
     paymentSetSetup: PaymentSetDTO,
-    personId: string
+    personId: string,
   ): string {
     const person = this.getPersonById(personId);
 
@@ -164,7 +164,7 @@ export class Controller implements IPaymentController {
    */
   getPaymentsByPerson(
     paymentSetIds: string[],
-    personId: string
+    personId: string,
   ): Map<string, PaymentSetDTO> {
     const paymentSets: Map<string, PaymentSetDTO> = new Map();
     const person = this.getPersonById(personId);
@@ -174,7 +174,7 @@ export class Controller implements IPaymentController {
       const cores: Set<PaymentCore> = new Set();
       if (paymentSetIds.includes(id)) {
         paymentSet.forEach((payment) =>
-          cores.add({ to: payment.to, amount: payment.amount })
+          cores.add({ to: payment.to, amount: payment.amount }),
         );
         paymentSets.set(id, cores);
       }
