@@ -13,7 +13,7 @@
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
     "lint": "eslint . --ext .ts",
-    "dev": "ts-node src/dev.ts"
+    "prettier": "prettier --write ./src/**/*.ts"
   },
   "jest": {
     "transform": {
