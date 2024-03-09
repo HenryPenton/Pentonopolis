@@ -1,5 +1,5 @@
-import { PersonMap, UpdateMap } from '../interfaces/person';
-import { IPerson } from '../person/Person';
+import { PersonMap, UpdateMap } from "../interfaces/person";
+import { IPerson } from "../person/Person";
 
 export interface IUpdateMapBuilder {
   buildUpdateMap: (people: PersonMap, personId: string) => UpdateMap;

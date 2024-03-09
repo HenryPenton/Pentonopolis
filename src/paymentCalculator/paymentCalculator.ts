@@ -2,9 +2,9 @@ import {
   LendersAndBorrowers,
   SuggestedPayment,
   TotalBalance,
-} from '../interfaces/payment';
-import { PersonMap } from '../interfaces/person';
-import { IPerson } from '../person/Person';
+} from "../interfaces/payment";
+import { PersonMap } from "../interfaces/person";
+import { IPerson } from "../person/Person";
 
 export interface IPaymentCalculator {
   buildPayments: (people: PersonMap) => SuggestedPayment[];

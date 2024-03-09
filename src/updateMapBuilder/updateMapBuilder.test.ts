@@ -1,9 +1,9 @@
-import { PaymentCore } from '../interfaces/payment';
-import { PersonMap } from '../interfaces/person';
-import { Person } from '../person/Person';
-import { UpdateMapBuilder } from './updateMapBuilder';
-describe('update map builder', () => {
-  test('no updates to make if there are no payment sets', () => {
+import { PaymentCore } from "../interfaces/payment";
+import { PersonMap } from "../interfaces/person";
+import { Person } from "../person/Person";
+import { UpdateMapBuilder } from "./updateMapBuilder";
+describe("update map builder", () => {
+  test("no updates to make if there are no payment sets", () => {
     const updateMapBuilder = new UpdateMapBuilder();
     const personMap: PersonMap = new Map();
     const personA = new Person();
@@ -14,12 +14,12 @@ describe('update map builder', () => {
 
     const updateMap = updateMapBuilder.buildUpdateMap(
       personMap,
-      'some-non-existent-person',
+      "some-non-existent-person",
     );
     expect(updateMap).toEqual(new Map());
   });
 
-  test('no updates to make if the person removed is not referenced in any other payment set', () => {
+  test("no updates to make if the person removed is not referenced in any other payment set", () => {
     const updateMapBuilder = new UpdateMapBuilder();
     const personMap: PersonMap = new Map();
     const personA = new Person();
@@ -33,12 +33,12 @@ describe('update map builder', () => {
 
     const updateMap = updateMapBuilder.buildUpdateMap(
       personMap,
-      'some-non-existent-person',
+      "some-non-existent-person",
     );
     expect(updateMap).toEqual(new Map());
   });
 
-  test('one update to make if the person removed is referenced in one payment set', () => {
+  test("one update to make if the person removed is referenced in one payment set", () => {
     const updateMapBuilder = new UpdateMapBuilder();
     const personMap: PersonMap = new Map();
     const personA = new Person();
@@ -58,7 +58,7 @@ describe('update map builder', () => {
     );
   });
 
-  test('two update to make if the person removed is referenced in two payment sets', () => {
+  test("two update to make if the person removed is referenced in two payment sets", () => {
     const updateMapBuilder = new UpdateMapBuilder();
     const personMap: PersonMap = new Map();
     const personA = new Person();

@@ -1,20 +1,20 @@
-import { PersonDoesNotExistError } from '../exceptions/Person';
+import { PersonDoesNotExistError } from "../exceptions/Person";
 import {
   PaymentCore,
   PaymentSet,
   PaymentSetDTO,
   SuggestedPayment,
-} from '../interfaces/payment';
-import { PersonMap, UpdateMap } from '../interfaces/person';
+} from "../interfaces/payment";
+import { PersonMap, UpdateMap } from "../interfaces/person";
 import {
   IPaymentCalculator,
   PaymentCalculator,
-} from '../paymentCalculator/paymentCalculator';
-import { IPerson, Person } from '../person/Person';
+} from "../paymentCalculator/paymentCalculator";
+import { IPerson, Person } from "../person/Person";
 import {
   IUpdateMapBuilder,
   UpdateMapBuilder,
-} from '../updateMapBuilder/updateMapBuilder';
+} from "../updateMapBuilder/updateMapBuilder";
 
 interface IPaymentController {
   getPaymentsByPerson: (
@@ -47,7 +47,7 @@ export class Controller implements IPaymentController {
       return person;
     }
 
-    throw new PersonDoesNotExistError('That person does not exist');
+    throw new PersonDoesNotExistError("That person does not exist");
   }
 
   private distributeDebts(paymentSet: PaymentSet, personPaying: IPerson): void {
