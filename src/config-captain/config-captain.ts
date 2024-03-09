@@ -29,7 +29,7 @@ export class EnvironmentConfiguration implements IEnvironmentConfiguration {
       );
     }
 
-    if (totalErrors > 1) {
+    if (totalErrors > 0) {
       const lastName = erroredVariables.pop();
       const errorString = erroredVariables.join(", ") + ` and ${lastName}`;
       throw new EnvironmentVariableUndefinedError(
