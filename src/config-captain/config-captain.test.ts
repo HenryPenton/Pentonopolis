@@ -68,5 +68,38 @@ describe("config captain", () => {
         ),
       );
     });
+
+    test("two volatile environment variables throw if they're not defined", () => {
+      expect(
+        () =>
+          new EnvironmentConfiguration(
+            new Set(),
+            new Set<string>()
+              .add("some-undefined-variable")
+              .add("some-other-undefined-variable"),
+          ),
+      ).toThrow(
+        new EnvironmentVariableUndefinedError(
+          "The environment variables some-undefined-variable and some-other-undefined-variable was undefined",
+        ),
+      );
+    });
+
+    test("three volatile environment variables throw if they're not defined", () => {
+      expect(
+        () =>
+          new EnvironmentConfiguration(
+            new Set(),
+            new Set<string>()
+              .add("some-undefined-variable")
+              .add("some-other-undefined-variable")
+              .add("some-final-undefined-variable"),
+          ),
+      ).toThrow(
+        new EnvironmentVariableUndefinedError(
+          "The environment variables some-undefined-variable, some-other-undefined-variable and some-final-undefined-variable was undefined",
+        ),
+      );
+    });
   });
 });

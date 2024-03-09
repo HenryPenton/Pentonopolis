@@ -4,26 +4,47 @@ interface IEnvironmentConfiguration {
 }
 
 export class EnvironmentConfiguration implements IEnvironmentConfiguration {
+  private environmentMap: EnvironmentMap = new Map();
+
   constructor(
     private variableNames: Set<string>,
     private volatileNames: Set<string>,
   ) {
-    if (this.volatileNames.size > 0) {
+    this.checkVolatileEnvironmentVariables();
+    this.buildEnvironmentMap();
+  }
+
+  private checkVolatileEnvironmentVariables(): void {
+    const erroredVariables: string[] = [];
+    this.volatileNames.forEach((volatileName) => {
+      erroredVariables.push(volatileName);
+    });
+
+    const totalErrors = erroredVariables.length;
+
+    if (totalErrors === 1) {
       throw new EnvironmentVariableUndefinedError(
-        "The environment variable some-undefined-variable was undefined",
+        `The environment variable ${erroredVariables[0]} was undefined`,
+      );
+    }
+
+    if (totalErrors > 1) {
+      const lastName = erroredVariables.pop();
+      const errorString = erroredVariables.join(", ") + ` and ${lastName}`;
+      throw new EnvironmentVariableUndefinedError(
+        `The environment variables ${errorString} was undefined`,
       );
     }
   }
 
-  getEnvironmentVariables(): EnvironmentMap {
-    const environmentMap: EnvironmentMap = new Map();
+  private buildEnvironmentMap(): void {
     this.variableNames.forEach((variableName) =>
-      environmentMap.set(variableName, process.env[variableName]),
+      this.environmentMap.set(variableName, process.env[variableName]),
     );
+  }
 
-
-
-    return environmentMap;
+  getEnvironmentVariables(): EnvironmentMap {
+    return this.environmentMap;
   }
 }
 export class EnvironmentVariableUndefinedError extends Error {}
