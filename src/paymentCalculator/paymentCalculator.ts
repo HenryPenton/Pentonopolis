@@ -19,10 +19,10 @@ export class PaymentCalculator implements IPaymentCalculator {
       const debt = this.getTotalBalanceByPersonId(person);
       const totalDebt: TotalBalance = { personId: id, amount: debt };
 
-      if (debt > 0) {
-        borrowers.push(totalDebt);
-      } else if (debt < 0) {
+      if (debt <= -1) {
         lenders.push(totalDebt);
+      } else {
+        borrowers.push(totalDebt);
       }
     });
 

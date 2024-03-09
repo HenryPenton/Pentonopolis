@@ -118,6 +118,25 @@ describe("controller", () => {
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
     });
 
+    test("controller can tell me who should pay who (boundary case", () => {
+      const controller = new Controller();
+      const A = controller.addNewPerson();
+      const B = controller.addNewPerson();
+
+      const paymentSetA = new Set([{ amount: 1, to: B }]);
+
+
+      controller.addPaymentSetToPerson(paymentSetA, A);
+
+
+      const expectedSuggestedPayments: SuggestedPayment[] = [
+        { to: A, amount: 1, from: B },
+      ];
+      const suggestedPayments = controller.getSuggestedPayments();
+
+      expect(suggestedPayments).toEqual(expectedSuggestedPayments);
+    });
+
     test("people cannot owe themselves", () => {
       const controller = new Controller();
       const A = controller.addNewPerson();
