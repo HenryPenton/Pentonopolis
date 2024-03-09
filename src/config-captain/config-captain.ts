@@ -3,22 +3,24 @@ interface IEnvironmentConfiguration {
   getEnvironmentVariables: () => EnvironmentMap;
 }
 
+export type EnvironmentVariable = { name: string };
+
 export class EnvironmentConfiguration implements IEnvironmentConfiguration {
   private environmentMap: EnvironmentMap = new Map();
 
   constructor(
-    private variableNames: Set<string>,
-    private volatileNames: Set<string>,
+    private canHaveVariables: Set<EnvironmentVariable>,
+    private mustHaveVariables: Set<EnvironmentVariable>,
   ) {
-    this.checkVolatileEnvironmentVariables();
+    this.checkMustHaveEnvironmentVariables();
     this.buildEnvironmentMap();
   }
 
-  private checkVolatileEnvironmentVariables(): void {
+  private checkMustHaveEnvironmentVariables(): void {
     const erroredVariables: string[] = [];
-    this.volatileNames.forEach((volatileName) => {
-      const variableFromEnv = process.env[volatileName];
-      if (!variableFromEnv) erroredVariables.push(volatileName);
+    this.mustHaveVariables.forEach((mustHaveVariable) => {
+      const variableFromEnv = process.env[mustHaveVariable.name];
+      if (!variableFromEnv) erroredVariables.push(mustHaveVariable.name);
     });
 
     const totalErrors = erroredVariables.length;
@@ -39,12 +41,18 @@ export class EnvironmentConfiguration implements IEnvironmentConfiguration {
   }
 
   private buildEnvironmentMap(): void {
-    this.variableNames.forEach((variableName) =>
-      this.environmentMap.set(variableName, process.env[variableName]),
+    this.canHaveVariables.forEach((canHaveVariable) =>
+      this.environmentMap.set(
+        canHaveVariable.name,
+        process.env[canHaveVariable.name],
+      ),
     );
 
-    this.volatileNames.forEach((volatileName) =>
-      this.environmentMap.set(volatileName, process.env[volatileName]),
+    this.mustHaveVariables.forEach((mustHaveVariable) =>
+      this.environmentMap.set(
+        mustHaveVariable.name,
+        process.env[mustHaveVariable.name],
+      ),
     );
   }
 

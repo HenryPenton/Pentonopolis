@@ -1,5 +1,6 @@
 import {
   EnvironmentConfiguration,
+  EnvironmentVariable,
   EnvironmentVariableUndefinedError,
 } from "./config-captain";
 
@@ -13,10 +14,12 @@ describe("config captain", () => {
   afterEach(() => {
     process.env = originalEnv;
   });
-  describe("Environment Map", () => {
+  describe("non volatile environment variables", () => {
     test("returns an environment variable", () => {
       process.env = { "some-variable": "some-value" };
-      const variableNames = new Set<string>().add("some-variable");
+      const variableNames = new Set<EnvironmentVariable>().add({
+        name: "some-variable",
+      });
       const configuration = new EnvironmentConfiguration(
         variableNames,
         new Set(),
@@ -35,9 +38,14 @@ describe("config captain", () => {
         "some-other-variable": "some-other-value",
       };
 
-      const variableNames = new Set<string>()
-        .add("some-variable")
-        .add("some-other-variable");
+      const variableNames = new Set<EnvironmentVariable>()
+        .add({
+          name: "some-variable",
+        })
+        .add({
+          name: "some-other-variable",
+        });
+
       const configuration = new EnvironmentConfiguration(
         variableNames,
         new Set(),
@@ -54,13 +62,15 @@ describe("config captain", () => {
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
     });
   });
-  describe("setup", () => {
+  describe("volatile environment variables", () => {
     test("volatile environment variable throws if it's not defined", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
             new Set(),
-            new Set<string>().add("some-undefined-variable"),
+            new Set<EnvironmentVariable>().add({
+              name: "some-undefined-variable",
+            }),
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
@@ -74,9 +84,11 @@ describe("config captain", () => {
         () =>
           new EnvironmentConfiguration(
             new Set(),
-            new Set<string>()
-              .add("some-undefined-variable")
-              .add("some-other-undefined-variable"),
+            new Set<EnvironmentVariable>()
+              .add({
+                name: "some-undefined-variable",
+              })
+              .add({ name: "some-other-undefined-variable" }),
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
@@ -90,10 +102,10 @@ describe("config captain", () => {
         () =>
           new EnvironmentConfiguration(
             new Set(),
-            new Set<string>()
-              .add("some-undefined-variable")
-              .add("some-other-undefined-variable")
-              .add("some-final-undefined-variable"),
+            new Set<EnvironmentVariable>()
+              .add({ name: "some-undefined-variable" })
+              .add({ name: "some-other-undefined-variable" })
+              .add({ name: "some-final-undefined-variable" }),
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
@@ -108,7 +120,7 @@ describe("config captain", () => {
       };
       const config = new EnvironmentConfiguration(
         new Set(),
-        new Set<string>().add("some-volatile-variable"),
+        new Set<EnvironmentVariable>().add({ name: "some-volatile-variable" }),
       );
 
       const expectedEnvironmentVariables = new Map<string, string>();
@@ -126,9 +138,9 @@ describe("config captain", () => {
       };
       const config = new EnvironmentConfiguration(
         new Set(),
-        new Set<string>()
-          .add("some-volatile-variable")
-          .add("some-other-volatile-variable"),
+        new Set<EnvironmentVariable>()
+          .add({ name: "some-volatile-variable" })
+          .add({ name: "some-other-volatile-variable" }),
       );
 
       const expectedEnvironmentVariables = new Map<string, string>();
