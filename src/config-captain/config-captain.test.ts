@@ -1,6 +1,5 @@
 import {
   EnvironmentConfiguration,
-  EnvironmentVariable,
   EnvironmentVariableUndefinedError,
 } from "./config-captain";
 
@@ -17,17 +16,20 @@ describe("config captain", () => {
   describe("non volatile environment variables", () => {
     test("returns an environment variable", () => {
       process.env = { "some-variable": "some-value" };
-      const variableNames = new Set<EnvironmentVariable>().add({
-        name: "some-variable",
-      });
+
       const configuration = new EnvironmentConfiguration(
-        variableNames,
-        new Set(),
+        {
+          someVariable: {
+            name: "some-variable",
+          },
+        },
+        {},
       );
       const environmentVars = configuration.getEnvironmentVariables();
 
-      const expectedEnvironmentVariables = new Map<string, string>();
-      expectedEnvironmentVariables.set("some-variable", "some-value");
+      const expectedEnvironmentVariables = {
+        someVariable: "some-value",
+      };
 
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
     });
@@ -38,26 +40,24 @@ describe("config captain", () => {
         "some-other-variable": "some-other-value",
       };
 
-      const variableNames = new Set<EnvironmentVariable>()
-        .add({
-          name: "some-variable",
-        })
-        .add({
-          name: "some-other-variable",
-        });
-
       const configuration = new EnvironmentConfiguration(
-        variableNames,
-        new Set(),
+        {
+          someVariable: {
+            name: "some-variable",
+          },
+
+          someOtherVariable: {
+            name: "some-other-variable",
+          },
+        },
+        {},
       );
       const environmentVars = configuration.getEnvironmentVariables();
 
-      const expectedEnvironmentVariables = new Map<string, string>();
-      expectedEnvironmentVariables.set("some-variable", "some-value");
-      expectedEnvironmentVariables.set(
-        "some-other-variable",
-        "some-other-value",
-      );
+      const expectedEnvironmentVariables = {
+        someVariable: "some-value",
+        someOtherVariable: "some-other-value",
+      };
 
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
     });
@@ -67,10 +67,12 @@ describe("config captain", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
-            new Set(),
-            new Set<EnvironmentVariable>().add({
-              name: "some-undefined-variable",
-            }),
+            {},
+            {
+              someUndefinedVariable: {
+                name: "some-undefined-variable",
+              },
+            },
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
@@ -83,12 +85,15 @@ describe("config captain", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
-            new Set(),
-            new Set<EnvironmentVariable>()
-              .add({
+            {},
+            {
+              someUndefinedVariable: {
                 name: "some-undefined-variable",
-              })
-              .add({ name: "some-other-undefined-variable" }),
+              },
+              someOtherUndefinedVariable: {
+                name: "some-other-undefined-variable",
+              },
+            },
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
@@ -101,11 +106,18 @@ describe("config captain", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
-            new Set(),
-            new Set<EnvironmentVariable>()
-              .add({ name: "some-undefined-variable" })
-              .add({ name: "some-other-undefined-variable" })
-              .add({ name: "some-final-undefined-variable" }),
+            {},
+            {
+              someUndefinedVariable: {
+                name: "some-undefined-variable",
+              },
+              someOtherUndefinedVariable: {
+                name: "some-other-undefined-variable",
+              },
+              someFinalUndefinedVariable: {
+                name: "some-final-undefined-variable",
+              },
+            },
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
@@ -119,12 +131,13 @@ describe("config captain", () => {
         "some-volatile-variable": "some-value",
       };
       const config = new EnvironmentConfiguration(
-        new Set(),
-        new Set<EnvironmentVariable>().add({ name: "some-volatile-variable" }),
+        {},
+        { someMustHaveVariable: { name: "some-volatile-variable" } },
       );
 
-      const expectedEnvironmentVariables = new Map<string, string>();
-      expectedEnvironmentVariables.set("some-volatile-variable", "some-value");
+      const expectedEnvironmentVariables = {
+        someMustHaveVariable: "some-value",
+      };
 
       expect(config.getEnvironmentVariables()).toEqual(
         expectedEnvironmentVariables,
@@ -133,20 +146,21 @@ describe("config captain", () => {
 
     test("gets multiple volatile environment variables", () => {
       process.env = {
-        "some-volatile-variable": "some-value",
-        "some-other-volatile-variable": "some-other-value",
+        "some-must-have-variable": "some-value",
+        "some-other-must-have-variable": "some-other-value",
       };
       const config = new EnvironmentConfiguration(
-        new Set(),
-        new Set<EnvironmentVariable>()
-          .add({ name: "some-volatile-variable" })
-          .add({ name: "some-other-volatile-variable" }),
+        {},
+        {
+          someMustHaveVariable: { name: "some-must-have-variable" },
+          someOtherMustHaveVariable: { name: "some-other-must-have-variable" },
+        },
       );
 
-      const expectedEnvironmentVariables = new Map<string, string>();
-      expectedEnvironmentVariables
-        .set("some-volatile-variable", "some-value")
-        .set("some-other-volatile-variable", "some-other-value");
+      const expectedEnvironmentVariables = {
+        someMustHaveVariable: "some-value",
+        someOtherMustHaveVariable: "some-other-value",
+      };
 
       expect(config.getEnvironmentVariables()).toEqual(
         expectedEnvironmentVariables,

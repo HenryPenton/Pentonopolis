@@ -1,26 +1,49 @@
-type EnvironmentMap = Map<string, string | undefined>;
-interface IEnvironmentConfiguration {
-  getEnvironmentVariables: () => EnvironmentMap;
+interface IEnvironmentConfiguration<CanHave, MustHave> {
+  getEnvironmentVariables: () => EnvironmentMap<CanHave, MustHave>;
 }
 
-export type EnvironmentVariable = { name: string };
+type EnvironmentMap<CanHave, MustHave> = {
+  [Property in keyof CanHave]?: string;
+} & {
+  [Property in keyof MustHave]: string;
+};
 
-export class EnvironmentConfiguration implements IEnvironmentConfiguration {
-  private environmentMap: EnvironmentMap = new Map();
+export type EnvironmentVariableDefinition = {
+  name: string;
+};
+
+export type VariableSet<UserDefinitions> = {
+  [Property in keyof UserDefinitions]: EnvironmentVariableDefinition;
+};
+
+export class EnvironmentConfiguration<CanHave, MustHave>
+  implements IEnvironmentConfiguration<CanHave, MustHave>
+{
+  private environmentMap: EnvironmentMap<CanHave, MustHave> =
+    {} as EnvironmentMap<CanHave, MustHave>;
+  private canHaveVariables: VariableSet<CanHave>;
+  private mustHaveVariables: VariableSet<MustHave>;
 
   constructor(
-    private canHaveVariables: Set<EnvironmentVariable>,
-    private mustHaveVariables: Set<EnvironmentVariable>,
+    canHaveVariables: VariableSet<CanHave>,
+    mustHaveVariables: VariableSet<MustHave>,
   ) {
+    this.canHaveVariables = canHaveVariables;
+    this.mustHaveVariables = mustHaveVariables;
+
     this.checkMustHaveEnvironmentVariables();
-    this.buildEnvironmentMap();
+    this.buildCanHaveEnvironmentMap();
+    this.buildMustHaveEnvironmentMap();
   }
 
   private checkMustHaveEnvironmentVariables(): void {
     const erroredVariables: string[] = [];
-    this.mustHaveVariables.forEach((mustHaveVariable) => {
-      const variableFromEnv = process.env[mustHaveVariable.name];
-      if (!variableFromEnv) erroredVariables.push(mustHaveVariable.name);
+
+    Object.values(this.mustHaveVariables).forEach((objectValue) => {
+      const mustHaveEntry = objectValue as EnvironmentVariableDefinition;
+      const variableFromEnv = process.env[mustHaveEntry.name];
+
+      if (!variableFromEnv) erroredVariables.push(mustHaveEntry.name);
     });
 
     const totalErrors = erroredVariables.length;
@@ -40,23 +63,31 @@ export class EnvironmentConfiguration implements IEnvironmentConfiguration {
     }
   }
 
-  private buildEnvironmentMap(): void {
-    this.canHaveVariables.forEach((canHaveVariable) =>
-      this.environmentMap.set(
-        canHaveVariable.name,
-        process.env[canHaveVariable.name],
-      ),
-    );
+  private buildMustHaveEnvironmentMap(): void {
+    Object.entries(this.mustHaveVariables).forEach((entry) => {
+      const userGivenName = entry[0];
+      const mustHaveEntry = entry[1] as EnvironmentVariableDefinition;
 
-    this.mustHaveVariables.forEach((mustHaveVariable) =>
-      this.environmentMap.set(
-        mustHaveVariable.name,
-        process.env[mustHaveVariable.name],
-      ),
-    );
+      this.environmentMap = {
+        ...this.environmentMap,
+        [userGivenName]: process.env[mustHaveEntry.name],
+      };
+    });
   }
 
-  getEnvironmentVariables(): EnvironmentMap {
+  private buildCanHaveEnvironmentMap(): void {
+    Object.entries(this.canHaveVariables).forEach((entry) => {
+      const userGivenName = entry[0];
+      const canHaveEntry = entry[1] as EnvironmentVariableDefinition;
+
+      this.environmentMap = {
+        ...this.environmentMap,
+        [userGivenName]: process.env[canHaveEntry.name],
+      };
+    });
+  }
+
+  getEnvironmentVariables(): EnvironmentMap<CanHave, MustHave> {
     return this.environmentMap;
   }
 }
