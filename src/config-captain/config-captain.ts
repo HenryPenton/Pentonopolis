@@ -1,11 +1,11 @@
-interface IEnvironmentConfiguration<CanHave, MustHave> {
-  getEnvironmentVariables: () => EnvironmentMap<CanHave, MustHave>;
+interface IEnvironmentConfiguration<NonCritical, Critical> {
+  getEnvironmentVariables: () => EnvironmentMap<NonCritical, Critical>;
 }
 
-type EnvironmentMap<CanHave, MustHave> = {
-  [Property in keyof CanHave]?: string;
+type EnvironmentMap<NonCritical, Critical> = {
+  [Property in keyof NonCritical]?: string;
 } & {
-  [Property in keyof MustHave]: string;
+  [Property in keyof Critical]: string;
 };
 
 export type EnvironmentVariableDefinition = {
@@ -16,34 +16,29 @@ export type VariableSet<UserDefinitions> = {
   [Property in keyof UserDefinitions]: EnvironmentVariableDefinition;
 };
 
-export class EnvironmentConfiguration<CanHave, MustHave>
-  implements IEnvironmentConfiguration<CanHave, MustHave>
+export class EnvironmentConfiguration<NonCritical, Critical>
+  implements IEnvironmentConfiguration<NonCritical, Critical>
 {
-  private environmentMap: EnvironmentMap<CanHave, MustHave> =
-    {} as EnvironmentMap<CanHave, MustHave>;
-  private canHaveVariables: VariableSet<CanHave>;
-  private mustHaveVariables: VariableSet<MustHave>;
+  private environmentMap: EnvironmentMap<NonCritical, Critical> =
+    {} as EnvironmentMap<NonCritical, Critical>;
 
   constructor(
-    canHaveVariables: VariableSet<CanHave>,
-    mustHaveVariables: VariableSet<MustHave>,
+    private nonCriticalVariables: VariableSet<NonCritical>,
+    private criticalVariables: VariableSet<Critical>,
   ) {
-    this.canHaveVariables = canHaveVariables;
-    this.mustHaveVariables = mustHaveVariables;
-
-    this.checkMustHaveEnvironmentVariables();
-    this.buildCanHaveEnvironmentMap();
-    this.buildMustHaveEnvironmentMap();
+    this.checkCriticalEnvironmentVariables();
+    this.buildNonCriticalEnvironmentMap();
+    this.buildCriticalEnvironmentMap();
   }
 
-  private checkMustHaveEnvironmentVariables(): void {
+  private checkCriticalEnvironmentVariables(): void {
     const erroredVariables: string[] = [];
 
-    Object.values(this.mustHaveVariables).forEach((objectValue) => {
-      const mustHaveEntry = objectValue as EnvironmentVariableDefinition;
-      const variableFromEnv = process.env[mustHaveEntry.name];
+    Object.values(this.criticalVariables).forEach((objectValue) => {
+      const criticalEntry = objectValue as EnvironmentVariableDefinition;
+      const variableFromEnv = process.env[criticalEntry.name];
 
-      if (!variableFromEnv) erroredVariables.push(mustHaveEntry.name);
+      if (!variableFromEnv) erroredVariables.push(criticalEntry.name);
     });
 
     const totalErrors = erroredVariables.length;
@@ -63,31 +58,31 @@ export class EnvironmentConfiguration<CanHave, MustHave>
     }
   }
 
-  private buildMustHaveEnvironmentMap(): void {
-    Object.entries(this.mustHaveVariables).forEach((entry) => {
+  private buildCriticalEnvironmentMap(): void {
+    Object.entries(this.criticalVariables).forEach((entry) => {
       const userGivenName = entry[0];
-      const mustHaveEntry = entry[1] as EnvironmentVariableDefinition;
+      const criticalEntry = entry[1] as EnvironmentVariableDefinition;
 
       this.environmentMap = {
         ...this.environmentMap,
-        [userGivenName]: process.env[mustHaveEntry.name],
+        [userGivenName]: process.env[criticalEntry.name],
       };
     });
   }
 
-  private buildCanHaveEnvironmentMap(): void {
-    Object.entries(this.canHaveVariables).forEach((entry) => {
+  private buildNonCriticalEnvironmentMap(): void {
+    Object.entries(this.nonCriticalVariables).forEach((entry) => {
       const userGivenName = entry[0];
-      const canHaveEntry = entry[1] as EnvironmentVariableDefinition;
+      const nonCriticalEntry = entry[1] as EnvironmentVariableDefinition;
 
       this.environmentMap = {
         ...this.environmentMap,
-        [userGivenName]: process.env[canHaveEntry.name],
+        [userGivenName]: process.env[nonCriticalEntry.name],
       };
     });
   }
 
-  getEnvironmentVariables(): EnvironmentMap<CanHave, MustHave> {
+  getEnvironmentVariables(): EnvironmentMap<NonCritical, Critical> {
     return this.environmentMap;
   }
 }

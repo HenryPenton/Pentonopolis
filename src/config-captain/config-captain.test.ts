@@ -13,7 +13,7 @@ describe("config captain", () => {
   afterEach(() => {
     process.env = originalEnv;
   });
-  describe("non volatile environment variables", () => {
+  describe("non critical environment variables", () => {
     test("returns an environment variable", () => {
       process.env = { "some-variable": "some-value" };
 
@@ -62,8 +62,8 @@ describe("config captain", () => {
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
     });
   });
-  describe("volatile environment variables", () => {
-    test("volatile environment variable throws if it's not defined", () => {
+  describe("critical environment variables", () => {
+    test("critical environment variable throws if it's not defined", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
@@ -81,7 +81,7 @@ describe("config captain", () => {
       );
     });
 
-    test("two volatile environment variables throw if they're not defined", () => {
+    test("two critical environment variables throw if they're not defined", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
@@ -102,7 +102,7 @@ describe("config captain", () => {
       );
     });
 
-    test("three volatile environment variables throw if they're not defined", () => {
+    test("three critical environment variables throw if they're not defined", () => {
       expect(
         () =>
           new EnvironmentConfiguration(
@@ -126,13 +126,13 @@ describe("config captain", () => {
       );
     });
 
-    test("gets a volatile environment variable", () => {
+    test("gets a critical environment variable", () => {
       process.env = {
-        "some-volatile-variable": "some-value",
+        "some-critical-variable": "some-value",
       };
       const config = new EnvironmentConfiguration(
         {},
-        { someMustHaveVariable: { name: "some-volatile-variable" } },
+        { someMustHaveVariable: { name: "some-critical-variable" } },
       );
 
       const expectedEnvironmentVariables = {
@@ -144,7 +144,7 @@ describe("config captain", () => {
       );
     });
 
-    test("gets multiple volatile environment variables", () => {
+    test("gets multiple critical environment variables", () => {
       process.env = {
         "some-must-have-variable": "some-value",
         "some-other-must-have-variable": "some-other-value",
