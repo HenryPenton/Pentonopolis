@@ -1,1 +1,1 @@
-export const placeholder = "placeholder";
+export * from './config-captain'
