@@ -101,5 +101,44 @@ describe("config captain", () => {
         ),
       );
     });
+
+    test("gets a volatile environment variable", () => {
+      process.env = {
+        "some-volatile-variable": "some-value",
+      };
+      const config = new EnvironmentConfiguration(
+        new Set(),
+        new Set<string>().add("some-volatile-variable"),
+      );
+
+      const expectedEnvironmentVariables = new Map<string, string>();
+      expectedEnvironmentVariables.set("some-volatile-variable", "some-value");
+
+      expect(config.getEnvironmentVariables()).toEqual(
+        expectedEnvironmentVariables,
+      );
+    });
+
+    test("gets multiple volatile environment variables", () => {
+      process.env = {
+        "some-volatile-variable": "some-value",
+        "some-other-volatile-variable": "some-other-value",
+      };
+      const config = new EnvironmentConfiguration(
+        new Set(),
+        new Set<string>()
+          .add("some-volatile-variable")
+          .add("some-other-volatile-variable"),
+      );
+
+      const expectedEnvironmentVariables = new Map<string, string>();
+      expectedEnvironmentVariables
+        .set("some-volatile-variable", "some-value")
+        .set("some-other-volatile-variable", "some-other-value");
+
+      expect(config.getEnvironmentVariables()).toEqual(
+        expectedEnvironmentVariables,
+      );
+    });
   });
 });

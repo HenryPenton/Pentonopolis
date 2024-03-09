@@ -17,7 +17,8 @@ export class EnvironmentConfiguration implements IEnvironmentConfiguration {
   private checkVolatileEnvironmentVariables(): void {
     const erroredVariables: string[] = [];
     this.volatileNames.forEach((volatileName) => {
-      erroredVariables.push(volatileName);
+      const variableFromEnv = process.env[volatileName];
+      if (!variableFromEnv) erroredVariables.push(volatileName);
     });
 
     const totalErrors = erroredVariables.length;
@@ -40,6 +41,10 @@ export class EnvironmentConfiguration implements IEnvironmentConfiguration {
   private buildEnvironmentMap(): void {
     this.variableNames.forEach((variableName) =>
       this.environmentMap.set(variableName, process.env[variableName]),
+    );
+
+    this.volatileNames.forEach((volatileName) =>
+      this.environmentMap.set(volatileName, process.env[volatileName]),
     );
   }
 
