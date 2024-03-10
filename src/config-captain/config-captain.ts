@@ -99,7 +99,6 @@ export class EnvironmentConfiguration<NonCritical, Critical>
     variableName: keyof NonCritical,
   ): EnvironmentMap<NonCritical, Critical>[keyof NonCritical] {
     return this.environmentMap[variableName];
-
   }
 }
 export class EnvironmentVariableUndefinedError extends Error {}
