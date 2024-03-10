@@ -260,6 +260,4 @@ describe("config captain", () => {
       expect(nonCriticalVariable).toBeUndefined();
     });
   });
-
-  
 });

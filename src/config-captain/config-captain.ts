@@ -72,6 +72,7 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
       );
     }
   }
+
   private buildEnvironmentVariableMap(
     variables: VariableSet<Critical | NonCritical>,
   ): void {
@@ -97,7 +98,7 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
       };
     });
   }
-  
+
   private buildCriticalEnvironmentMap(): void {
     this.buildEnvironmentVariableMap(this.criticalVariables);
   }
