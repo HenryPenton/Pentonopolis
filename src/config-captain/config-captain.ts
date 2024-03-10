@@ -1,4 +1,4 @@
-type EnvironmentMap<NonCritical, Critical, Config> = {
+type Environment<NonCritical, Critical, Config> = {
   [Property in keyof NonCritical]?: string;
 } & {
   [Property in keyof Critical]: string;
@@ -23,17 +23,17 @@ export type ConfigSet<UserDefinitions> = {
 };
 
 interface IEnvironmentConfiguration<NonCritical, Critical, Config> {
-  getEnvironmentVariables: () => EnvironmentMap<NonCritical, Critical, Config>;
-  getCriticalEnvironmentVariable: (
+  getConfigurationVariables: () => Environment<NonCritical, Critical, Config>;
+  getConfigurationVariable: (
     variableName: keyof Critical,
-  ) => EnvironmentMap<NonCritical, Critical, Config>[keyof Critical];
+  ) => Environment<NonCritical, Critical, Config>[keyof Critical];
 }
 
 export class EnvironmentConfiguration<NonCritical, Critical, Config>
   implements IEnvironmentConfiguration<NonCritical, Critical, Config>
 {
-  private environmentMap: EnvironmentMap<NonCritical, Critical, Config> =
-    {} as EnvironmentMap<NonCritical, Critical, Config>;
+  private environment: Environment<NonCritical, Critical, Config> =
+    {} as Environment<NonCritical, Critical, Config>;
 
   constructor(
     private nonCriticalVariables: VariableSet<NonCritical>,
@@ -80,8 +80,8 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
       const userGivenName = variable[0];
       const entry = variable[1] as EnvironmentVariableDefinition;
 
-      this.environmentMap = {
-        ...this.environmentMap,
+      this.environment = {
+        ...this.environment,
         [userGivenName]: process.env[entry.name],
       };
     });
@@ -92,8 +92,8 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
       const userGivenName = entry[0];
       const configEntry = entry[1] as ConfigVariableDefinition;
 
-      this.environmentMap = {
-        ...this.environmentMap,
+      this.environment = {
+        ...this.environment,
         [userGivenName]: configEntry.value,
       };
     });
@@ -107,20 +107,20 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
     this.buildEnvironmentVariableMap(this.nonCriticalVariables);
   }
 
-  getEnvironmentVariables(): EnvironmentMap<NonCritical, Critical, Config> {
-    return this.environmentMap;
+  getConfigurationVariables(): Environment<NonCritical, Critical, Config> {
+    return this.environment;
   }
 
-  getCriticalEnvironmentVariable(
+  getConfigurationVariable(
     variableName: keyof Critical,
-  ): EnvironmentMap<NonCritical, Critical, Config>[keyof Critical] {
-    return this.environmentMap[variableName];
+  ): Environment<NonCritical, Critical, Config>[keyof Critical] {
+    return this.environment[variableName];
   }
 
-  getNonCriticalEnvironmentVariable(
+  getConfigurationVariableOrUndefined(
     variableName: keyof NonCritical,
-  ): EnvironmentMap<NonCritical, Critical, Config>[keyof NonCritical] {
-    return this.environmentMap[variableName];
+  ): Environment<NonCritical, Critical, Config>[keyof NonCritical] {
+    return this.environment[variableName];
   }
 }
 
