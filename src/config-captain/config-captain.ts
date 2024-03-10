@@ -1,4 +1,4 @@
-type Environment<NonCritical, Critical, Config> = {
+type SystemConfiguration<NonCritical, Critical, Config> = {
   [Property in keyof NonCritical]?: string;
 } & {
   [Property in keyof Critical]: string;
@@ -23,10 +23,10 @@ export type ConfigSet<UserDefinitions> = {
 };
 
 interface IConfiguration<NonCritical, Critical, Config> {
-  getConfigurationVariables: () => Environment<NonCritical, Critical, Config>;
+  getConfigurationVariables: () => SystemConfiguration<NonCritical, Critical, Config>;
   getConfigurationVariable: (
     variableName: keyof Critical | keyof Config,
-  ) => Environment<NonCritical, Critical, Config>[
+  ) => SystemConfiguration<NonCritical, Critical, Config>[
     | keyof Critical
     | keyof Config];
 }
@@ -34,8 +34,8 @@ interface IConfiguration<NonCritical, Critical, Config> {
 export class Configuration<NonCritical, Critical, Config>
   implements IConfiguration<NonCritical, Critical, Config>
 {
-  private environment: Environment<NonCritical, Critical, Config> =
-    {} as Environment<NonCritical, Critical, Config>;
+  private environment: SystemConfiguration<NonCritical, Critical, Config> =
+    {} as SystemConfiguration<NonCritical, Critical, Config>;
 
   constructor(
     private nonCriticalVariables: VariableSet<NonCritical>,
@@ -109,19 +109,19 @@ export class Configuration<NonCritical, Critical, Config>
     this.buildEnvironmentVariableMap(this.nonCriticalVariables);
   }
 
-  getConfigurationVariables(): Environment<NonCritical, Critical, Config> {
+  getConfigurationVariables(): SystemConfiguration<NonCritical, Critical, Config> {
     return this.environment;
   }
 
   getConfigurationVariable(
     variableName: keyof Critical | keyof Config,
-  ): Environment<NonCritical, Critical, Config>[keyof Critical | keyof Config] {
+  ): SystemConfiguration<NonCritical, Critical, Config>[keyof Critical | keyof Config] {
     return this.environment[variableName];
   }
 
   getConfigurationVariableOrUndefined(
     variableName: keyof NonCritical,
-  ): Environment<NonCritical, Critical, Config>[keyof NonCritical] {
+  ): SystemConfiguration<NonCritical, Critical, Config>[keyof NonCritical] {
     return this.environment[variableName];
   }
 }
