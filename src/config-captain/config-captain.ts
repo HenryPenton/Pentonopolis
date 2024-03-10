@@ -70,7 +70,7 @@ export class Configuration<NonCritical, Critical, Config>
       const lastName = erroredVariables.pop();
       const errorString = erroredVariables.join(", ") + ` and ${lastName}`;
       throw new EnvironmentVariableUndefinedError(
-        `The environment variables ${errorString} was undefined`,
+        `The environment variables ${errorString} were undefined`,
       );
     }
   }

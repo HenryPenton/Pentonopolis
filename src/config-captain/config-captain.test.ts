@@ -102,7 +102,7 @@ describe("config captain", () => {
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
-          "The environment variables some-undefined-variable and some-other-undefined-variable was undefined",
+          "The environment variables some-undefined-variable and some-other-undefined-variable were undefined",
         ),
       );
     });
@@ -127,7 +127,7 @@ describe("config captain", () => {
           ),
       ).toThrow(
         new EnvironmentVariableUndefinedError(
-          "The environment variables some-undefined-variable, some-other-undefined-variable and some-final-undefined-variable was undefined",
+          "The environment variables some-undefined-variable, some-other-undefined-variable and some-final-undefined-variable were undefined",
         ),
       );
     });
