@@ -23,7 +23,11 @@ export type ConfigSet<UserDefinitions> = {
 };
 
 interface IConfiguration<NonCritical, Critical, Config> {
-  getConfigurationVariables: () => SystemConfiguration<NonCritical, Critical, Config>;
+  getConfigurationVariables: () => SystemConfiguration<
+    NonCritical,
+    Critical,
+    Config
+  >;
   getConfigurationVariable: (
     variableName: keyof Critical | keyof Config,
   ) => SystemConfiguration<NonCritical, Critical, Config>[
@@ -109,13 +113,19 @@ export class Configuration<NonCritical, Critical, Config>
     this.buildEnvironmentVariableMap(this.nonCriticalVariables);
   }
 
-  getConfigurationVariables(): SystemConfiguration<NonCritical, Critical, Config> {
+  getConfigurationVariables(): SystemConfiguration<
+    NonCritical,
+    Critical,
+    Config
+  > {
     return this.environment;
   }
 
   getConfigurationVariable(
     variableName: keyof Critical | keyof Config,
-  ): SystemConfiguration<NonCritical, Critical, Config>[keyof Critical | keyof Config] {
+  ): SystemConfiguration<NonCritical, Critical, Config>[
+    | keyof Critical
+    | keyof Config] {
     return this.environment[variableName];
   }
 
