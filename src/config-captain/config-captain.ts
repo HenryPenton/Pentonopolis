@@ -22,15 +22,17 @@ export type ConfigSet<UserDefinitions> = {
   [Property in keyof UserDefinitions]: ConfigVariableDefinition;
 };
 
-interface IEnvironmentConfiguration<NonCritical, Critical, Config> {
+interface IConfiguration<NonCritical, Critical, Config> {
   getConfigurationVariables: () => Environment<NonCritical, Critical, Config>;
   getConfigurationVariable: (
-    variableName: keyof Critical,
-  ) => Environment<NonCritical, Critical, Config>[keyof Critical];
+    variableName: keyof Critical | keyof Config,
+  ) => Environment<NonCritical, Critical, Config>[
+    | keyof Critical
+    | keyof Config];
 }
 
-export class EnvironmentConfiguration<NonCritical, Critical, Config>
-  implements IEnvironmentConfiguration<NonCritical, Critical, Config>
+export class Configuration<NonCritical, Critical, Config>
+  implements IConfiguration<NonCritical, Critical, Config>
 {
   private environment: Environment<NonCritical, Critical, Config> =
     {} as Environment<NonCritical, Critical, Config>;
@@ -112,8 +114,8 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
   }
 
   getConfigurationVariable(
-    variableName: keyof Critical,
-  ): Environment<NonCritical, Critical, Config>[keyof Critical] {
+    variableName: keyof Critical | keyof Config,
+  ): Environment<NonCritical, Critical, Config>[keyof Critical | keyof Config] {
     return this.environment[variableName];
   }
 

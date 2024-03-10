@@ -1,5 +1,5 @@
 import {
-  EnvironmentConfiguration,
+  Configuration,
   EnvironmentVariableUndefinedError,
 } from "./config-captain";
 
@@ -17,7 +17,7 @@ describe("config captain", () => {
     test("returns an environment map of one variable", () => {
       process.env = { "some-variable": "some-value" };
 
-      const configuration = new EnvironmentConfiguration(
+      const configuration = new Configuration(
         {
           someVariable: {
             name: "some-variable",
@@ -41,7 +41,7 @@ describe("config captain", () => {
         "some-other-variable": "some-other-value",
       };
 
-      const configuration = new EnvironmentConfiguration(
+      const configuration = new Configuration(
         {
           someVariable: {
             name: "some-variable",
@@ -69,7 +69,7 @@ describe("config captain", () => {
     test("critical environment variable throws if it's not defined", () => {
       expect(
         () =>
-          new EnvironmentConfiguration(
+          new Configuration(
             {},
             {
               someUndefinedVariable: {
@@ -88,7 +88,7 @@ describe("config captain", () => {
     test("two critical environment variables throw if they're not defined", () => {
       expect(
         () =>
-          new EnvironmentConfiguration(
+          new Configuration(
             {},
             {
               someUndefinedVariable: {
@@ -110,7 +110,7 @@ describe("config captain", () => {
     test("three critical environment variables throw if they're not defined", () => {
       expect(
         () =>
-          new EnvironmentConfiguration(
+          new Configuration(
             {},
             {
               someUndefinedVariable: {
@@ -136,7 +136,7 @@ describe("config captain", () => {
       process.env = {
         "some-critical-variable": "some-value",
       };
-      const config = new EnvironmentConfiguration(
+      const config = new Configuration(
         {},
         { someMustHaveVariable: { name: "some-critical-variable" } },
         {},
@@ -156,7 +156,7 @@ describe("config captain", () => {
         "some-must-have-variable": "some-value",
         "some-other-must-have-variable": "some-other-value",
       };
-      const config = new EnvironmentConfiguration(
+      const config = new Configuration(
         {},
         {
           someMustHaveVariable: { name: "some-must-have-variable" },
@@ -178,7 +178,7 @@ describe("config captain", () => {
 
   describe("other configuration variables", () => {
     test("returns an environment map of one variable", () => {
-      const configuration = new EnvironmentConfiguration(
+      const configuration = new Configuration(
         {},
         {},
         { someVariable: { value: "some-value" } },
@@ -193,7 +193,7 @@ describe("config captain", () => {
     });
 
     test("returns an environment map of multiple variables", () => {
-      const configuration = new EnvironmentConfiguration(
+      const configuration = new Configuration(
         {},
         {},
         {
@@ -212,12 +212,12 @@ describe("config captain", () => {
     });
   });
 
-  describe("get single environment variable", () => {
-    test("getConfigurationVariable", () => {
+  describe("getConfigurationVariable", () => {
+    test("get single environment variable", () => {
       process.env = {
         "some-critical-variable": "some-critical-value",
       };
-      const config = new EnvironmentConfiguration(
+      const config = new Configuration(
         {},
         { someMustHaveVariable: { name: "some-critical-variable" } },
         {},
@@ -228,6 +228,19 @@ describe("config captain", () => {
       );
       expect(criticalVariable).toBe("some-critical-value");
     });
+
+    test("get single config variable", () => {
+      const config = new Configuration(
+        {},
+        {},
+        { someMustHaveVariable: { value: "some-config-value" } },
+      );
+
+      const configVariable = config.getConfigurationVariable(
+        "someMustHaveVariable",
+      );
+      expect(configVariable).toBe("some-config-value");
+    });
   });
 
   describe("getConfigurationVariableOrUndefined", () => {
@@ -235,7 +248,7 @@ describe("config captain", () => {
       process.env = {
         "some-non-critical-variable": "some-non-critical-value",
       };
-      const config = new EnvironmentConfiguration(
+      const config = new Configuration(
         { someCanHaveVariable: { name: "some-non-critical-variable" } },
         {},
         {},
@@ -248,7 +261,7 @@ describe("config captain", () => {
     });
 
     test("getConfigurationVariableOrUndefined that doesn't exist", () => {
-      const config = new EnvironmentConfiguration(
+      const config = new Configuration(
         { someCanHaveVariable: { name: "some-non-critical-variable" } },
         {},
         {},
