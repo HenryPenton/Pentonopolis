@@ -20,7 +20,7 @@ jobs:
           version: latest
 
       - run: pnpm i
-      - run: echo WHO OWES WHO > outdated
+      - run: echo CONFIG CAPTAIN > outdated
       - run: pnpm outdated --format json >> outdated
       - name: send telegram message on push
         if: always()
