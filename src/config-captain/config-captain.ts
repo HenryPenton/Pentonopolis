@@ -15,7 +15,9 @@ export type ConfigVariableDefinition = {
 };
 
 export type VariableSet<UserDefinitions> = {
-  [Property in keyof UserDefinitions]: EnvironmentVariableDefinition;
+  strings: {
+    [Property in keyof UserDefinitions]: EnvironmentVariableDefinition;
+  };
 };
 
 export type ConfigSet<UserDefinitions> = {
@@ -24,9 +26,12 @@ export type ConfigSet<UserDefinitions> = {
 
 interface IEnvironmentConfiguration<NonCritical, Critical, Config> {
   getEnvironmentVariables: () => EnvironmentMap<NonCritical, Critical, Config>;
-  getCriticalEnvironmentVariable: (
+  getStringVariable: (
     variableName: keyof Critical,
   ) => EnvironmentMap<NonCritical, Critical, Config>[keyof Critical];
+  getStringVariableOrUndefined: (
+    variableName: keyof NonCritical,
+  ) => EnvironmentMap<NonCritical, Critical, Config>[keyof NonCritical];
 }
 
 export class EnvironmentConfiguration<NonCritical, Critical, Config>
@@ -49,7 +54,7 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
   private ensureCriticalEnvironmentVariablesExist(): void {
     const erroredVariables: string[] = [];
 
-    Object.values(this.criticalVariables).forEach((objectValue) => {
+    Object.values(this.criticalVariables.strings).forEach((objectValue) => {
       const criticalEntry = objectValue as EnvironmentVariableDefinition;
       const variableFromEnv = process.env[criticalEntry.name];
 
@@ -74,7 +79,7 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
   }
 
   private buildCriticalEnvironmentMap(): void {
-    Object.entries(this.criticalVariables).forEach((entry) => {
+    Object.entries(this.criticalVariables.strings).forEach((entry) => {
       const userGivenName = entry[0];
       const criticalEntry = entry[1] as EnvironmentVariableDefinition;
 
@@ -86,7 +91,7 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
   }
 
   private buildNonCriticalEnvironmentMap(): void {
-    Object.entries(this.nonCriticalVariables).forEach((entry) => {
+    Object.entries(this.nonCriticalVariables.strings).forEach((entry) => {
       const userGivenName = entry[0];
       const nonCriticalEntry = entry[1] as EnvironmentVariableDefinition;
 
@@ -113,13 +118,13 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
     return this.environmentMap;
   }
 
-  getCriticalEnvironmentVariable(
+  getStringVariable(
     variableName: keyof Critical,
   ): EnvironmentMap<NonCritical, Critical, Config>[keyof Critical] {
     return this.environmentMap[variableName];
   }
 
-  getNonCriticalEnvironmentVariable(
+  getStringVariableOrUndefined(
     variableName: keyof NonCritical,
   ): EnvironmentMap<NonCritical, Critical, Config>[keyof NonCritical] {
     return this.environmentMap[variableName];
