@@ -72,27 +72,16 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
       );
     }
   }
-
-  private buildCriticalEnvironmentMap(): void {
-    Object.entries(this.criticalVariables).forEach((entry) => {
-      const userGivenName = entry[0];
-      const criticalEntry = entry[1] as EnvironmentVariableDefinition;
-
-      this.environmentMap = {
-        ...this.environmentMap,
-        [userGivenName]: process.env[criticalEntry.name],
-      };
-    });
-  }
-
-  private buildNonCriticalEnvironmentMap(): void {
-    Object.entries(this.nonCriticalVariables).forEach((entry) => {
-      const userGivenName = entry[0];
-      const nonCriticalEntry = entry[1] as EnvironmentVariableDefinition;
+  private buildEnvironmentVariableMap(
+    variables: VariableSet<Critical | NonCritical>,
+  ): void {
+    Object.entries(variables).forEach((variable) => {
+      const userGivenName = variable[0];
+      const entry = variable[1] as EnvironmentVariableDefinition;
 
       this.environmentMap = {
         ...this.environmentMap,
-        [userGivenName]: process.env[nonCriticalEntry.name],
+        [userGivenName]: process.env[entry.name],
       };
     });
   }
@@ -107,6 +96,14 @@ export class EnvironmentConfiguration<NonCritical, Critical, Config>
         [userGivenName]: configEntry.value,
       };
     });
+  }
+  
+  private buildCriticalEnvironmentMap(): void {
+    this.buildEnvironmentVariableMap(this.criticalVariables);
+  }
+
+  private buildNonCriticalEnvironmentMap(): void {
+    this.buildEnvironmentVariableMap(this.nonCriticalVariables);
   }
 
   getEnvironmentVariables(): EnvironmentMap<NonCritical, Critical, Config> {
