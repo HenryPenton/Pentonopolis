@@ -167,4 +167,49 @@ describe("config captain", () => {
       );
     });
   });
+  describe("get single critical environment", () => {
+    test("getCriticalEnvironmentVariable", () => {
+      process.env = {
+        "some-critical-variable": "some-critical-value",
+      };
+      const config = new EnvironmentConfiguration(
+        {},
+        { someMustHaveVariable: { name: "some-critical-variable" } },
+      );
+
+      const criticalVariable = config.getCriticalEnvironmentVariable(
+        "someMustHaveVariable",
+      );
+      expect(criticalVariable).toBe("some-critical-value");
+    });
+  });
+
+  describe("get single non-critical environment", () => {
+    test("getNonCriticalEnvironmentVariable that exists", () => {
+      process.env = {
+        "some-non-critical-variable": "some-non-critical-value",
+      };
+      const config = new EnvironmentConfiguration(
+        { someCanHaveVariable: { name: "some-non-critical-variable" } },
+        {},
+      );
+
+      const nonCriticalVariable = config.getNonCriticalEnvironmentVariable(
+        "someCanHaveVariable",
+      );
+      expect(nonCriticalVariable).toBe("some-non-critical-value");
+    });
+
+    test("getNonCriticalEnvironmentVariable that doesn't exist", () => {
+      const config = new EnvironmentConfiguration(
+        { someCanHaveVariable: { name: "some-non-critical-variable" } },
+        {},
+      );
+
+      const nonCriticalVariable = config.getNonCriticalEnvironmentVariable(
+        "someCanHaveVariable",
+      );
+      expect(nonCriticalVariable).toBeUndefined();
+    });
+  });
 });

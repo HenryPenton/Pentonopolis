@@ -1,7 +1,3 @@
-interface IEnvironmentConfiguration<NonCritical, Critical> {
-  getEnvironmentVariables: () => EnvironmentMap<NonCritical, Critical>;
-}
-
 type EnvironmentMap<NonCritical, Critical> = {
   [Property in keyof NonCritical]?: string;
 } & {
@@ -15,6 +11,13 @@ export type EnvironmentVariableDefinition = {
 export type VariableSet<UserDefinitions> = {
   [Property in keyof UserDefinitions]: EnvironmentVariableDefinition;
 };
+
+interface IEnvironmentConfiguration<NonCritical, Critical> {
+  getEnvironmentVariables: () => EnvironmentMap<NonCritical, Critical>;
+  getCriticalEnvironmentVariable: (
+    variableName: keyof Critical,
+  ) => EnvironmentMap<NonCritical, Critical>[keyof Critical];
+}
 
 export class EnvironmentConfiguration<NonCritical, Critical>
   implements IEnvironmentConfiguration<NonCritical, Critical>
@@ -84,6 +87,19 @@ export class EnvironmentConfiguration<NonCritical, Critical>
 
   getEnvironmentVariables(): EnvironmentMap<NonCritical, Critical> {
     return this.environmentMap;
+  }
+
+  getCriticalEnvironmentVariable(
+    variableName: keyof Critical,
+  ): EnvironmentMap<NonCritical, Critical>[keyof Critical] {
+    return this.environmentMap[variableName];
+  }
+
+  getNonCriticalEnvironmentVariable(
+    variableName: keyof NonCritical,
+  ): EnvironmentMap<NonCritical, Critical>[keyof NonCritical] {
+    return this.environmentMap[variableName];
+
   }
 }
 export class EnvironmentVariableUndefinedError extends Error {}
