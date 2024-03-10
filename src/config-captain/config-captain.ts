@@ -42,8 +42,8 @@ export class Configuration<NonCritical, Critical, Config>
     {} as SystemConfiguration<NonCritical, Critical, Config>;
 
   constructor(
-    private nonCriticalVariables: VariableSet<NonCritical>,
-    private criticalVariables: VariableSet<Critical>,
+    private nonCriticalEnvironmentVariables: VariableSet<NonCritical>,
+    private criticalEnvironmentVariables: VariableSet<Critical>,
     private configVariables: ConfigSet<Config>,
   ) {
     this.detectDuplicates();
@@ -54,8 +54,8 @@ export class Configuration<NonCritical, Critical, Config>
   }
 
   private detectDuplicates(): void {
-    const criticalKeys = Object.keys(this.criticalVariables);
-    const nonCriticalKeys = Object.keys(this.nonCriticalVariables);
+    const criticalKeys = Object.keys(this.criticalEnvironmentVariables);
+    const nonCriticalKeys = Object.keys(this.nonCriticalEnvironmentVariables);
     const configKeys = Object.keys(this.configVariables);
 
     const totalSize =
@@ -78,7 +78,7 @@ export class Configuration<NonCritical, Critical, Config>
   private ensureCriticalEnvironmentVariablesExist(): void {
     const erroredVariables: string[] = [];
 
-    Object.values(this.criticalVariables).forEach((objectValue) => {
+    Object.values(this.criticalEnvironmentVariables).forEach((objectValue) => {
       const criticalEntry = objectValue as EnvironmentVariableDefinition;
       const variableFromEnv = process.env[criticalEntry.name];
 
@@ -129,11 +129,11 @@ export class Configuration<NonCritical, Critical, Config>
   }
 
   private buildCriticalEnvironmentMap(): void {
-    this.buildEnvironmentVariableMap(this.criticalVariables);
+    this.buildEnvironmentVariableMap(this.criticalEnvironmentVariables);
   }
 
   private buildNonCriticalEnvironmentMap(): void {
-    this.buildEnvironmentVariableMap(this.nonCriticalVariables);
+    this.buildEnvironmentVariableMap(this.nonCriticalEnvironmentVariables);
   }
 
   getConfigurationVariables(): SystemConfiguration<
