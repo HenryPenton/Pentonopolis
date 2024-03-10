@@ -29,12 +29,12 @@ export class EnvironmentConfiguration<NonCritical, Critical>
     private nonCriticalVariables: VariableSet<NonCritical>,
     private criticalVariables: VariableSet<Critical>,
   ) {
-    this.checkCriticalEnvironmentVariables();
+    this.ensureCriticalEnvironmentVariablesExist();
     this.buildNonCriticalEnvironmentMap();
     this.buildCriticalEnvironmentMap();
   }
 
-  private checkCriticalEnvironmentVariables(): void {
+  private ensureCriticalEnvironmentVariablesExist(): void {
     const erroredVariables: string[] = [];
 
     Object.values(this.criticalVariables).forEach((objectValue) => {
