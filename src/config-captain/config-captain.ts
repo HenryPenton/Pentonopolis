@@ -46,10 +46,33 @@ export class Configuration<NonCritical, Critical, Config>
     private criticalVariables: VariableSet<Critical>,
     private configVariables: ConfigSet<Config>,
   ) {
+    this.detectDuplicates();
     this.ensureCriticalEnvironmentVariablesExist();
     this.buildNonCriticalEnvironmentMap();
     this.buildCriticalEnvironmentMap();
     this.buildConfigEnvironmentMap();
+  }
+
+  private detectDuplicates(): void {
+    const criticalKeys = Object.keys(this.criticalVariables);
+    const nonCriticalKeys = Object.keys(this.nonCriticalVariables);
+    const configKeys = Object.keys(this.configVariables);
+
+    const totalSize =
+      criticalKeys.length + nonCriticalKeys.length + configKeys.length;
+
+    const allKeySet = new Set([
+      ...criticalKeys,
+      ...nonCriticalKeys,
+      ...configKeys,
+    ]);
+
+    const deduplicatedSize = allKeySet.size;
+    if (deduplicatedSize !== totalSize) {
+      throw new DuplicateConfigKeyError(
+        "Two or more variables have been defined with the same name.",
+      );
+    }
   }
 
   private ensureCriticalEnvironmentVariablesExist(): void {
@@ -137,3 +160,4 @@ export class Configuration<NonCritical, Critical, Config>
 }
 
 export class EnvironmentVariableUndefinedError extends Error {}
+export class DuplicateConfigKeyError extends Error {}

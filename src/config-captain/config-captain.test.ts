@@ -1,5 +1,6 @@
 import {
   Configuration,
+  DuplicateConfigKeyError,
   EnvironmentVariableUndefinedError,
 } from "./config-captain";
 
@@ -271,6 +272,28 @@ describe("config captain", () => {
         "someCanHaveVariable",
       );
       expect(nonCriticalVariable).toBeUndefined();
+    });
+  });
+
+  describe("duplicates", () => {
+    test("throws duplicate error if multiple things are defined with the same value", () => {
+      process.env = {
+        "some-non-critical-variable": "some-non-critical-value",
+        "some-name-two": "some-critical-value",
+      };
+
+      expect(
+        () =>
+          new Configuration(
+            { variableName: { name: "some-name-one" } },
+            { variableName: { name: "some-name-two" } },
+            { variableName: { value: "some-value-one" } },
+          ),
+      ).toThrow(
+        new DuplicateConfigKeyError(
+          "Two or more variables have been defined with the same name.",
+        ),
+      );
     });
   });
 });
