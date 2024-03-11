@@ -92,7 +92,7 @@ export class Configuration<NonCritical, Critical>
       for (const dataSource of this.dataSources) {
         const variableName = entry as string;
         const currentIterationValue = dataSource[variableName];
-        
+
         this.environment = {
           ...this.environment,
           [userGivenName]: dataSource[variableName],
