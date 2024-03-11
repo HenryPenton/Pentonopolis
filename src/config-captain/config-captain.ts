@@ -1,71 +1,43 @@
-type SystemConfiguration<NonCritical, Critical, Config> = {
+type SystemConfiguration<NonCritical, Critical> = {
   [Property in keyof NonCritical]?: string;
 } & {
   [Property in keyof Critical]: string;
-} & {
-  [Property in keyof Config]: string;
-};
-
-export type EnvironmentVariableDefinition = {
-  name: string;
-};
-
-export type ConfigVariableDefinition = {
-  value: string;
 };
 
 export type VariableSet<UserDefinitions> = {
-  [Property in keyof UserDefinitions]: EnvironmentVariableDefinition;
+  [Property in keyof UserDefinitions]: string;
 };
 
-export type ConfigSet<UserDefinitions> = {
-  [Property in keyof UserDefinitions]: ConfigVariableDefinition;
-};
-
-interface IConfiguration<NonCritical, Critical, Config> {
-  getConfigurationVariables: () => SystemConfiguration<
-    NonCritical,
-    Critical,
-    Config
-  >;
+interface IConfiguration<NonCritical, Critical> {
+  getConfigurationVariables: () => SystemConfiguration<NonCritical, Critical>;
   getConfigurationVariable: (
-    variableName: keyof Critical | keyof Config,
-  ) => SystemConfiguration<NonCritical, Critical, Config>[
-    | keyof Critical
-    | keyof Config];
+    variableName: keyof Critical,
+  ) => SystemConfiguration<NonCritical, Critical>[keyof Critical];
 }
 
-export class Configuration<NonCritical, Critical, Config>
-  implements IConfiguration<NonCritical, Critical, Config>
+export class Configuration<NonCritical, Critical>
+  implements IConfiguration<NonCritical, Critical>
 {
-  private environment: SystemConfiguration<NonCritical, Critical, Config> =
-    {} as SystemConfiguration<NonCritical, Critical, Config>;
+  private environment: SystemConfiguration<NonCritical, Critical> =
+    {} as SystemConfiguration<NonCritical, Critical>;
 
   constructor(
     private nonCriticalEnvironmentVariables: VariableSet<NonCritical>,
     private criticalEnvironmentVariables: VariableSet<Critical>,
-    private configVariables: ConfigSet<Config>,
   ) {
     this.detectDuplicates();
     this.ensureCriticalEnvironmentVariablesExist();
     this.buildNonCriticalEnvironmentMap();
     this.buildCriticalEnvironmentMap();
-    this.buildConfigEnvironmentMap();
   }
 
   private detectDuplicates(): void {
     const criticalKeys = Object.keys(this.criticalEnvironmentVariables);
     const nonCriticalKeys = Object.keys(this.nonCriticalEnvironmentVariables);
-    const configKeys = Object.keys(this.configVariables);
 
-    const totalSize =
-      criticalKeys.length + nonCriticalKeys.length + configKeys.length;
+    const totalSize = criticalKeys.length + nonCriticalKeys.length;
 
-    const allKeySet = new Set([
-      ...criticalKeys,
-      ...nonCriticalKeys,
-      ...configKeys,
-    ]);
+    const allKeySet = new Set([...criticalKeys, ...nonCriticalKeys]);
 
     const deduplicatedSize = allKeySet.size;
     if (deduplicatedSize !== totalSize) {
@@ -79,10 +51,10 @@ export class Configuration<NonCritical, Critical, Config>
     const erroredVariables: string[] = [];
 
     Object.values(this.criticalEnvironmentVariables).forEach((objectValue) => {
-      const criticalEntry = objectValue as EnvironmentVariableDefinition;
-      const variableFromEnv = process.env[criticalEntry.name];
+      const criticalEntry = objectValue as string;
+      const variableFromEnv = process.env[criticalEntry];
 
-      if (!variableFromEnv) erroredVariables.push(criticalEntry.name);
+      if (!variableFromEnv) erroredVariables.push(criticalEntry);
     });
 
     const totalErrors = erroredVariables.length;
@@ -107,23 +79,11 @@ export class Configuration<NonCritical, Critical, Config>
   ): void {
     Object.entries(variables).forEach((variable) => {
       const userGivenName = variable[0];
-      const entry = variable[1] as EnvironmentVariableDefinition;
+      const entry = variable[1] as string;
 
       this.environment = {
         ...this.environment,
-        [userGivenName]: process.env[entry.name],
-      };
-    });
-  }
-
-  private buildConfigEnvironmentMap(): void {
-    Object.entries(this.configVariables).forEach((entry) => {
-      const userGivenName = entry[0];
-      const configEntry = entry[1] as ConfigVariableDefinition;
-
-      this.environment = {
-        ...this.environment,
-        [userGivenName]: configEntry.value,
+        [userGivenName]: process.env[entry],
       };
     });
   }
@@ -136,25 +96,19 @@ export class Configuration<NonCritical, Critical, Config>
     this.buildEnvironmentVariableMap(this.nonCriticalEnvironmentVariables);
   }
 
-  getConfigurationVariables(): SystemConfiguration<
-    NonCritical,
-    Critical,
-    Config
-  > {
+  getConfigurationVariables(): SystemConfiguration<NonCritical, Critical> {
     return this.environment;
   }
 
   getConfigurationVariable(
-    variableName: keyof Critical | keyof Config,
-  ): SystemConfiguration<NonCritical, Critical, Config>[
-    | keyof Critical
-    | keyof Config] {
+    variableName: keyof Critical,
+  ): SystemConfiguration<NonCritical, Critical>[keyof Critical] {
     return this.environment[variableName];
   }
 
   getConfigurationVariableOrUndefined(
     variableName: keyof NonCritical,
-  ): SystemConfiguration<NonCritical, Critical, Config>[keyof NonCritical] {
+  ): SystemConfiguration<NonCritical, Critical>[keyof NonCritical] {
     return this.environment[variableName];
   }
 }
