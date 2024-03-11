@@ -24,7 +24,7 @@ export class Configuration<NonCritical, Critical>
   constructor(
     private nonCriticalEnvironmentVariables: VariableSet<NonCritical>,
     private criticalEnvironmentVariables: VariableSet<Critical>,
-    private dataSource: { [key: string]: string | undefined },
+    private dataSources: { [key: string]: string | undefined }[],
   ) {
     this.detectDuplicates();
     this.ensureCriticalEnvironmentVariablesExist();
@@ -53,7 +53,15 @@ export class Configuration<NonCritical, Critical>
 
     Object.values(this.criticalEnvironmentVariables).forEach((objectValue) => {
       const criticalEntry = objectValue as string;
-      const variableFromEnv = this.dataSource[criticalEntry];
+
+      let variableFromEnv;
+
+      for (const dataSource of this.dataSources) {
+        const currentIterationValue = dataSource[criticalEntry];
+        if (currentIterationValue) {
+          variableFromEnv = dataSource[criticalEntry];
+        }
+      }
 
       if (!variableFromEnv) erroredVariables.push(criticalEntry);
     });
@@ -81,11 +89,15 @@ export class Configuration<NonCritical, Critical>
     Object.entries(variables).forEach((variable) => {
       const userGivenName = variable[0];
       const entry = variable[1] as string;
-
-      this.environment = {
-        ...this.environment,
-        [userGivenName]: this.dataSource[entry],
-      };
+      for (const dataSource of this.dataSources) {
+        const currentIterationValue = dataSource[entry];
+        if (currentIterationValue) {
+          this.environment = {
+            ...this.environment,
+            [userGivenName]: dataSource[entry],
+          };
+        }
+      }
     });
   }
 
