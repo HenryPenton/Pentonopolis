@@ -48,34 +48,37 @@ export class Configuration<NonCritical, Critical>
   }
 
   private ensureCriticalEnvironmentVariablesExist(): void {
-    const erroredVariables: string[] = [];
+    const missingVariables: string[] = [];
 
-    Object.values(this.criticalEnvironmentVariables).forEach((objectValue) => {
+    for (const objectValue of Object.values(
+      this.criticalEnvironmentVariables,
+    )) {
       const criticalEntry = objectValue as string;
-
-      let variableFromEnv;
+      let variableFound = false;
 
       for (const dataSource of this.dataSources) {
-        const currentIterationValue = dataSource[criticalEntry];
-        if (currentIterationValue) {
-          variableFromEnv = dataSource[criticalEntry];
+        if (dataSource[criticalEntry]) {
+          variableFound = true;
+          break;
         }
       }
 
-      if (!variableFromEnv) erroredVariables.push(criticalEntry);
-    });
+      if (!variableFound) {
+        missingVariables.push(criticalEntry);
+      }
+    }
 
-    const totalErrors = erroredVariables.length;
+    const totalErrors = missingVariables.length;
 
     if (totalErrors === 1) {
       throw new EnvironmentVariableUndefinedError(
-        `The environment variable ${erroredVariables[0]} was undefined`,
+        `The environment variable ${missingVariables[0]} was undefined`,
       );
     }
 
     if (totalErrors > 0) {
-      const lastName = erroredVariables.pop();
-      const errorString = erroredVariables.join(", ") + ` and ${lastName}`;
+      const lastName = missingVariables.pop();
+      const errorString = missingVariables.join(", ") + ` and ${lastName}`;
       throw new EnvironmentVariableUndefinedError(
         `The environment variables ${errorString} were undefined`,
       );
@@ -87,10 +90,12 @@ export class Configuration<NonCritical, Critical>
   ): void {
     Object.entries(variables).forEach(([userGivenName, entry]) => {
       for (const dataSource of this.dataSources) {
-        const currentIterationValue = dataSource[entry as string];
+        const variableName = entry as string;
+        const currentIterationValue = dataSource[variableName];
+        
         this.environment = {
           ...this.environment,
-          [userGivenName]: dataSource[entry as string],
+          [userGivenName]: dataSource[variableName],
         };
         if (currentIterationValue) {
           break;
