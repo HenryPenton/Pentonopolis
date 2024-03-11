@@ -269,4 +269,32 @@ describe("config captain", () => {
       );
     });
   });
+
+  describe("prioritisation", () => {
+    test("prioritises the first data source", () => {
+      const dataSourceOne = {
+        "some-variable-name": "the-value-i-want-to-have-priority",
+      };
+
+      const dataSourceTwo = {
+        "some-variable-name": "some-other-value",
+      };
+
+      const config = new Configuration(
+        {},
+        {
+          variableName: "some-variable-name",
+        },
+        [dataSourceOne, dataSourceTwo],
+      );
+
+      const expectedEnvironmentVariables = {
+        variableName: "the-value-i-want-to-have-priority",
+      };
+
+      expect(config.getConfigurationVariables()).toEqual(
+        expectedEnvironmentVariables,
+      );
+    });
+  });
 });
