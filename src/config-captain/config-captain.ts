@@ -37,10 +37,9 @@ export class Configuration<NonCritical, Critical>
     const nonCriticalKeys = Object.keys(this.nonCriticalEnvironmentVariables);
 
     const totalSize = criticalKeys.length + nonCriticalKeys.length;
+    const deduplicatedSize = new Set([...criticalKeys, ...nonCriticalKeys])
+      .size;
 
-    const allKeySet = new Set([...criticalKeys, ...nonCriticalKeys]);
-
-    const deduplicatedSize = allKeySet.size;
     if (deduplicatedSize !== totalSize) {
       throw new DuplicateConfigKeyError(
         "Two or more variables have been defined with the same name.",
