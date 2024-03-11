@@ -86,16 +86,15 @@ export class Configuration<NonCritical, Critical>
   private buildEnvironmentVariableMap(
     variables: VariableSet<Critical | NonCritical>,
   ): void {
-    Object.entries(variables).forEach((variable) => {
-      const userGivenName = variable[0];
-      const entry = variable[1] as string;
+    Object.entries(variables).forEach(([userGivenName, entry]) => {
       for (const dataSource of this.dataSources) {
-        const currentIterationValue = dataSource[entry];
+        const currentIterationValue = dataSource[entry as string];
+        this.environment = {
+          ...this.environment,
+          [userGivenName]: dataSource[entry as string],
+        };
         if (currentIterationValue) {
-          this.environment = {
-            ...this.environment,
-            [userGivenName]: dataSource[entry],
-          };
+          break;
         }
       }
     });
