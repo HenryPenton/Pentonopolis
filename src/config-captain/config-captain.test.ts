@@ -4,26 +4,17 @@ import {
   EnvironmentVariableUndefinedError,
 } from "./config-captain";
 
-let originalEnv;
-
 describe("config captain", () => {
-  beforeAll(() => {
-    originalEnv = process.env;
-  });
-
-  afterEach(() => {
-    process.env = originalEnv;
-  });
   describe("non critical environment variables", () => {
     test("returns an environment map of one variable", () => {
-      process.env = { "some-variable": "some-value" };
+      const dataSource = { "some-variable": "some-value" };
 
       const configuration = new Configuration(
         {
           someVariable: "some-variable",
         },
         {},
-        process.env,
+        dataSource,
       );
       const environmentVars = configuration.getConfigurationVariables();
 
@@ -35,7 +26,7 @@ describe("config captain", () => {
     });
 
     test("returns an environment map of multiple environment variables", () => {
-      process.env = {
+      const dataSource = {
         "some-variable": "some-value",
         "some-other-variable": "some-other-value",
       };
@@ -46,7 +37,7 @@ describe("config captain", () => {
           someOtherVariable: "some-other-variable",
         },
         {},
-        process.env,
+        dataSource,
       );
       const environmentVars = configuration.getConfigurationVariables();
 
@@ -116,13 +107,13 @@ describe("config captain", () => {
     });
 
     test("gets a critical environment variable", () => {
-      process.env = {
+      const dataSource = {
         "some-critical-variable": "some-value",
       };
       const config = new Configuration(
         {},
         { someMustHaveVariable: "some-critical-variable" },
-        process.env,
+        dataSource,
       );
 
       const expectedEnvironmentVariables = {
@@ -135,7 +126,7 @@ describe("config captain", () => {
     });
 
     test("gets multiple critical environment variables", () => {
-      process.env = {
+      const dataSource = {
         "some-must-have-variable": "some-value",
         "some-other-must-have-variable": "some-other-value",
       };
@@ -145,7 +136,7 @@ describe("config captain", () => {
           someMustHaveVariable: "some-must-have-variable",
           someOtherMustHaveVariable: "some-other-must-have-variable",
         },
-        process.env,
+        dataSource,
       );
 
       const expectedEnvironmentVariables = {
@@ -161,13 +152,13 @@ describe("config captain", () => {
 
   describe("getConfigurationVariable", () => {
     test("get single environment variable", () => {
-      process.env = {
+      const dataSource = {
         "some-critical-variable": "some-critical-value",
       };
       const config = new Configuration(
         {},
         { someMustHaveVariable: "some-critical-variable" },
-        process.env,
+        dataSource,
       );
 
       const criticalVariable = config.getConfigurationVariable(
@@ -179,13 +170,13 @@ describe("config captain", () => {
 
   describe("getConfigurationVariableOrUndefined", () => {
     test("getConfigurationVariableOrUndefined that exists", () => {
-      process.env = {
+      const dataSource = {
         "some-non-critical-variable": "some-non-critical-value",
       };
       const config = new Configuration(
         { someCanHaveVariable: "some-non-critical-variable" },
         {},
-        process.env,
+        dataSource,
       );
 
       const nonCriticalVariable = config.getConfigurationVariableOrUndefined(
@@ -210,7 +201,7 @@ describe("config captain", () => {
 
   describe("duplicates", () => {
     test("throws duplicate error if multiple things are defined with the same value", () => {
-      process.env = {
+      const dataSource = {
         "some-non-critical-variable": "some-non-critical-value",
         "some-name-two": "some-critical-value",
       };
@@ -220,7 +211,7 @@ describe("config captain", () => {
           new Configuration(
             { variableName: "some-name-one" },
             { variableName: "some-name-two" },
-            process.env,
+            dataSource,
           ),
       ).toThrow(
         new DuplicateConfigKeyError(
