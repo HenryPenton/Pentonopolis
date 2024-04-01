@@ -22,5 +22,20 @@ jobs:
         with:
           version: latest
 
-      - run: pnpm i
+      - name: Restore cached npm dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache npm dependencies
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+
       - run: pnpm mutate
