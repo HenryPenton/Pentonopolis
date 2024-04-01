@@ -12,7 +12,8 @@
     "prepublishOnly": "npm test",
     "version": "git add -A src",
     "postversion": "git push && git push --tags",
-    "prettier": "prettier --write ./src/**/*.ts"
+    "prettier": "prettier --write ./src/**/*.ts",
+    "lint": "eslint . --ext .ts"
   },
   "jest": {
     "transform": {
