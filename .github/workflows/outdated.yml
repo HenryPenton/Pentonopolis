@@ -2,7 +2,7 @@ name: Dependency check
 
 on:
   schedule:
-    - cron: "45 7 * * 0"
+    - cron: "45 7 * * *"
   workflow_dispatch:
 jobs:
   outdated:
@@ -36,7 +36,7 @@ jobs:
           key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - run: echo WHO OWES WHO > outdated
-      - run: pnpm outdated --format json >> outdated
+      - run: pnpm outdated --prod --format json >> outdated
       - name: send telegram message on push
         if: always()
         uses: appleboy/telegram-action@master
