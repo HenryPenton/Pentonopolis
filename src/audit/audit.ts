@@ -1,4 +1,4 @@
-export type NPMAudit = {
+export type NPMAuditData = {
   metadata: {
     vulnerabilities: {
       info: number;
@@ -18,19 +18,25 @@ export interface IClient {
   sendMessage: (message: string, chatid: string) => Promise<void>;
 }
 
-export interface IReader {
-  sendMessage: (message: string, chatid: string) => Promise<void>;
+export interface IReader<T> {
+  read: () => Promise<T>;
 }
 
-export class Audit implements IAudit {
-  constructor(private client: IClient) {}
+export class NPMAudit implements IAudit {
+  constructor(
+    private client: IClient,
+    private reader: IReader<NPMAuditData>,
+  ) {}
 
   fire = async (): Promise<void> => {
-    this.client.sendMessage("message", "chatid");
+    const auditData = await this.reader.read();
+    const message = mapAuditToMessage(auditData);
+
+    this.client.sendMessage(message, "chatid");
   };
 }
 
-export const mapAuditToMessage = (audit: NPMAudit): string => {
+export const mapAuditToMessage = (audit: NPMAuditData): string => {
   const vulnerabilityMap = new Map(
     Object.entries(audit.metadata.vulnerabilities),
   );
