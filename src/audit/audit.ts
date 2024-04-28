@@ -22,10 +22,12 @@ export interface IReader<T> {
   read: () => Promise<T>;
 }
 
+export interface IAuditReader extends IReader<NPMAuditData> {}
+
 export class NPMAudit implements IAudit {
   constructor(
     private client: IClient,
-    private reader: IReader<NPMAuditData>,
+    private reader: IAuditReader,
   ) {}
 
   fire = async (): Promise<void> => {
