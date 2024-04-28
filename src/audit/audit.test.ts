@@ -1,3 +1,4 @@
+import { getDummyConfig } from "../dummyConfig";
 import {
   IClient,
   IReader,
@@ -24,7 +25,9 @@ describe("Audit", () => {
         };
       },
     };
-    const audit = new NPMAudit(stubClient, stubReader);
+
+    const dummyConfig = getDummyConfig();
+    const audit = new NPMAudit(dummyConfig, stubClient, stubReader);
     await audit.fire();
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(

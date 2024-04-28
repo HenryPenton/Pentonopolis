@@ -19,6 +19,7 @@
     "node_modules",
     "**/__tests__/*",
     "**/__mocks__/*",
-    "src/**/*.test.ts"
+    "src/**/*.test.ts",
+    "src/dummyConfig.ts"
   ]
 }

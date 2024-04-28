@@ -1,4 +1,11 @@
 import { IAuditReader, NPMAudit } from "./audit/audit";
+import { Configuration } from "./config/config-captain";
+
+const config = new Configuration({}, { telegramApiUrl: "TELEGRAM_API_URL" }, [
+  {},
+]);
+
+export type IConfig = typeof config;
 
 const dummyReader: IAuditReader = {
   read: async () => ({
@@ -9,6 +16,7 @@ const dummyReader: IAuditReader = {
 };
 
 const audit = new NPMAudit(
+  config,
   { sendMessage: async (): Promise<void> => {} },
   dummyReader,
 );
