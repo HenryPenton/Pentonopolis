@@ -1,0 +1,45 @@
+name: Dependency check
+
+on:
+  schedule:
+    - cron: "35 7 * * *"
+  workflow_dispatch:
+jobs:
+  outdated:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+      - name: Restore cached npm dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache npm dependencies
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            node_modules
+          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: echo TELEGRAM MOVIEBOT > outdated
+      - run: pnpm outdated --prod --format json >> outdated
+      - name: send telegram message on push
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message_file: outdated
