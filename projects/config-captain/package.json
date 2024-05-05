@@ -14,9 +14,9 @@
     "postversion": "git push && git push --tags",
     "prettier": "prettier --write ./src/**/*.ts",
     "lint": "eslint . --ext .ts",
-    "patch": "echo 'patch config captain'",
-    "minor": "echo 'minor config captain'",
-    "major": "echo 'major config captain'"
+    "release-patch": "echo 'patch config captain'",
+    "release-minor": "echo 'minor config captain'",
+    "release-major": "echo 'major config captain'"
   },
   "jest": {
     "transform": {

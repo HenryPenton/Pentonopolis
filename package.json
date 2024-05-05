@@ -1,6 +1,6 @@
 {
   "name": "pentonopolis",
-  "version": "1.0.4",
+  "version": "1.0.2",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,9 +9,9 @@
     "prettier": "pnpm -r prettier",
     "lint": "pnpm -r lint",
     "build": "pnpm -r build",
-    "release-major": "pnpm -r major",
-    "release-minor": "pnpm -r minor",
-    "release-patch": "pnpm -r patch"
+    "release-major": "pnpm -r release-major",
+    "release-minor": "pnpm -r release-minor",
+    "release-patch": "pnpm -r release-patch"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.x",
