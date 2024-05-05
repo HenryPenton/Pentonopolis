@@ -25,6 +25,8 @@ jobs:
       - run: git fetch
       - run: git checkout main
       - run: pnpm i --frozen-lockfile
+      - run: |
+          echo "Tag name from github.ref_name: ${{ github.ref_name }}"
       - run: pnpm --filter config-captain publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
