@@ -2,8 +2,8 @@
   "name": "config-captain",
   "version": "1.0.5",
   "description": "A dependency injectable configuration object",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",
@@ -40,7 +40,7 @@
     "resetMocks": true
   },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "repository": {
     "type": "git",
