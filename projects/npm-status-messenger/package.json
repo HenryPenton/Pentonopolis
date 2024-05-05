@@ -1,9 +1,9 @@
 {
-  "name": "typescript-template",
+  "name": "npm-status-messenger",
   "version": "0.0.0",
-  "description": "A typescript template",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "description": "An NPM status messenger",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
@@ -42,7 +42,7 @@
     "resetMocks": true
   },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "repository": {
     "type": "git",
