@@ -5,7 +5,7 @@ describe("get movie ratings", () => {
     expect(
       getMovieRatings({
         Title: "some film",
-        Ratings: [{ Source: "abcde", Value: "1/2" }],
+        Ratings: [{ Source: "abcde", Value: "1/2" }]
       })
     ).toBe("(abcde Rating: 1/2)");
   });
@@ -14,7 +14,7 @@ describe("get movie ratings", () => {
     expect(
       getMovieRatings({
         Title: "some film",
-        Ratings: [{ Source: "Internet Movie Database", Value: "1/2" }],
+        Ratings: [{ Source: "Internet Movie Database", Value: "1/2" }]
       })
     ).toBe("(IMDb Rating: 1/2)");
   });

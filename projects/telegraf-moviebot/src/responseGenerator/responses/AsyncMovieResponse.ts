@@ -3,7 +3,7 @@ import {
   getMovie,
   getMovieWithID,
   getMovieWithYear,
-  Movie,
+  Movie
 } from "../../fetcher/movie/movieFetcher";
 import { Response } from "./Response";
 
@@ -22,7 +22,7 @@ export abstract class AsyncMovieResponse extends Response {
     this.searchType = searchType;
   }
 
-  protected getMovie = async () => {
+  protected getMovie = async (): Promise<Movie> => {
     const noQueryString = this.queryString === "";
     switch (this.searchType) {
       case SearchType.WITH_YEAR: {
@@ -45,7 +45,7 @@ export abstract class AsyncMovieResponse extends Response {
     }
   };
 
-  protected generateErrorReponse = (e: unknown) => {
+  protected generateErrorReponse = (e: unknown): string => {
     switch (true) {
       case e instanceof MovieNotProvidedError:
         return "Please specify a movie!";

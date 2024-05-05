@@ -5,7 +5,7 @@ import { Commands, SearchType } from "./commands";
 import { CleanupResponse } from "./responseGenerator/responses/CleanupResponse/CleanupResponse";
 import {
   GetMoviePollResponse,
-  PollNotReadyError,
+  PollNotReadyError
 } from "./responseGenerator/responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responseGenerator/responses/GetMovieResponse/GetMovieResponse";
 import { GetVotesResponse } from "./responseGenerator/responses/GetVotesResponse/GetVotesResponse";
@@ -115,7 +115,7 @@ bot.command(Commands.moviepoll, (ctx) => {
     optionsSets.forEach((options) => {
       ctx.replyWithPoll("New week new movies", options, {
         allows_multiple_answers: true,
-        is_anonymous: pollsAreAnonymous,
+        is_anonymous: pollsAreAnonymous
       });
     });
   } catch (e) {
@@ -144,7 +144,7 @@ bot.command(Commands.help, (ctx) => {
   ctx.reply(response);
 });
 
-export const launchBot = () => {
+export const launchBot = (): void => {
   bot.launch();
 };
 

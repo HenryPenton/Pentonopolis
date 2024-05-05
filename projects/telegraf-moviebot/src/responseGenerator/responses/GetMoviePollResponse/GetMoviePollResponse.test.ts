@@ -1,13 +1,13 @@
 import { State } from "../../../State/State";
 import {
   GetMoviePollResponse,
-  PollNotReadyError,
+  PollNotReadyError
 } from "./GetMoviePollResponse";
 
 describe("GetMoviePollResponse", () => {
   test("Throws a pollnotreadyerror when there are not enough movies", () => {
     const state = new State();
-    const responseGenerate = () => {
+    const responseGenerate = (): void => {
       new GetMoviePollResponse(state).fire();
     };
     expect(responseGenerate).toThrowError(PollNotReadyError);
@@ -32,7 +32,7 @@ describe("GetMoviePollResponse", () => {
     state.setMovie({ Title: "edcba", imdbID: "tt7654321" });
 
     expect(new GetMoviePollResponse(state).fire()).toEqual([
-      ["abcde", "edcba"],
+      ["abcde", "edcba"]
     ]);
   });
 
@@ -60,8 +60,8 @@ describe("GetMoviePollResponse", () => {
         "edcba",
         "edcba",
         "edcba",
-        "edcba",
-      ],
+        "edcba"
+      ]
     ]);
   });
 
@@ -82,7 +82,7 @@ describe("GetMoviePollResponse", () => {
 
     expect(new GetMoviePollResponse(state).fire()).toEqual([
       ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"],
-      ["11", "12"],
+      ["11", "12"]
     ]);
   });
 
@@ -102,7 +102,7 @@ describe("GetMoviePollResponse", () => {
 
     expect(new GetMoviePollResponse(state).fire()).toEqual([
       ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
-      ["10", "11"],
+      ["10", "11"]
     ]);
   });
 

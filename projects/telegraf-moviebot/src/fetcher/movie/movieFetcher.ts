@@ -22,8 +22,8 @@ export type Movie = {
   Ratings?: Rating[];
 };
 
-const splitter = (queryString: string) => queryString.split(" ");
-const joiner = (splitString: string[]) => splitString.join("%20");
+const splitter = (queryString: string): string[] => queryString.split(" ");
+const joiner = (splitString: string[]): string => splitString.join("%20");
 
 export const getMovie = async (queryString: string): Promise<Movie> => {
   const splitQuery = splitter(queryString);
@@ -31,7 +31,7 @@ export const getMovie = async (queryString: string): Promise<Movie> => {
 
   return fetcher(
     `http://www.omdbapi.com/?t=${urlQueryString}&apikey=${process.env.MOVIE_DATABASE_KEY}`
-  ).catch(() => ({ Response: "False" } as Movie));
+  ).catch(() => ({ Response: "False" }) as Movie);
 };
 
 export const getMovieWithYear = async (
@@ -43,7 +43,7 @@ export const getMovieWithYear = async (
 
   return fetcher(
     `http://www.omdbapi.com/?t=${urlQueryString}&y=${year}&apikey=${process.env.MOVIE_DATABASE_KEY}`
-  ).catch(() => ({ Response: "False" } as Movie));
+  ).catch(() => ({ Response: "False" }) as Movie);
 };
 
 export const getMovieWithID = async (queryString: string): Promise<Movie> => {
@@ -52,5 +52,5 @@ export const getMovieWithID = async (queryString: string): Promise<Movie> => {
 
   return fetcher(
     `http://www.omdbapi.com/?i=${urlQueryString}&apikey=${process.env.MOVIE_DATABASE_KEY}`
-  ).catch(() => ({ Response: "False" } as Movie));
+  ).catch(() => ({ Response: "False" }) as Movie);
 };

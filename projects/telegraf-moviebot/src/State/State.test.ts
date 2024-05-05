@@ -11,7 +11,7 @@ describe("state", () => {
     const state = new State();
     state.setMovie({
       Title: "movie one",
-      Ratings: [{ Source: "some source", Value: "5/10" }],
+      Ratings: [{ Source: "some source", Value: "5/10" }]
     });
     expect(state.getMovies()).toEqual(["movie one (some source Rating: 5/10)"]);
   });
