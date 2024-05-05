@@ -14,11 +14,11 @@
     "release-patch": "pnpm -r release-patch"
   },
   "devDependencies": {
+    "@types/jest": "29.x",
     "@typescript-eslint/eslint-plugin": "7.x",
     "@typescript-eslint/parser": "7.x",
     "eslint": "8.x",
     "jest": "29.x",
-    "@types/jest": "29.x",
     "prettier": "3.x",
     "typescript": "5.x"
   },
