@@ -1,3 +1,1 @@
-# README
-
-Typescript template
+# NPM Status Messenger

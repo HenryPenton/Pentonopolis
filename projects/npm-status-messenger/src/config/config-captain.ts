@@ -11,7 +11,7 @@ export type VariableSet<UserDefinitions> = {
 interface IConfiguration<NonCritical, Critical> {
   getConfigurationVariables: () => SystemConfiguration<NonCritical, Critical>;
   getConfigurationVariable: (
-    variableName: keyof Critical,
+    variableName: keyof Critical
   ) => SystemConfiguration<NonCritical, Critical>[keyof Critical];
 }
 
@@ -24,7 +24,7 @@ export class Configuration<NonCritical, Critical>
   constructor(
     private nonCriticalEnvironmentVariables: VariableSet<NonCritical>,
     private criticalEnvironmentVariables: VariableSet<Critical>,
-    private dataSources: { [key: string]: string | undefined }[],
+    private dataSources: { [key: string]: string | undefined }[]
   ) {
     this.detectDuplicates();
     this.ensureCriticalEnvironmentVariablesExist();
@@ -42,7 +42,7 @@ export class Configuration<NonCritical, Critical>
 
     if (deduplicatedSize !== totalSize) {
       throw new DuplicateConfigKeyError(
-        "Two or more variables have been defined with the same name.",
+        "Two or more variables have been defined with the same name."
       );
     }
   }
@@ -51,7 +51,7 @@ export class Configuration<NonCritical, Critical>
     const missingVariables: string[] = [];
 
     const requestedMap: Map<string, string> = new Map(
-      Object.entries(this.criticalEnvironmentVariables),
+      Object.entries(this.criticalEnvironmentVariables)
     );
 
     requestedMap.forEach((criticalEntry: string) => {
@@ -73,7 +73,7 @@ export class Configuration<NonCritical, Critical>
 
     if (totalErrors === 1) {
       throw new EnvironmentVariableUndefinedError(
-        `The environment variable ${missingVariables[0]} was undefined`,
+        `The environment variable ${missingVariables[0]} was undefined`
       );
     }
 
@@ -81,13 +81,13 @@ export class Configuration<NonCritical, Critical>
       const lastName = missingVariables.pop();
       const errorString = missingVariables.join(", ") + ` and ${lastName}`;
       throw new EnvironmentVariableUndefinedError(
-        `The environment variables ${errorString} were undefined`,
+        `The environment variables ${errorString} were undefined`
       );
     }
   }
 
   private buildEnvironmentVariableMap(
-    variables: VariableSet<Critical | NonCritical>,
+    variables: VariableSet<Critical | NonCritical>
   ): void {
     Object.entries(variables).forEach(([userGivenName, entry]) => {
       for (const dataSource of this.dataSources) {
@@ -96,7 +96,7 @@ export class Configuration<NonCritical, Critical>
 
         this.environment = {
           ...this.environment,
-          [userGivenName]: dataSource[variableName],
+          [userGivenName]: dataSource[variableName]
         };
         if (currentIterationValue) {
           break;
@@ -118,13 +118,13 @@ export class Configuration<NonCritical, Critical>
   }
 
   getConfigurationVariable(
-    variableName: keyof Critical,
+    variableName: keyof Critical
   ): SystemConfiguration<NonCritical, Critical>[keyof Critical] {
     return this.environment[variableName];
   }
 
   getConfigurationVariableOrUndefined(
-    variableName: keyof NonCritical,
+    variableName: keyof NonCritical
   ): SystemConfiguration<NonCritical, Critical>[keyof NonCritical] {
     return this.environment[variableName];
   }

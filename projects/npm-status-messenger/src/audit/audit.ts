@@ -30,7 +30,7 @@ export class NPMAudit implements IAudit {
   constructor(
     private config: IConfig,
     private client: IClient,
-    private reader: IAuditReader,
+    private reader: IAuditReader
   ) {}
 
   fire = async (): Promise<void> => {
@@ -43,7 +43,7 @@ export class NPMAudit implements IAudit {
 
 export const mapAuditToMessage = (audit: NPMAuditData): string => {
   const vulnerabilityMap = new Map(
-    Object.entries(audit.metadata.vulnerabilities),
+    Object.entries(audit.metadata.vulnerabilities)
   );
 
   let message = `Vulnerabilities: `;

@@ -1,25 +1,13 @@
 {
-  "$schema": "https://json.schemastore.org/tsconfig",
-  "display": "Node 20",
-
+  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "lib": ["es2020", "DOM"],
-    "module": "commonjs",
-    "target": "es2020",
-    "outDir": "./lib",
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "declaration": true,
-    "resolveJsonModule": true
+    "outDir": "./dist"
   },
   "include": ["src"],
   "exclude": [
     "node_modules",
     "**/__tests__/*",
     "**/__mocks__/*",
-    "src/**/*.test.ts",
-    "src/dummyConfig.ts"
+    "src/**/*.test.ts"
   ]
 }

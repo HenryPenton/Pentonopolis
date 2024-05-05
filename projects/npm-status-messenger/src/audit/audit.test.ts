@@ -4,7 +4,7 @@ import {
   IReader,
   NPMAudit,
   NPMAuditData,
-  mapAuditToMessage,
+  mapAuditToMessage
 } from "./audit";
 
 describe("Audit", () => {
@@ -19,11 +19,11 @@ describe("Audit", () => {
               low: 2,
               moderate: 3,
               high: 4,
-              critical: 5,
-            },
-          },
+              critical: 5
+            }
+          }
         };
-      },
+      }
     };
 
     const dummyConfig = getDummyConfig();
@@ -32,7 +32,7 @@ describe("Audit", () => {
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
       "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5",
-      "chatid",
+      "chatid"
     );
   });
 
@@ -45,13 +45,13 @@ describe("Audit", () => {
             low: 2,
             moderate: 3,
             high: 4,
-            critical: 5,
-          },
-        },
+            critical: 5
+          }
+        }
       });
 
       expect(message).toEqual(
-        "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5",
+        "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5"
       );
     });
   });

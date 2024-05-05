@@ -7,10 +7,10 @@ describe("Telegram Client", () => {
 
     expect(stubFetch).toHaveBeenCalledWith("telegram-api-url", {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
-      body: '{"chat_id":"some-chat-id","text":"some message"}',
+      body: '{"chat_id":"some-chat-id","text":"some message"}'
     });
   });
 });

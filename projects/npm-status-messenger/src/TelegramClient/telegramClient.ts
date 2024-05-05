@@ -10,10 +10,10 @@ export class TelegramClient implements IClient {
   sendMessage = async (message: string, chatid: string): Promise<void> => {
     this.fetch("telegram-api-url", {
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify({ chat_id: chatid, text: message }),
+      body: JSON.stringify({ chat_id: chatid, text: message })
     });
   };
 }
