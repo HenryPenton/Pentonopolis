@@ -1,4 +1,4 @@
-name: Publish Config Captain
+name: Publish to NPM
 
 on:
   push:
