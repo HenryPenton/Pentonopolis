@@ -1,6 +1,6 @@
 {
   "name": "config-captain",
-  "version": "0.0.19",
+  "version": "0.0.20",
   "description": "A dependency injectable configuration object",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -14,7 +14,9 @@
     "postversion": "git push && git push --tags",
     "prettier": "prettier --write ./src/**/*.ts",
     "lint": "eslint . --ext .ts",
-    "getName": "echo $npm_package_name@$npm_package_version"
+    "patch": "echo 'patch config captain'",
+    "minor": "echo 'minor config captain'",
+    "major": "echo 'major config captain'"
   },
   "jest": {
     "transform": {

@@ -1,4 +1,4 @@
-name: Publish to NPM
+name: Publish Config Captain
 
 on:
   push:
@@ -23,7 +23,6 @@ jobs:
           version: latest
 
       - run: git fetch
-      - run: echo ${{ github.event.release.tag_name }}
       # - run: pnpm i
       # - run: pnpm publish
       #   env:

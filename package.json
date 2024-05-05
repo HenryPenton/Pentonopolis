@@ -8,7 +8,10 @@
     "mutate": "pnpm -r mutate",
     "prettier": "pnpm -r prettier",
     "lint": "pnpm -r lint",
-    "build": "pnpm -r build"
+    "build": "pnpm -r build",
+    "release-major": "pnpm -r major",
+    "release-minor": "pnpm -r minor",
+    "release-patch": "pnpm -r patch"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "7.x",
