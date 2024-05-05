@@ -6,17 +6,17 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "test": "jest",
-    "prepare": "npm run build",
-    "mutate": "stryker run -c stryker.config.json --concurrency 8",
-    "prepublishOnly": "npm test",
-    "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version",
-    "postversion": "git push && git push --tags",
-    "prettier": "prettier --write ./src/**/*.ts",
     "lint": "eslint . --ext .ts",
-    "release-patch": "pnpm version patch",
+    "mutate": "stryker run -c stryker.config.json --concurrency 8",
+    "postversion": "git push && git push --tags",
+    "prepare": "npm run build",
+    "prepublishOnly": "npm test",
+    "prettier": "prettier --write ./src/**/*.ts",
+    "release-major": "pnpm version major",
     "release-minor": "pnpm version minor",
-    "release-major": "pnpm version major"
+    "release-patch": "pnpm version patch",
+    "test": "jest",
+    "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version",
   },
   "jest": {
     "transform": {
