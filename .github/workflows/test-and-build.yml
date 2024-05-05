@@ -48,7 +48,6 @@ jobs:
         uses: nrwl/nx-set-shas@v4
         with:
           main-branch-name: "main"
-          error-on-no-successful-workflow: true
 
       - run: pnpm nx affected -t prettier:check
       - run: pnpm nx affected -t lint:check
