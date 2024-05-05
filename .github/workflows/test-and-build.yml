@@ -17,8 +17,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - run: git checkout main
-
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v4
         with:
@@ -44,12 +42,7 @@ jobs:
             node_modules
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Derive appropriate SHAs for base and head
-        uses: nrwl/nx-set-shas@v4
-        with:
-          main-branch-name: "main"
-
-      - run: pnpm nx affected -t prettier:check
-      - run: pnpm nx affected -t lint:check
-      - run: pnpm nx affected -t test
-      - run: pnpm nx affected -t build
+      - run: pnpm prettier:check
+      - run: pnpm lint:check
+      - run: pnpm test
+      - run: pnpm build
