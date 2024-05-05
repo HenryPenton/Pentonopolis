@@ -42,11 +42,11 @@ jobs:
             node_modules
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - uses: nrwl/nx-set-shas@v4
-
-      - run: |
-          echo "BASE: ${{ env.NX_BASE }}"
-          echo "HEAD: ${{ env.NX_HEAD }}"
+      - name: Derive appropriate SHAs for base and head
+        uses: nrwl/nx-set-shas@v4
+        with:
+          main-branch-name: "origin/main"
+          error-on-no-successful-workflow: true
 
       - run: pnpm nx affected -t prettier:check
       - run: pnpm nx affected -t lint:check
