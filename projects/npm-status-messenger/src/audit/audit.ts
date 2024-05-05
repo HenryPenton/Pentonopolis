@@ -12,12 +12,12 @@ export type NPMAuditData = {
   };
 };
 
-export interface IClient {
-  sendMessage: (message: string, chatid: string) => Promise<void>;
-}
-
 export interface IAudit {
   fire: () => Promise<void>;
+}
+
+export interface IClient {
+  sendMessage: (message: string, chatid: string) => Promise<void>;
 }
 
 export interface IReader<T> {
