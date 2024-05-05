@@ -31,7 +31,6 @@ jobs:
         with:
           path: |
             node_modules
-            .nx
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - run: pnpm install --frozen-lockfile
@@ -41,7 +40,6 @@ jobs:
         with:
           path: |
             node_modules
-            .nx/cache
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - run: pnpm prettier:check
