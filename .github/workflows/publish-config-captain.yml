@@ -23,7 +23,7 @@ jobs:
           version: latest
 
       - run: git fetch
-      # - run: pnpm i
-      # - run: pnpm publish
+      - run: pnpm i --frozen-lockfile
+      - run: pnpm --filter config-captain publish
       #   env:
       #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
