@@ -54,6 +54,45 @@ importers:
         specifier: 5.x
         version: 5.4.3
 
+  projects/word-frequency-counter:
+    devDependencies:
+      '@stryker-mutator/core':
+        specifier: 8.x
+        version: 8.2.6
+      '@stryker-mutator/jest-runner':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)
+      '@stryker-mutator/typescript-checker':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.3)
+      '@swc/core':
+        specifier: 1.x
+        version: 1.4.11
+      '@swc/jest':
+        specifier: 0.2.x
+        version: 0.2.36(@swc/core@1.4.11)
+      '@types/jest':
+        specifier: 29.x
+        version: 29.5.12
+      '@typescript-eslint/eslint-plugin':
+        specifier: 7.x
+        version: 7.4.0(@typescript-eslint/parser@7.4.0(eslint@8.57.0)(typescript@5.4.3))(eslint@8.57.0)(typescript@5.4.3)
+      '@typescript-eslint/parser':
+        specifier: 7.x
+        version: 7.4.0(eslint@8.57.0)(typescript@5.4.3)
+      eslint:
+        specifier: 8.x
+        version: 8.57.0
+      jest:
+        specifier: 29.x
+        version: 29.7.0(@types/node@20.12.2)
+      prettier:
+        specifier: 3.x
+        version: 3.2.5
+      typescript:
+        specifier: 5.x
+        version: 5.4.3
+
 packages:
 
   '@aashutoshrathi/word-wrap@1.2.6':
