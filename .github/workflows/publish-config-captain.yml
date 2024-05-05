@@ -3,7 +3,7 @@ name: Publish Config Captain
 on:
   push:
     tags:
-      - "config-captain*"
+      - "*"
   release:
     types: [published]
 
@@ -27,6 +27,17 @@ jobs:
       - run: pnpm i --frozen-lockfile
       - run: |
           echo "Tag name from github.ref_name: ${{ github.ref_name }}"
+
+      - name: Extract package name from tag
+        id: extract_package_name
+        run: |
+          tag=${{ github.ref_name }}
+          package_name=$(echo "$tag" | cut -d'@' -f1)
+          echo "::set-output name=package_name::$package_name"
+
+      - name: Print package name
+        run: echo "Username is ${{ steps.extract_package_name.outputs.package_name }}"
+
       - run: pnpm --filter config-captain publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
