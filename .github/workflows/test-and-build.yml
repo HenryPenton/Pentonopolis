@@ -42,5 +42,6 @@ jobs:
             node_modules
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - run: pnpm prettier:check
       - run: pnpm test
       - run: pnpm build
