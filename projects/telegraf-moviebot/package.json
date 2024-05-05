@@ -18,6 +18,7 @@
     "release-minor": "pnpm version minor",
     "release-patch": "pnpm version patch",
     "test": "jest",
+    "test:compile": "tsc --project tsconfig-test.json",
     "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version"
   },
   "files": [

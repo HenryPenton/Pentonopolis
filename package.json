@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "pnpm exec nx run-many -t test",
+    "test:compile": "pnpm exec nx run-many -t test:compile",
     "mutate": "pnpm exec nx run-many -t mutate",
     "prettier": "pnpm exec nx run-many -t prettier",
     "prettier:check": "pnpm exec nx run-many -t prettier:check",
