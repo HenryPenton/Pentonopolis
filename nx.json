@@ -18,6 +18,10 @@
       "dependsOn": ["^test"],
       "cache": true
     },
+    "test:compile": {
+      "dependsOn": ["^test:compile"],
+      "cache": true
+    },
     "mutate": {
       "outputs": ["{projectRoot}/reports/mutation/mutation.html"],
       "cache": true
