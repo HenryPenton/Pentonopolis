@@ -61,6 +61,10 @@ importers:
         version: 5.4.5
 
   projects/npm-status-messenger:
+    dependencies:
+      config-captain:
+        specifier: 1.x
+        version: 1.0.9
     devDependencies:
       '@stryker-mutator/core':
         specifier: ^8.2.6
@@ -1216,6 +1220,9 @@ packages:
 
   concat-map@0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
+
+  config-captain@1.0.9:
+    resolution: {integrity: sha512-aH6CGqyyaob6dmqvgZ1iSwOMIe28uR08EsuE5QsrAokqp+zyBm6/RAp4z++9QzKiyJKYaahYgf5rYaNzEyO05w==}
 
   convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
@@ -3933,6 +3940,8 @@ snapshots:
   commander@12.0.0: {}
 
   concat-map@0.0.1: {}
+
+  config-captain@1.0.9: {}
 
   convert-source-map@2.0.0: {}
 

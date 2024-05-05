@@ -75,5 +75,7 @@
     "prettier": "3.2.5",
     "typescript": "5.4.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "config-captain": "1.x"
+  }
 }
