@@ -47,6 +47,7 @@ export const mapAuditToMessage = (audit: NPMAuditData): string => {
   );
 
   let message = `Vulnerabilities: `;
+
   vulnerabilityMap.forEach((vulnerabilityCount, vulnerabilityName) => {
     message += `${vulnerabilityName}: ${vulnerabilityCount}, `;
   });
