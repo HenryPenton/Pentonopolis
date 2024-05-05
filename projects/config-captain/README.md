@@ -2,6 +2,20 @@
 
 Config Captain is designed to be a dependency injectable environment configuration object that can make helpful suggestions as to what configuration you have loaded.
 
+```javascript
+import { Configuration } from "config-captain";
+
+const config = new Configuration(
+  { optionalVariable: "SOME_OPTIONAL_VARIABLE" },
+  { requiredVariable: "SOME_REQUIRED_VARIABLE" },
+  [{ SOME_OPTIONAL_VARIABLE: "VALUE_ONE", SOME_REQUIRED_VARIABLE: "VALUE_TWO" }]
+);
+
+config.getConfigurationVariable("requiredVariable");
+config.getConfigurationVariableOrUndefined("optionalVariable");
+config.getConfigurationVariables();
+```
+
 ## Variables
 
 The keys in the optional and required variable section are the names you wish to use in code for your variables. The values should refer to the datasource location you wish to take a configuration value from.
