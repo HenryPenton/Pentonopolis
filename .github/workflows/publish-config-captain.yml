@@ -35,9 +35,6 @@ jobs:
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "::set-output name=package_name::$package_name"
 
-      - name: Print package name
-        run: echo "Username is ${{ steps.extract_package_name.outputs.package_name }}"
-
-      - run: pnpm --filter config-captain publish
+      - run: pnpm --filter ${{ steps.extract_package_name.outputs.package_name }} publish
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
