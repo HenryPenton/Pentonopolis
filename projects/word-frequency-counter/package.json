@@ -12,6 +12,7 @@
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
     "prettier": "prettier --write ./src/**/*.ts",
+    "prettier:check": "prettier --check ./src/**/*.ts",
     "release-major": "pnpm version major",
     "release-minor": "pnpm version minor",
     "release-patch": "pnpm version patch",

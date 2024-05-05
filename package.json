@@ -7,6 +7,7 @@
     "test": "pnpm -r test",
     "mutate": "pnpm -r mutate",
     "prettier": "pnpm -r prettier",
+    "prettier:check": "pnpm -r prettier:check",
     "lint": "pnpm -r lint",
     "build": "pnpm -r build",
     "release-major": "pnpm -r release-major",
