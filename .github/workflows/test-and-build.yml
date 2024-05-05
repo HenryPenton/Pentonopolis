@@ -33,6 +33,9 @@ jobs:
             node_modules
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - name: print github env
+        run: echo $GITHUB_ENV
+
       - name: install dependencies
         if: steps.cache.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
