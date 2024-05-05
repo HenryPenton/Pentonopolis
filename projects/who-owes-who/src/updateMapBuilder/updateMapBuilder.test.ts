@@ -14,7 +14,7 @@ describe("update map builder", () => {
 
     const updateMap = updateMapBuilder.buildUpdateMap(
       personMap,
-      "some-non-existent-person",
+      "some-non-existent-person"
     );
     expect(updateMap).toEqual(new Map());
   });
@@ -33,7 +33,7 @@ describe("update map builder", () => {
 
     const updateMap = updateMapBuilder.buildUpdateMap(
       personMap,
-      "some-non-existent-person",
+      "some-non-existent-person"
     );
     expect(updateMap).toEqual(new Map());
   });
@@ -48,13 +48,13 @@ describe("update map builder", () => {
     const paymentCore: PaymentCore = { to: personB.id, amount: 666 };
 
     const paymentSetId = personA.addPaymentSet(
-      new Set<PaymentCore>().add(paymentCore),
+      new Set<PaymentCore>().add(paymentCore)
     );
     personB.addPaymentSet(new Set());
 
     const updateMap = updateMapBuilder.buildUpdateMap(personMap, personB.id);
     expect(updateMap).toEqual(
-      new Map().set(personA.id, new Set().add(paymentSetId)),
+      new Map().set(personA.id, new Set().add(paymentSetId))
     );
   });
 
@@ -73,18 +73,18 @@ describe("update map builder", () => {
     const paymentCoreForPersonC: PaymentCore = { to: personB.id, amount: 777 };
 
     const paymentSetId = personA.addPaymentSet(
-      new Set<PaymentCore>().add(paymentCoreForPersonA),
+      new Set<PaymentCore>().add(paymentCoreForPersonA)
     );
 
     const paymentSet2Id = personC.addPaymentSet(
-      new Set<PaymentCore>().add(paymentCoreForPersonC),
+      new Set<PaymentCore>().add(paymentCoreForPersonC)
     );
 
     const updateMap = updateMapBuilder.buildUpdateMap(personMap, personB.id);
     expect(updateMap).toEqual(
       new Map()
         .set(personA.id, new Set().add(paymentSetId))
-        .set(personC.id, new Set().add(paymentSet2Id)),
+        .set(personC.id, new Set().add(paymentSet2Id))
     );
   });
 });

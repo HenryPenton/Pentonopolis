@@ -17,9 +17,9 @@ describe("Person", () => {
           {
             id: expect.any(String),
             to: payingFor.id,
-            amount: 123,
-          },
-        ]),
+            amount: 123
+          }
+        ])
       );
 
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
@@ -29,7 +29,7 @@ describe("Person", () => {
         const payingFor = new Person();
         const person = new Person();
         const paymentSetId = person.addPaymentSet(
-          new Set([{ to: payingFor.id, amount: 123 }]),
+          new Set([{ to: payingFor.id, amount: 123 }])
         );
 
         expect(person.getPaymentSetById(paymentSetId)).toEqual(
@@ -37,9 +37,9 @@ describe("Person", () => {
             {
               id: expect.any(String),
               to: payingFor.id,
-              amount: 123,
-            },
-          ]),
+              amount: 123
+            }
+          ])
         );
       });
       test("throws an error if the payment id does not relate to a payment", () => {
@@ -48,7 +48,7 @@ describe("Person", () => {
         person.addPaymentSet(new Set([{ to: payingFor.id, amount: 123 }]));
 
         expect(() => person.getPaymentSetById("some-non-existent-id")).toThrow(
-          PaymentSetDoesNotExistError,
+          PaymentSetDoesNotExistError
         );
       });
     });
@@ -56,7 +56,7 @@ describe("Person", () => {
       const payingFor = new Person();
       const person = new Person();
       const paymentSetId = person.addPaymentSet(
-        new Set([{ to: payingFor.id, amount: 123 }]),
+        new Set([{ to: payingFor.id, amount: 123 }])
       );
 
       expect(paymentSetId).toEqual(expect.any(String));
@@ -69,8 +69,8 @@ describe("Person", () => {
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 123 },
-          { to: payingFor2.id, amount: 321 },
-        ]),
+          { to: payingFor2.id, amount: 321 }
+        ])
       );
 
       const expectedPaymentHistory: PaymentMap = new Map().set(
@@ -79,14 +79,14 @@ describe("Person", () => {
           {
             id: expect.any(String),
             to: payingFor1.id,
-            amount: 123,
+            amount: 123
           },
           {
             id: expect.any(String),
             to: payingFor2.id,
-            amount: 321,
-          },
-        ]),
+            amount: 321
+          }
+        ])
       );
 
       expect(person.getPaymentHistory()).toEqual(expectedPaymentHistory);
@@ -99,8 +99,8 @@ describe("Person", () => {
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 123 },
-          { to: payingFor2.id, amount: 321 },
-        ]),
+          { to: payingFor2.id, amount: 321 }
+        ])
       );
 
       const paymentSetId = person.getPaymentHistory().entries().next().value[0];
@@ -116,15 +116,15 @@ describe("Person", () => {
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 123 },
-          { to: payingFor2.id, amount: 321 },
-        ]),
+          { to: payingFor2.id, amount: 321 }
+        ])
       );
 
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 111 },
-          { to: payingFor2.id, amount: 222 },
-        ]),
+          { to: payingFor2.id, amount: 222 }
+        ])
       );
 
       const paymentSetId = person.getPaymentHistory().entries().next().value[0];
@@ -136,9 +136,9 @@ describe("Person", () => {
           expect.any(String),
           new Set([
             { to: payingFor1.id, amount: 111, id: expect.any(String) },
-            { to: payingFor2.id, amount: 222, id: expect.any(String) },
-          ]),
-        ),
+            { to: payingFor2.id, amount: 222, id: expect.any(String) }
+          ])
+        )
       );
     });
 
@@ -149,15 +149,15 @@ describe("Person", () => {
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 123 },
-          { to: payingFor2.id, amount: 321 },
-        ]),
+          { to: payingFor2.id, amount: 321 }
+        ])
       );
 
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 111 },
-          { to: payingFor2.id, amount: 222 },
-        ]),
+          { to: payingFor2.id, amount: 222 }
+        ])
       );
 
       const paymentSetId = person.getPaymentHistory().entries().next().value[0];
@@ -173,15 +173,15 @@ describe("Person", () => {
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 123 },
-          { to: payingFor2.id, amount: 321 },
-        ]),
+          { to: payingFor2.id, amount: 321 }
+        ])
       );
 
       person.addPaymentSet(
         new Set([
           { to: payingFor1.id, amount: 111 },
-          { to: payingFor2.id, amount: 222 },
-        ]),
+          { to: payingFor2.id, amount: 222 }
+        ])
       );
 
       const didDelete = person.deletePaymentSetById("some-non-existent-id");

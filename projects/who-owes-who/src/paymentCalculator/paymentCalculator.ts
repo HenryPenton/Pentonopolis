@@ -1,7 +1,7 @@
 import {
   LendersAndBorrowers,
   SuggestedPayment,
-  TotalBalance,
+  TotalBalance
 } from "../interfaces/payment";
 import { PersonMap } from "../interfaces/person";
 import { IPerson } from "../person/Person";
@@ -45,17 +45,17 @@ export class PaymentCalculator implements IPaymentCalculator {
 
   private buildPayment(
     borrower: TotalBalance,
-    lender: TotalBalance,
+    lender: TotalBalance
   ): SuggestedPayment {
     const paymentAmount = Math.min(
       Math.abs(borrower.amount),
-      Math.abs(lender.amount),
+      Math.abs(lender.amount)
     );
 
     const payment = {
       from: borrower.personId,
       to: lender.personId,
-      amount: paymentAmount,
+      amount: paymentAmount
     };
 
     borrower.amount -= paymentAmount;

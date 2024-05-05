@@ -8,7 +8,7 @@ export interface IUpdateMapBuilder {
 export class UpdateMapBuilder implements IUpdateMapBuilder {
   private updatesForGivenPerson(
     person: IPerson,
-    personId: string,
+    personId: string
   ): Set<string> {
     const paymentSetsToAmend: Set<string> = new Set<string>();
     person.getPaymentHistory().forEach((paymentSet, paymentSetId) => {
@@ -29,7 +29,7 @@ export class UpdateMapBuilder implements IUpdateMapBuilder {
     people.forEach((person) => {
       const paymentSetsToAmend: Set<string> = this.updatesForGivenPerson(
         person,
-        removedPersonId,
+        removedPersonId
       );
 
       if (paymentSetsToAmend.size > 0) {

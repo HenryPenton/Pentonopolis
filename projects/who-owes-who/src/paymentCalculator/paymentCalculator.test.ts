@@ -34,7 +34,7 @@ describe("controller", () => {
       personA.addDebt(-584, generateNewId());
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
-        { to: personA.id, amount: 584, from: personB.id },
+        { to: personA.id, amount: 584, from: personB.id }
       ];
       const suggestedPayments = paymentCalculator.buildPayments(people);
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
@@ -60,7 +60,7 @@ describe("controller", () => {
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personB.id },
-        { to: personA.id, amount: 261, from: personC.id },
+        { to: personA.id, amount: 261, from: personC.id }
       ];
       const suggestedPayments = paymentCalculator.buildPayments(people);
       expect(suggestedPayments).toEqual(expectedSuggestedPayments);
@@ -86,7 +86,7 @@ describe("controller", () => {
 
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personC.id },
-        { to: personB.id, amount: 261, from: personC.id },
+        { to: personB.id, amount: 261, from: personC.id }
       ];
       const suggestedPayments = paymentCalculator.buildPayments(people);
 
@@ -117,7 +117,7 @@ describe("controller", () => {
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personA.id, amount: 584, from: personC.id },
         { to: personB.id, amount: 261, from: personC.id },
-        { to: personB.id, amount: 100, from: personD.id },
+        { to: personB.id, amount: 100, from: personD.id }
       ];
       const suggestedPayments = paymentCalculator.buildPayments(people);
 
@@ -155,7 +155,7 @@ describe("controller", () => {
         { to: personA.id, amount: 795, from: personC.id },
         { to: personB.id, amount: 50, from: personC.id },
         { to: personB.id, amount: 211, from: personE.id },
-        { to: personB.id, amount: 100, from: personD.id },
+        { to: personB.id, amount: 100, from: personD.id }
       ];
       const suggestedPayments = paymentCalculator.buildPayments(people);
 
@@ -190,7 +190,7 @@ describe("controller", () => {
       const expectedSuggestedPayments: SuggestedPayment[] = [
         { to: personB.id, amount: 500, from: personA.id },
         { to: personC.id, amount: 500, from: personA.id },
-        { to: personD.id, amount: 500, from: personA.id },
+        { to: personD.id, amount: 500, from: personA.id }
       ];
       const suggestedPayments = paymentCalculator.buildPayments(people);
 
@@ -353,7 +353,7 @@ describe("controller", () => {
         { amount: 55, from: person3.id, to: person6.id },
         { amount: 850, from: person3.id, to: person16.id },
         { amount: 905, from: person4.id, to: person16.id },
-        { amount: 905, from: person5.id, to: person16.id },
+        { amount: 905, from: person5.id, to: person16.id }
       ];
 
       expect(payments).toEqual(expectedSuggestedPayments);

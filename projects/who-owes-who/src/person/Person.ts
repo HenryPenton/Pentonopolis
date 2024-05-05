@@ -4,7 +4,7 @@ import {
   PaymentMap,
   PaymentModel,
   PaymentSet,
-  PaymentSetDTO,
+  PaymentSetDTO
 } from "../interfaces/payment";
 import { generateNewId } from "../utils/uuid";
 
@@ -27,7 +27,7 @@ export class Person implements IPerson {
   addPaymentSet(payments: PaymentSetDTO): string {
     const paymentsWithId: Set<PaymentModel> = new Set();
     payments.forEach((payment) =>
-      paymentsWithId.add({ ...payment, id: generateNewId() }),
+      paymentsWithId.add({ ...payment, id: generateNewId() })
     );
 
     const paymentSetId = generateNewId();

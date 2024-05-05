@@ -1,7 +1,7 @@
 import {
   Configuration,
   DuplicateConfigKeyError,
-  EnvironmentVariableUndefinedError,
+  EnvironmentVariableUndefinedError
 } from "./config-captain";
 
 describe("config captain", () => {
@@ -11,15 +11,15 @@ describe("config captain", () => {
 
       const configuration = new Configuration(
         {
-          someVariable: "some-variable",
+          someVariable: "some-variable"
         },
         {},
-        [dataSource],
+        [dataSource]
       );
       const environmentVars = configuration.getConfigurationVariables();
 
       const expectedEnvironmentVariables = {
-        someVariable: "some-value",
+        someVariable: "some-value"
       };
 
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
@@ -32,16 +32,16 @@ describe("config captain", () => {
       const configuration = new Configuration(
         {
           someVariable: "some-variable",
-          someVariableTwo: "some-variable-two",
+          someVariableTwo: "some-variable-two"
         },
         {},
-        [dataSource, dataSourceTwo],
+        [dataSource, dataSourceTwo]
       );
       const environmentVars = configuration.getConfigurationVariables();
 
       const expectedEnvironmentVariables = {
         someVariable: "some-value",
-        someVariableTwo: "some-value-two",
+        someVariableTwo: "some-value-two"
       };
 
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
@@ -50,22 +50,22 @@ describe("config captain", () => {
     test("returns an environment map of multiple environment variables", () => {
       const dataSource = {
         "some-variable": "some-value",
-        "some-other-variable": "some-other-value",
+        "some-other-variable": "some-other-value"
       };
 
       const configuration = new Configuration(
         {
           someVariable: "some-variable",
-          someOtherVariable: "some-other-variable",
+          someOtherVariable: "some-other-variable"
         },
         {},
-        [dataSource],
+        [dataSource]
       );
       const environmentVars = configuration.getConfigurationVariables();
 
       const expectedEnvironmentVariables = {
         someVariable: "some-value",
-        someOtherVariable: "some-other-value",
+        someOtherVariable: "some-other-value"
       };
 
       expect(environmentVars).toEqual(expectedEnvironmentVariables);
@@ -79,14 +79,14 @@ describe("config captain", () => {
           new Configuration(
             {},
             {
-              someUndefinedVariable: "some-undefined-variable",
+              someUndefinedVariable: "some-undefined-variable"
             },
-            [{}],
-          ),
+            [{}]
+          )
       ).toThrow(
         new EnvironmentVariableUndefinedError(
-          "The environment variable some-undefined-variable was undefined",
-        ),
+          "The environment variable some-undefined-variable was undefined"
+        )
       );
     });
 
@@ -97,14 +97,14 @@ describe("config captain", () => {
             {},
             {
               someUndefinedVariable: "some-undefined-variable",
-              someOtherUndefinedVariable: "some-other-undefined-variable",
+              someOtherUndefinedVariable: "some-other-undefined-variable"
             },
-            [{}],
-          ),
+            [{}]
+          )
       ).toThrow(
         new EnvironmentVariableUndefinedError(
-          "The environment variables some-undefined-variable and some-other-undefined-variable were undefined",
-        ),
+          "The environment variables some-undefined-variable and some-other-undefined-variable were undefined"
+        )
       );
     });
 
@@ -117,84 +117,84 @@ describe("config captain", () => {
               someUndefinedVariable: "some-undefined-variable",
               someOtherUndefinedVariable: "some-other-undefined-variable",
 
-              someFinalUndefinedVariable: "some-final-undefined-variable",
+              someFinalUndefinedVariable: "some-final-undefined-variable"
             },
-            [{}],
-          ),
+            [{}]
+          )
       ).toThrow(
         new EnvironmentVariableUndefinedError(
-          "The environment variables some-undefined-variable, some-other-undefined-variable and some-final-undefined-variable were undefined",
-        ),
+          "The environment variables some-undefined-variable, some-other-undefined-variable and some-final-undefined-variable were undefined"
+        )
       );
     });
 
     test("gets a critical environment variable", () => {
       const dataSource = {
-        "some-critical-variable": "some-value",
+        "some-critical-variable": "some-value"
       };
       const config = new Configuration(
         {},
         { someMustHaveVariable: "some-critical-variable" },
-        [dataSource],
+        [dataSource]
       );
 
       const expectedEnvironmentVariables = {
-        someMustHaveVariable: "some-value",
+        someMustHaveVariable: "some-value"
       };
 
       expect(config.getConfigurationVariables()).toEqual(
-        expectedEnvironmentVariables,
+        expectedEnvironmentVariables
       );
     });
 
     test("gets a critical environment variable from the second data source", () => {
       const dataSourceOne = {
-        "some-critical-variable": "some-value",
+        "some-critical-variable": "some-value"
       };
 
       const dataSourceTwo = {
-        "some-other-critical-variable": "some-value",
+        "some-other-critical-variable": "some-value"
       };
       const config = new Configuration(
         {},
         {
           someMustHaveVariable: "some-critical-variable",
-          someOtherMustHaveVariable: "some-other-critical-variable",
+          someOtherMustHaveVariable: "some-other-critical-variable"
         },
-        [dataSourceOne, dataSourceTwo],
+        [dataSourceOne, dataSourceTwo]
       );
 
       const expectedEnvironmentVariables = {
         someMustHaveVariable: "some-value",
-        someOtherMustHaveVariable: "some-value",
+        someOtherMustHaveVariable: "some-value"
       };
 
       expect(config.getConfigurationVariables()).toEqual(
-        expectedEnvironmentVariables,
+        expectedEnvironmentVariables
       );
     });
 
     test("gets multiple critical environment variables", () => {
       const dataSource = {
         "some-must-have-variable": "some-value",
-        "some-other-must-have-variable": "some-other-value",
+        "some-other-must-have-variable": "some-other-value"
       };
       const config = new Configuration(
         {},
         {
           someMustHaveVariable: "some-must-have-variable",
-          someOtherMustHaveVariable: "some-other-must-have-variable",
+          someOtherMustHaveVariable: "some-other-must-have-variable"
         },
-        [dataSource],
+        [dataSource]
       );
 
       const expectedEnvironmentVariables = {
         someMustHaveVariable: "some-value",
-        someOtherMustHaveVariable: "some-other-value",
+        someOtherMustHaveVariable: "some-other-value"
       };
 
       expect(config.getConfigurationVariables()).toEqual(
-        expectedEnvironmentVariables,
+        expectedEnvironmentVariables
       );
     });
   });
@@ -202,16 +202,16 @@ describe("config captain", () => {
   describe("getConfigurationVariable", () => {
     test("get single environment variable", () => {
       const dataSource = {
-        "some-critical-variable": "some-critical-value",
+        "some-critical-variable": "some-critical-value"
       };
       const config = new Configuration(
         {},
         { someMustHaveVariable: "some-critical-variable" },
-        [dataSource],
+        [dataSource]
       );
 
       const criticalVariable = config.getConfigurationVariable(
-        "someMustHaveVariable",
+        "someMustHaveVariable"
       );
       expect(criticalVariable).toBe("some-critical-value");
     });
@@ -220,16 +220,16 @@ describe("config captain", () => {
   describe("getConfigurationVariableOrUndefined", () => {
     test("getConfigurationVariableOrUndefined that exists", () => {
       const dataSource = {
-        "some-non-critical-variable": "some-non-critical-value",
+        "some-non-critical-variable": "some-non-critical-value"
       };
       const config = new Configuration(
         { someCanHaveVariable: "some-non-critical-variable" },
         {},
-        [dataSource],
+        [dataSource]
       );
 
       const nonCriticalVariable = config.getConfigurationVariableOrUndefined(
-        "someCanHaveVariable",
+        "someCanHaveVariable"
       );
       expect(nonCriticalVariable).toBe("some-non-critical-value");
     });
@@ -238,11 +238,11 @@ describe("config captain", () => {
       const config = new Configuration(
         { someCanHaveVariable: "some-non-critical-variable" },
         {},
-        [{}],
+        [{}]
       );
 
       const nonCriticalVariable = config.getConfigurationVariableOrUndefined(
-        "someCanHaveVariable",
+        "someCanHaveVariable"
       );
       expect(nonCriticalVariable).toBeUndefined();
     });
@@ -252,7 +252,7 @@ describe("config captain", () => {
     test("throws duplicate error if multiple things are defined with the same value", () => {
       const dataSource = {
         "some-non-critical-variable": "some-non-critical-value",
-        "some-name-two": "some-critical-value",
+        "some-name-two": "some-critical-value"
       };
 
       expect(
@@ -260,12 +260,12 @@ describe("config captain", () => {
           new Configuration(
             { variableName: "some-name-one" },
             { variableName: "some-name-two" },
-            [dataSource],
-          ),
+            [dataSource]
+          )
       ).toThrow(
         new DuplicateConfigKeyError(
-          "Two or more variables have been defined with the same name.",
-        ),
+          "Two or more variables have been defined with the same name."
+        )
       );
     });
   });
@@ -273,27 +273,27 @@ describe("config captain", () => {
   describe("prioritisation", () => {
     test("prioritises the first data source", () => {
       const dataSourceOne = {
-        "some-variable-name": "the-value-i-want-to-have-priority",
+        "some-variable-name": "the-value-i-want-to-have-priority"
       };
 
       const dataSourceTwo = {
-        "some-variable-name": "some-other-value",
+        "some-variable-name": "some-other-value"
       };
 
       const config = new Configuration(
         {},
         {
-          variableName: "some-variable-name",
+          variableName: "some-variable-name"
         },
-        [dataSourceOne, dataSourceTwo],
+        [dataSourceOne, dataSourceTwo]
       );
 
       const expectedEnvironmentVariables = {
-        variableName: "the-value-i-want-to-have-priority",
+        variableName: "the-value-i-want-to-have-priority"
       };
 
       expect(config.getConfigurationVariables()).toEqual(
-        expectedEnvironmentVariables,
+        expectedEnvironmentVariables
       );
     });
   });
