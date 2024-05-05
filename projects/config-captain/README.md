@@ -54,6 +54,8 @@ The second parameter to Configuration is required variables. If these variables 
 
 This should be an array of key-value objects. If two or more datasources provide a value for a given variable, the earliest in the list will take priority. Process.env can be given as a datasource.
 
+## Accessors
+
 ### getConfigurationVariables
 
 Get the entire configuration object as a key-value object. The variables specified as 'optional' will be potentially undefined.
