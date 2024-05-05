@@ -11,7 +11,7 @@
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
     "preversion": "git tag $npm_package_name@$npm_package_version",
     "prepublishOnly": "npm test",
-    "version": "git add .",
+    "version": "git add -A",
     "postversion": "git push && git push --tags",
     "prettier": "prettier --write ./src/**/*.ts",
     "lint": "eslint . --ext .ts",
