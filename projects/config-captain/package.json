@@ -1,6 +1,6 @@
 {
   "name": "config-captain",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A dependency injectable configuration object",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
