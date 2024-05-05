@@ -22,7 +22,8 @@ jobs:
         with:
           version: latest
 
-      - run: git fetch origin main
+      - run: git fetch
+      - run: git checkout main
       - run: pnpm i --frozen-lockfile
       - run: pnpm --filter config-captain publish
         env:
