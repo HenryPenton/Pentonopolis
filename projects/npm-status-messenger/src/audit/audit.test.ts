@@ -1,4 +1,4 @@
-import { getDummyConfig } from "../dummyConfig";
+import { getDummyConfig } from "../dummy_config/dummyConfig";
 import {
   IClient,
   IReader,
