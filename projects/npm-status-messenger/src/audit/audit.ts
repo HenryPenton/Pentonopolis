@@ -16,12 +16,12 @@ export interface IAudit {
   fire: () => Promise<void>;
 }
 
-export interface IClient {
-  sendMessage: (message: string, chatid: string) => Promise<void>;
-}
-
 export interface IReader<T> {
   read: () => Promise<T>;
+}
+
+export interface IClient {
+  sendMessage: (message: string, chatid: string) => Promise<void>;
 }
 
 export interface IAuditReader extends IReader<NPMAuditData> {}
