@@ -12,12 +12,12 @@ export type NPMAuditData = {
   };
 };
 
-export interface IAudit {
-  fire: () => Promise<void>;
-}
-
 export interface IReader<T> {
   read: () => Promise<T>;
+}
+
+export interface IAudit {
+  fire: () => Promise<void>;
 }
 
 export interface IClient {
