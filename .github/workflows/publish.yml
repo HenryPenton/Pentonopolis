@@ -25,8 +25,6 @@ jobs:
       - run: git fetch
       - run: git checkout main
       - run: pnpm i --frozen-lockfile
-      - run: |
-          echo "Tag name from github.ref_name: ${{ github.ref_name }}"
 
       - name: Extract package name from tag
         id: extract_package_name
