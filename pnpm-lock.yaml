@@ -108,9 +108,6 @@ importers:
       '@types/jest':
         specifier: 29.x
         version: 29.5.12
-      eslint:
-        specifier: 8.x
-        version: 8.57.0
       jest:
         specifier: 29.x
         version: 29.7.0(@types/node@20.12.8)

@@ -67,7 +67,6 @@
     "@swc/core": "1.x",
     "@swc/jest": "0.2.x",
     "@types/jest": "29.x",
-    "eslint": "8.x",
     "jest": "29.x",
     "typescript": "5.x"
   }
