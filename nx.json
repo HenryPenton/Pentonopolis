@@ -1,0 +1,45 @@
+{
+  "$schema": "./node_modules/nx/schemas/nx-schema.json",
+  "targetDefaults": {
+    "build": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "cache": true
+    },
+    "lint:check": {
+      "dependsOn": [
+        "^lint:check"
+      ],
+      "cache": true
+    },
+    "prettier:check": {
+      "dependsOn": [
+        "^prettier:check"
+      ],
+      "cache": true
+    },
+    "test": {
+      "dependsOn": [
+        "^test"
+      ],
+      "cache": true
+    },
+    "mutate": {
+      "outputs": [
+        "{projectRoot}/reports/mutation/mutation.html"
+      ],
+      "cache": true
+    },
+    "lint": {
+      "cache": true
+    },
+    "prettier": {
+      "cache": true
+    }
+  },
+  "defaultBase": "main"
+}

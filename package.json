@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "pnpm -r test",
-    "mutate": "pnpm -r mutate",
+    "test": "pnpm exec nx run-many -t test",
+    "mutate": "pnpm exec nx run-many -t mutate",
     "prettier": "pnpm -r prettier",
     "prettier:check": "pnpm -r prettier:check",
     "lint": "pnpm -r lint",
     "lint:check": "pnpm -r lint:check",
-    "build": "pnpm -r build",
+    "build": "pnpm exec nx run-many -t build",
     "release-major": "pnpm -r release-major",
     "release-minor": "pnpm -r release-minor",
     "release-patch": "pnpm -r release-patch",
@@ -24,7 +24,8 @@
     "husky": "^9.0.11",
     "jest": "29.x",
     "prettier": "3.x",
-    "typescript": "5.x"
+    "typescript": "5.x",
+    "nx": "18.3.4"
   },
   "keywords": [],
   "author": "",

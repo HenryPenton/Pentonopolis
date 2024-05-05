@@ -110,3 +110,6 @@ lib
 # stryker temp files
 .stryker-tmp
 mutation.html
+
+
+.nx/cache
