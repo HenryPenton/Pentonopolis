@@ -54,6 +54,52 @@ importers:
         specifier: 5.x
         version: 5.4.3
 
+  projects/who-owes-who:
+    dependencies:
+      uuid:
+        specifier: 9.x
+        version: 9.0.1
+    devDependencies:
+      '@stryker-mutator/core':
+        specifier: 8.x
+        version: 8.2.6
+      '@stryker-mutator/jest-runner':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)
+      '@stryker-mutator/typescript-checker':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.3)
+      '@swc/core':
+        specifier: 1.x
+        version: 1.4.11
+      '@swc/jest':
+        specifier: 0.2.x
+        version: 0.2.36(@swc/core@1.4.11)
+      '@types/jest':
+        specifier: 29.x
+        version: 29.5.12
+      '@types/uuid':
+        specifier: 9.x
+        version: 9.0.8
+      '@typescript-eslint/eslint-plugin':
+        specifier: 7.x
+        version: 7.4.0(@typescript-eslint/parser@7.4.0(eslint@8.57.0)(typescript@5.4.3))(eslint@8.57.0)(typescript@5.4.3)
+      '@typescript-eslint/parser':
+        specifier: 7.x
+        version: 7.4.0(eslint@8.57.0)(typescript@5.4.3)
+      eslint:
+        specifier: 8.x
+        version: 8.57.0
+      jest:
+        specifier: 29.x
+        version: 29.7.0(@types/node@20.12.2)
+      prettier:
+        specifier: 3.x
+        version: 3.2.5
+      typescript:
+        specifier: 5.x
+        version: 5.4.3
+
   projects/word-frequency-counter:
     devDependencies:
       '@stryker-mutator/core':
@@ -647,6 +693,9 @@ packages:
 
   '@types/stack-utils@2.0.3':
     resolution: {integrity: sha512-9aEbYZ3TbYMznPdcdr3SmIrLXwC/AKZXQeCf9Pgao5CKb8CyHuEX5jzWPTkvregvhRJHcpRO6BFoGW9ycaOkYw==}
+
+  '@types/uuid@9.0.8':
+    resolution: {integrity: sha512-jg+97EGIcY9AGHJJRaaPVgetKDsrTgbRjQ5Msgjh/DQKEFl0DtyRr/VCOyD1T2R1MNeWPK/u7JoGhlDZnKBAfA==}
 
   '@types/yargs-parser@21.0.3':
     resolution: {integrity: sha512-I4q9QU9MQv4oEOz4tAHJtNz1cwuLxn2F3xcc2iV5WdqLPpUnj30aUuxt1mAxYTG+oe8CZMV/+6rU4S4gRDzqtQ==}
@@ -2081,6 +2130,10 @@ packages:
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
+  uuid@9.0.1:
+    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
+    hasBin: true
+
   v8-to-istanbul@9.2.0:
     resolution: {integrity: sha512-/EH/sDgxU2eGxajKdwLCDmQ4FWq+kpi3uCmBGpw1xJtnAxEjlD8j8PEiGWpCIMIs3ciNAgH0d3TTJiUkYzyZjA==}
     engines: {node: '>=10.12.0'}
@@ -2918,6 +2971,8 @@ snapshots:
   '@types/semver@7.5.8': {}
 
   '@types/stack-utils@2.0.3': {}
+
+  '@types/uuid@9.0.8': {}
 
   '@types/yargs-parser@21.0.3': {}
 
@@ -4527,6 +4582,8 @@ snapshots:
       punycode: 2.3.1
 
   util-deprecate@1.0.2: {}
+
+  uuid@9.0.1: {}
 
   v8-to-istanbul@9.2.0:
     dependencies:
