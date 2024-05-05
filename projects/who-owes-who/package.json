@@ -1,6 +1,6 @@
 {
   "name": "who-owes-who",
-  "version": "1.0.4",
+  "version": "1.0.3",
   "description": "A calculator to work out payments in groups",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -56,7 +56,7 @@
   "bugs": {
     "url": "https://github.com/HenryPenton/pentonopolis/issues"
   },
-  "homepage": "https://github.com/HenryPenton/pentonopolis/trege/main/projects/who-owes-who#readme",
+  "homepage": "https://github.com/HenryPenton/pentonopolis/tree/main/projects/who-owes-who#readme",
   "devDependencies": {
     "@stryker-mutator/core": "8.x",
     "@stryker-mutator/jest-runner": "8.x",
