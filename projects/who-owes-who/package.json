@@ -2,8 +2,8 @@
   "name": "who-owes-who",
   "version": "1.0.1",
   "description": "A calculator to work out payments in groups",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "jest",
@@ -37,7 +37,7 @@
     "resetMocks": true
   },
   "files": [
-    "lib/**/*"
+    "dist/**/*"
   ],
   "repository": {
     "type": "git",

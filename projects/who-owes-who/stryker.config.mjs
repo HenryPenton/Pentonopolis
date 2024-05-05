@@ -16,7 +16,7 @@ const config = {
     "@stryker-mutator/jest-runner",
     "@stryker-mutator/typescript-checker",
   ],
-  ignorePatterns: ["lib/**/*"],
+  ignorePatterns: ["dist/**/*"],
   disableTypeChecks: true,
 };
 export default config;
