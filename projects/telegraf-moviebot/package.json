@@ -57,7 +57,7 @@
       "node"
     ]
   },
-  "homepage": "https://github.com/HenryPenton/pentonopolis#readme",
+  "homepage": "https://github.com/HenryPenton/pentonopolis/tree/main/projects/telegraf-moviebot#readme",
   "devDependencies": {
     "@stryker-mutator/core": "8.x",
     "@stryker-mutator/jest-runner": "8.x",
