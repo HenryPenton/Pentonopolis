@@ -23,7 +23,7 @@ jobs:
           version: latest
 
       - run: git fetch
-      # - run: git checkout main
+      - run: echo ${{ github.event.release.tag_name }}
       # - run: pnpm i
       # - run: pnpm publish
       #   env:
