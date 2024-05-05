@@ -47,7 +47,7 @@ jobs:
       - run: git branch --track main origin/main
         if: ${{ github.event_name == 'pull_request' }}
 
-      - run: pnpm prettier:check
-      - run: pnpm lint:check
-      - run: pnpm test
-      - run: pnpm build
+      - run: pnpm nx affected -t prettier:check
+      - run: pnpm nx affected -t lint:check
+      - run: pnpm nx affected -t test
+      - run: pnpm nx affected -t build
