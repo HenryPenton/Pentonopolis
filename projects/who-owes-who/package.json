@@ -7,6 +7,7 @@
   "scripts": {
     "build": "tsc",
     "lint": "eslint . --ext .ts",
+    "lint:check": "eslint --no-fix . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",

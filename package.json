@@ -9,6 +9,7 @@
     "prettier": "pnpm -r prettier",
     "prettier:check": "pnpm -r prettier:check",
     "lint": "pnpm -r lint",
+    "lint:check": "pnpm -r lint:check",
     "build": "pnpm -r build",
     "release-major": "pnpm -r release-major",
     "release-minor": "pnpm -r release-minor",
