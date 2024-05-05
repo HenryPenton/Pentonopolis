@@ -36,8 +36,6 @@ jobs:
           echo "package_name=$package_name" >> "$GITHUB_ENV"
           echo "::set-output name=package_name::$package_name"
 
-      - run: echo $package_name
-
-      # - run: pnpm --filter $package_name publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+      - run: pnpm --filter $package_name publish
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
