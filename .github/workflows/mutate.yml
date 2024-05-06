@@ -52,7 +52,7 @@ jobs:
         with:
           path: |
             .nx
-          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }}
 
       - run: pnpm mutate
 
