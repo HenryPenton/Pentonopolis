@@ -26,7 +26,7 @@ jobs:
         with:
           version: latest
 
-      - name: Generate npm dependencies key
+      - name: Generate cache keys
         run: |
           npm_dependencies_cache_key=npm-${{ matrix.node-version }}-coverage-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
           nx_cache_key=${{ matrix.node-version }}-${{ runner.os }}-coverage-nx-${{ hashFiles('nx.json') }}
