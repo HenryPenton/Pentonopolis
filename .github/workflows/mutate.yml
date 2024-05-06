@@ -46,4 +46,19 @@ jobs:
             **/node_modules
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+
       - run: pnpm mutate
+
+      - name: Cache nx
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .nx
+          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }}
