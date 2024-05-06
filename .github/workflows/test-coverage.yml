@@ -72,3 +72,8 @@ jobs:
           path: |
             .nx
           key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage reports
+          path: ./**/coverage/*
