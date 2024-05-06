@@ -26,13 +26,21 @@ jobs:
         with:
           version: latest
 
+      - name: Generate cache keys
+        run: |
+          npm_dependencies_cache_key=npm-${{ matrix.node-version }}-test-and-build-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ matrix.node-version }}-${{ runner.os }}-test-and-build-nx-${{ hashFiles('nx.json') }}
+
+          echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
+          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+
       - name: Restore cached npm dependencies
         id: cache_dependencies
         uses: actions/cache/restore@v4
         with:
           path: |
             **/node_modules
-          key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ env.npm_dependencies_cache_key }}
 
       - name: Restore nx cache
         id: cache_nx
@@ -40,7 +48,7 @@ jobs:
         with:
           path: |
             .nx
-          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+          key: ${{ env.nx_cache_key }}
 
       - name: install dependencies
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
@@ -52,7 +60,7 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          key: ${{ env.npm_dependencies_cache_key }}
 
       - name: Test and Build
         run: |
@@ -64,7 +72,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }} --confirm
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.CACHE_DELETE }}
@@ -74,4 +82,4 @@ jobs:
         with:
           path: |
             .nx
-          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+          key: ${{ env.nx_cache_key }}
