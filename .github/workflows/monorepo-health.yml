@@ -81,3 +81,13 @@ jobs:
           path: |
             .nx
           key: ${{ env.nx_cache_key }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: outdated reports
+          path: ./**/outdated.json
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: audit reports
+          path: ./audit.json
