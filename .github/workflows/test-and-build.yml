@@ -32,18 +32,20 @@ jobs:
         with:
           path: |
             **/node_modules
+            ~/.nx
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: install dependencies
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
-        
+
       - name: Cache npm dependencies
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: |
             **/node_modules
+            ~/.nx
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - run: pnpm prettier:check
