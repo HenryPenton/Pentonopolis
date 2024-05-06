@@ -13,4 +13,18 @@ describe("Telegram Client", () => {
       body: '{"chat_id":"some-chat-id","text":"some message"}'
     });
   });
+
+  test("add dummy test to check cache", () => {
+    const stubFetch: IFetch = jest.fn();
+    const telegramClient = new TelegramClient(stubFetch);
+    telegramClient.sendMessage("some message", "some-chat-id");
+
+    expect(stubFetch).toHaveBeenCalledWith("telegram-api-url", {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      method: "POST",
+      body: '{"chat_id":"some-chat-id","text":"some message"}'
+    });
+  });
 });
