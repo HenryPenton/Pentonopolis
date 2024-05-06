@@ -1,4 +1,4 @@
-name: Test and build
+name: Test Coverage
 
 on:
   push:
@@ -56,10 +56,7 @@ jobs:
 
       - name: Test and Build
         run: |
-          pnpm prettier:check
-          pnpm lint:check
-          pnpm test
-          pnpm build
+          pnpm test:coverage
 
       - name: Delete existing nx cache
         run: |
