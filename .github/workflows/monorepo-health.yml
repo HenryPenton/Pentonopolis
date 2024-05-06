@@ -119,7 +119,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        directory: ${{fromJson(needs.build.outputs.matrix)}}
+
     steps:
       - name: Use directory from matrix
         run: |
-          echo "${{ needs.build.outputs.matrix }}"
+          echo "Directory found: ${{ matrix.directory }}"
