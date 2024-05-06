@@ -56,12 +56,9 @@ jobs:
 
       - run: pnpm mutate
 
-      - run: gh extension install actions/gh-actions-cache
-        if: steps.cache_nx.outputs.cache-hit == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.CACHE_DELETE }}
-
-      - run: gh actions-cache delete ${{ matrix.node-version }}-${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }} --confirm
+      - run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete ${{ matrix.node-version }}-${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.CACHE_DELETE }}
