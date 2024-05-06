@@ -96,8 +96,9 @@ jobs:
         with:
           name: audit reports
           path: ./audit.json
-
-      - run: |
+      - name: Generate matrix
+        id: test
+        run: |
           directory="./"
           file_name="outdated.json"
           directories=()
@@ -109,4 +110,5 @@ jobs:
 
           escaped_directories=$(printf '%s\n' "${directories[@]}" | jq -R . | jq -s -c .)
 
-          echo "::set-output name=matrix::$escaped_directories"
+          echo "matrix=$escaped_directories" >> $GITHUB_OUTPUT
+          echo "$escaped_directories"
