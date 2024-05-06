@@ -59,6 +59,7 @@ jobs:
           pnpm prettier:check
           pnpm lint:check
           pnpm test
+          pnpm test:coverage
           pnpm build
 
       - name: Delete existing nx cache
