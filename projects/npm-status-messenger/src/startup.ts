@@ -16,7 +16,7 @@ const dummyReader: IAuditReader = {
 };
 
 const audit = new NPMAudit(
-  config,
+
   { sendMessage: async (): Promise<void> => {} },
   dummyReader
 );

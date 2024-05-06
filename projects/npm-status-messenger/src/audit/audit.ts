@@ -1,5 +1,4 @@
 import { IClient } from "../client/client";
-import { IConfig } from "../startup";
 
 export type NPMAuditData = {
   metadata: {
@@ -25,7 +24,6 @@ export interface IAuditReader extends IReader<NPMAuditData> {}
 
 export class NPMAudit implements IAudit {
   constructor(
-    private config: IConfig,
     private client: IClient,
     private reader: IAuditReader
   ) {}
