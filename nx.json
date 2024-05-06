@@ -37,11 +37,6 @@
       "outputs": ["{projectRoot}/outdated.json"],
       "cache": false
     },
-    "vulnerabilities": {
-      "dependsOn": [],
-      "outputs": ["audit.json"],
-      "cache": false
-    },
     "lint": {
       "cache": true
     },
