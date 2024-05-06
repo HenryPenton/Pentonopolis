@@ -98,8 +98,8 @@ jobs:
           path: ./audit.json
 
       - run: |
-          directory="./path/to/your/directory"
-          file_name="your_filename.ext"
+          directory="./"
+          file_name="outdated.json"
           directories=()
 
           while IFS= read -r -d '' file; do
