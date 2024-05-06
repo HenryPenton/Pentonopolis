@@ -26,13 +26,18 @@ jobs:
         with:
           version: latest
 
+      - name: Generate npm dependencies key
+        run: |
+          npm_dependencies_key=npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          echo "npm_dependencies_key=$npm_dependencies_key" >> "$GITHUB_ENV"
+
       - name: Restore cached npm dependencies
         id: cache_dependencies
         uses: actions/cache/restore@v4
         with:
           path: |
             **/node_modules
-          key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          key: $npm_dependencies_key
 
       - name: Restore nx cache
         id: cache_nx
@@ -52,7 +57,7 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          key: $npm_dependencies_key
 
       - name: Test Coverage
         run: |
