@@ -102,14 +102,14 @@ jobs:
           directory="./"
           file_name="outdated.json"
 
-          directories=()
+          json="["
 
           find "$directory" -type f -name "$file_name" | while read -r file; do
               folder=$(dirname "$file")
               echo "File $file_name is in folder: $folder"
-              directories+=("$folder")
+
+              json+="\"$folder\","
           done
-          for dir in "${directories[@]}"; do
-              echo "test"
-              echo "$dir"
-          done
+
+          json="${json%,}]"
+          echo "$json"
