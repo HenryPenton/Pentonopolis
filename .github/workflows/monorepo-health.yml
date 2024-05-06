@@ -120,4 +120,4 @@ jobs:
     steps:
       - name: Use directory from matrix
         run: |
-          echo "${{ needs.build.outputs.test.matrix }}"
+          echo "${{ needs.build.outputs.test }}"
