@@ -48,7 +48,7 @@ jobs:
         with:
           path: |
             .nx
-          key: ${{ env.npm_dependencies_cache_key }}
+          key: ${{ env.nx_cache_key }}
 
       - name: install dependencies
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
@@ -79,7 +79,7 @@ jobs:
         with:
           path: |
             .nx
-          key: ${{ env.npm_dependencies_cache_key }}
+          key: ${{ env.nx_cache_key }}
 
       - run: ls ./projects/config-captain
 
