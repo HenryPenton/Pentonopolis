@@ -54,7 +54,7 @@ jobs:
             **/node_modules
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Test and Build
+      - name: Test Coverage
         run: |
           pnpm test:coverage
 
