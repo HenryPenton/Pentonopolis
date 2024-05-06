@@ -64,7 +64,7 @@ jobs:
           GH_TOKEN: ${{ secrets.CACHE_DELETE }}
 
       - run: gh actions-cache delete ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }} --confirm
-        if: always()
+        if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.CACHE_DELETE }}
 
