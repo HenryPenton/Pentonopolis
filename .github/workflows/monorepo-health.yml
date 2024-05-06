@@ -126,4 +126,4 @@ jobs:
     steps:
       - name: Use directory from matrix
         run: |
-          cat ${{ matrix.directory }}"
+          cat ${{ matrix.directory }}/outdated.json
