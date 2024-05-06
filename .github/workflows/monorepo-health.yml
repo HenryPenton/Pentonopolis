@@ -98,6 +98,7 @@ jobs:
           path: ./audit.json
 
       - run: |
+          #!/bin/bash
           directory="./"
           file_name="outdated.json"
 
@@ -109,6 +110,6 @@ jobs:
               directories+=("$folder")
           done
           for dir in "${directories[@]}"; do
-            echo "test"
-            echo "$dir"
+              echo "test"
+              echo "$dir"
           done
