@@ -1,9 +1,11 @@
-import { IAuditReader, NPMAudit } from "./audit/audit";
 import { Configuration } from "config-captain";
+import { IAuditReader, NPMAudit } from "./audit/audit";
 
-const config = new Configuration({}, { telegramApiUrl: "TELEGRAM_API_URL" }, [
-  {}
-]);
+const config = new Configuration(
+  {},
+  { telegramApiUrl: "TELEGRAM_API_URL", telegramChatId: "TELEGRAM_CHAT_ID" },
+  [{}]
+);
 
 export type IConfig = typeof config;
 
@@ -16,7 +18,7 @@ const dummyReader: IAuditReader = {
 };
 
 const audit = new NPMAudit(
-
+  config,
   { sendMessage: async (): Promise<void> => {} },
   dummyReader
 );

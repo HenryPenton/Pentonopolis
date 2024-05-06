@@ -1,4 +1,5 @@
 import { IClient } from "../client/client";
+import { IConfig } from "../startup";
 
 export type NPMAuditData = {
   metadata: {
@@ -24,6 +25,7 @@ export interface IAuditReader extends IReader<NPMAuditData> {}
 
 export class NPMAudit implements IAudit {
   constructor(
+    private config: IConfig,
     private client: IClient,
     private reader: IAuditReader
   ) {}
@@ -31,8 +33,9 @@ export class NPMAudit implements IAudit {
   fire = async (): Promise<void> => {
     const auditData = await this.reader.read();
     const message = mapAuditToMessage(auditData);
+    const chatId = this.config.getConfigurationVariable("telegramChatId");
 
-    this.client.sendMessage(message, "chatid");
+    this.client.sendMessage(message, chatId);
   };
 }
 

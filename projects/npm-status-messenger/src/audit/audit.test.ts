@@ -1,4 +1,5 @@
 import { IClient } from "../client/client";
+import { getDummyConfig } from "../dummy_config/dummyConfig";
 import { IReader, NPMAudit, NPMAuditData, mapAuditToMessage } from "./audit";
 
 describe("Audit", () => {
@@ -20,12 +21,13 @@ describe("Audit", () => {
       }
     };
 
-    const audit = new NPMAudit(stubClient, stubReader);
+    const dummyConfig = getDummyConfig({ TELEGRAM_CHAT_ID: "some-chat-id" });
+    const audit = new NPMAudit(dummyConfig, stubClient, stubReader);
     await audit.fire();
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
       "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5",
-      "chatid"
+      "some-chat-id"
     );
   });
 
