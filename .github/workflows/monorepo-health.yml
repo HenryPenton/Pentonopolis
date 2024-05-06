@@ -148,3 +148,11 @@ jobs:
       - name: Print audit
         run: |
           cat ./audit.json
+
+      - name: send telegram message
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message_file: ./audit.json
