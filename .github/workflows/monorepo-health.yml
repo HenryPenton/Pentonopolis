@@ -124,6 +124,12 @@ jobs:
         directory: ${{fromJson(needs.build.outputs.matrix)}}
 
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: outdated reports
+          path: .
+
       - name: Use directory from matrix
         run: |
           cat ${{ matrix.directory }}/outdated.json
