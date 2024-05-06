@@ -35,6 +35,14 @@ jobs:
             ~/.nx
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.nx
+          key: ${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+
       - name: install dependencies
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
@@ -52,3 +60,10 @@ jobs:
       - run: pnpm lint:check
       - run: pnpm test
       - run: pnpm build
+
+      - name: Cache nx
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.nx
+          key: ${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
