@@ -10,12 +10,16 @@ jobs:
   mutate:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20.x]
+
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           registry-url: https://registry.npmjs.org/
 
       - uses: pnpm/action-setup@v3
@@ -23,19 +27,23 @@ jobs:
           version: latest
 
       - name: Restore cached npm dependencies
+        id: cache_dependencies
         uses: actions/cache/restore@v4
         with:
           path: |
-            node_modules
-          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+            **/node_modules
+          key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - run: pnpm install --frozen-lockfile
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
 
       - name: Cache npm dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4
         with:
           path: |
-            node_modules
-          key: npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+            **/node_modules
+          key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - run: pnpm mutate
