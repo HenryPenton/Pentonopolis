@@ -1,11 +1,6 @@
+import { IClient } from "../client/client";
 import { getDummyConfig } from "../dummy_config/dummyConfig";
-import {
-  IClient,
-  IReader,
-  NPMAudit,
-  NPMAuditData,
-  mapAuditToMessage
-} from "./audit";
+import { IReader, NPMAudit, NPMAuditData, mapAuditToMessage } from "./audit";
 
 describe("Audit", () => {
   test("gets audit data from a reader", async () => {

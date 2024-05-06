@@ -2,6 +2,7 @@ import { Configuration } from "config-captain";
 import { IConfig } from "../startup";
 
 type Overrides = { [key: string]: string };
+
 export const getDummyConfig = (overrides: Overrides = {}): IConfig => {
   const dummyConfig: IConfig = new Configuration(
     {},

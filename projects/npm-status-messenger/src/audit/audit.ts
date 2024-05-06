@@ -1,3 +1,4 @@
+import { IClient } from "../client/client";
 import { IConfig } from "../startup";
 
 export type NPMAuditData = {
@@ -18,10 +19,6 @@ export interface IReader<T> {
 
 export interface IAudit {
   fire: () => Promise<void>;
-}
-
-export interface IClient {
-  sendMessage: (message: string, chatid: string) => Promise<void>;
 }
 
 export interface IAuditReader extends IReader<NPMAuditData> {}

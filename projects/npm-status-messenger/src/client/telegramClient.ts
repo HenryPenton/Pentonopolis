@@ -1,14 +1,19 @@
-export interface IClient {
-  sendMessage: (message: string, chatid: string) => Promise<void>;
-}
+import { IConfig } from "../startup";
+import { IClient } from "./client";
 
 export type IFetch = typeof fetch;
 
 export class TelegramClient implements IClient {
-  constructor(private fetch: IFetch) {}
+  constructor(
+    private fetch: IFetch,
+    private config: IConfig
+  ) {}
 
   sendMessage = async (message: string, chatid: string): Promise<void> => {
-    this.fetch("telegram-api-url", {
+    const telegramApiUrl =
+      this.config.getConfigurationVariable("telegramApiUrl");
+
+    this.fetch(telegramApiUrl, {
       headers: {
         "Content-Type": "application/json"
       },
