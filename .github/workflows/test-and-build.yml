@@ -60,6 +60,7 @@ jobs:
       - run: pnpm build
 
       - run: gh extension install actions/gh-actions-cache
+        if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.CACHE_DELETE }}
 
