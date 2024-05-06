@@ -19,6 +19,7 @@
     "release-patch": "pnpm version patch",
     "test": "jest",
     "test:compile": "tsc --project tsconfig-test.json",
+    "test:coverage": "jest --coverage",
     "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version"
   },
   "files": [

@@ -15,11 +15,15 @@
       "cache": true
     },
     "test": {
-      "dependsOn": ["^test","test:compile"],
+      "dependsOn": ["^test", "test:compile"],
       "cache": true
     },
     "test:compile": {
       "dependsOn": ["^test:compile"],
+      "cache": true
+    },
+    "test:coverage": {
+      "dependsOn": ["^test:coverage", "test"],
       "cache": true
     },
     "mutate": {
