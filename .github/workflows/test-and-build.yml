@@ -60,6 +60,8 @@ jobs:
       - run: pnpm build
 
       - run: gh extension install actions/gh-actions-cache
+        env:
+          GH_TOKEN: ${{ github.token }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
