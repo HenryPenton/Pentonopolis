@@ -41,7 +41,7 @@ jobs:
         with:
           path: |
             ~/.nx
-          key: ${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
 
       - name: install dependencies
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
@@ -60,10 +60,11 @@ jobs:
       - run: pnpm lint:check
       - run: pnpm test
       - run: pnpm build
+      - run: la -la
 
       - name: Cache nx
         uses: actions/cache/save@v4
         with:
           path: |
             ~/.nx
-          key: ${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+          key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
