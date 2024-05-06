@@ -133,6 +133,14 @@ jobs:
       - name: Print outdated modules for ${{ matrix.directory }}
         run: |
           cat ${{ matrix.directory }}/outdated.json
+
+      - name: send telegram message
+        if: always()
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_TO }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message_file: ${{ matrix.directory }}/outdated.json
   audit:
     name: audit
     needs: build
