@@ -96,3 +96,19 @@ jobs:
         with:
           name: audit reports
           path: ./audit.json
+
+      - run: |
+
+          # Set the directory path
+          directory="./"
+
+          # Set the file name you want to search for
+          file_name="outdated.json"
+
+          # Find all files with the specified name in the directory and its subdirectories
+          find "$directory" -type f -name "$file_name" | while read -r file; do
+              # Get the directory name containing the file
+              folder=$(dirname "$file")
+              # Log the directory name
+              echo "File $file_name is in folder: $folder"
+          done
