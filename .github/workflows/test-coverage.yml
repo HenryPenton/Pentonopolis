@@ -37,7 +37,7 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: $npm_dependencies_key
+          key: ${{ env.npm_dependencies_key }}
 
       - name: Restore nx cache
         id: cache_nx
@@ -57,7 +57,7 @@ jobs:
         with:
           path: |
             **/node_modules
-          key: $npm_dependencies_key
+          key: ${{ env.npm_dependencies_key }}
 
       - name: Test Coverage
         run: |
