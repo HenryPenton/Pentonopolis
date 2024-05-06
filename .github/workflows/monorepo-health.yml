@@ -98,18 +98,15 @@ jobs:
           path: ./audit.json
 
       - run: |
-          #!/bin/bash
-          directory="./"
-          file_name="outdated.json"
+          directory="./path/to/your/directory"
+          file_name="your_filename.ext"
+          directories=()
 
-          json="["
-
-          find "$directory" -type f -name "$file_name" | while read -r file; do
+          while IFS= read -r -d '' file; do
               folder=$(dirname "$file")
-              echo "File $file_name is in folder: $folder"
+              directories+=("$folder")
+          done < <(find "$directory" -type f -name "$file_name" -print0)
 
-              json+="\"$folder\","
-          done
+          escaped_directories=$(printf '%s\n' "${directories[@]}" | jq -R . | jq -s -c .)
 
-          json="${json%,}]"
-          echo "$json"
+          echo "::set-output name=matrix::$escaped_directories"
