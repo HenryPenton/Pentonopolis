@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm exec nx run-many -t build",
-    "dependencies": "pnpm exec nx run-many -t dependencies:check",
+    "dependencies": "pnpm exec nx run-many -t dependencies:check && pnpm dependencies:check",
     "dependencies:check": "pnpm outdated --json > outdated.json || true",
     "lint:check": "pnpm exec nx run-many -t lint:check",
     "lint": "pnpm exec nx run-many -t lint",
@@ -19,7 +19,7 @@
     "test:compile": "pnpm exec nx run-many -t test:compile",
     "test:coverage": "pnpm exec nx run-many -t test:coverage",
     "test": "pnpm exec nx run-many -t test",
-    "vulnerabilities:check": "pnpm audit --json audit.json"
+    "vulnerabilities": "pnpm audit --json > audit.json"
   },
   "devDependencies": {
     "@types/jest": "29.x",

@@ -32,6 +32,16 @@
       "outputs": ["{projectRoot}/reports/mutation/mutation.html"],
       "cache": true
     },
+    "dependencies:check": {
+      "dependsOn": [],
+      "outputs": ["{projectRoot}/outdated.json"],
+      "cache": false
+    },
+    "vulnerabilities": {
+      "dependsOn": [],
+      "outputs": ["audit.json"],
+      "cache": false
+    },
     "lint": {
       "cache": true
     },
