@@ -61,7 +61,8 @@ jobs:
           pnpm test
           pnpm build
 
-      - run: |
+      - name: Delete existing nx cache
+        run: |
           gh extension install actions/gh-actions-cache
           gh actions-cache delete ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
