@@ -108,7 +108,7 @@ jobs:
               echo "File $file_name is in folder: $folder"
               directories+=("$folder")
           done
-
           for dir in "${directories[@]}"; do
+            echo "test"
             echo "$dir"
           done
