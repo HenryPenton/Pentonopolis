@@ -15,7 +15,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           registry-url: https://registry.npmjs.org/
 
       - uses: pnpm/action-setup@v3
@@ -32,7 +32,6 @@ jobs:
           tag=${{ github.ref_name }}
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
-          echo "::set-output name=package_name::$package_name"
 
       - run: pnpm --filter $package_name publish
         env:
