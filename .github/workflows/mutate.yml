@@ -70,3 +70,8 @@ jobs:
           path: |
             .nx
           key: ${{ matrix.node-version }}-${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mutation reports
+          path: ./**/mutation.html
