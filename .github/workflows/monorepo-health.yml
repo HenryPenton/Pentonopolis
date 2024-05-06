@@ -112,3 +112,16 @@ jobs:
 
           echo "matrix=$escaped_directories" >> $GITHUB_OUTPUT
           echo "$escaped_directories"
+  use-matrix:
+    name: Use Matrix
+    needs: build
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        directory: ${{fromJson(needs.build.outputs.matrix)}}
+
+    steps:
+      - name: Use directory from matrix
+        run: |
+          echo "Directory found: ${{ matrix.directory }}"
