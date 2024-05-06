@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm exec nx run-many -t build",
-    "dependencies:check": "pnpm -r dependencies:check",
+    "dependencies": "pnpm exec nx run-many -t dependencies:check",
+    "dependencies:check": "pnpm outdated --json > outdated.json || true",
     "lint:check": "pnpm exec nx run-many -t lint:check",
     "lint": "pnpm exec nx run-many -t lint",
     "mutate": "pnpm exec nx run-many -t mutate",

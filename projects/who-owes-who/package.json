@@ -6,7 +6,7 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "dependencies:check": "pnpm outdated",
+    "dependencies:check": "pnpm outdated --json > outdated.json || true",
     "lint:check": "eslint --no-fix . --ext .ts",
     "lint": "eslint . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
