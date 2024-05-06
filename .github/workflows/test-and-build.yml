@@ -32,7 +32,6 @@ jobs:
         with:
           path: |
             **/node_modules
-            ~/.nx
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Restore nx cache
@@ -53,7 +52,6 @@ jobs:
         with:
           path: |
             **/node_modules
-            ~/.nx
           key: npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
 
       - run: pnpm prettier:check
