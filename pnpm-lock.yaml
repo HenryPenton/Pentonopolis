@@ -63,7 +63,7 @@ importers:
   projects/npm-status-messenger:
     dependencies:
       config-captain:
-        specifier: 1.x
+        specifier: 1.0.9
         version: 1.0.9
     devDependencies:
       '@stryker-mutator/core':

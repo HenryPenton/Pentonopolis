@@ -73,6 +73,6 @@
     "typescript": "5.x"
   },
   "dependencies": {
-    "config-captain": "1.x"
+    "config-captain": "1.0.9"
   }
 }
