@@ -73,7 +73,7 @@ jobs:
             .nx
           key: ${{ matrix.node-version }}-${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
 
-      - run: ls
+      - run: ls ./projects/config-captain
 
       - uses: actions/upload-artifact@v4
         with:
