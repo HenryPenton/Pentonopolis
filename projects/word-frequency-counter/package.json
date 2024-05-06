@@ -6,21 +6,23 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "lint": "eslint . --ext .ts",
+    "dependencies:check": "pnpm outdated",
     "lint:check": "eslint --no-fix . --ext .ts",
+    "lint": "eslint . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
     "postversion": "git push && git push --tags",
     "prepare": "npm run build",
     "prepublishOnly": "npm test",
-    "prettier": "prettier --write ./src/**/*.ts",
     "prettier:check": "prettier --check ./src/**/*.ts",
+    "prettier": "prettier --write ./src/**/*.ts",
     "release-major": "pnpm version major",
     "release-minor": "pnpm version minor",
     "release-patch": "pnpm version patch",
-    "test": "jest",
     "test:compile": "tsc --project tsconfig-test.json",
     "test:coverage": "jest --coverage",
-    "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version"
+    "test": "jest",
+    "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version",
+    "vulnerabilities:check": "pnpm audit"
   },
   "files": [
     "dist/**/*"
