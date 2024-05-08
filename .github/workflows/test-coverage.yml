@@ -81,8 +81,6 @@ jobs:
             .nx
           key: ${{ env.nx_cache_key }}
 
-      - run: ls ./projects/config-captain
-
       - uses: actions/upload-artifact@v4
         with:
           name: coverage reports
