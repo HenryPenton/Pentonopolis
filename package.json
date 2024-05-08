@@ -1,11 +1,11 @@
 {
   "name": "pentonopolis",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "build": "pnpm exec nx run-many -t build",
-    
+
     "dependencies:check": "pnpm exec nx run-many -t dependencies:check && pnpm outdated --json > outdated.json || true",
     "lint:check": "pnpm exec nx run-many -t lint:check",
     "lint": "pnpm exec nx run-many -t lint",
