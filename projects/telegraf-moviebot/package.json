@@ -72,6 +72,7 @@
   },
   "dependencies": {
     "axios": "1.x",
+    "array": "workspace:*",
     "dotenv": "16.x",
     "telegraf": "4.x"
   }
