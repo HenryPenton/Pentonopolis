@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "pnpm exec nx run-many -t build",
-
+    "clean": "git clean -dfX",
     "dependencies:check": "pnpm exec nx run-many -t dependencies:check && pnpm outdated --json > outdated.json || true",
     "lint:check": "pnpm exec nx run-many -t lint:check",
     "lint": "pnpm exec nx run-many -t lint",
