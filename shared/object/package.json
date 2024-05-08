@@ -10,7 +10,7 @@
     "lint:check": "eslint --no-fix . --ext .ts",
     "lint": "eslint . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
-    "prepare": "npm run build",
+    "prepare": "pnpm run build",
     "prettier:check": "prettier --check ./src/**/*.ts",
     "prettier": "prettier --write ./src/**/*.ts",
     "test:compile": "tsc --project tsconfig-test.json",
