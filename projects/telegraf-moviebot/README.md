@@ -87,6 +87,15 @@ Running /votes will tell you the state of votes in the latest moviepoll
 
 # Changelog
 
+## 6.4.3
+
+- Move location of utility
+
+## 6.4.2
+
+- Update dependencies
+- Publish as part of monorepo
+
 ## 6.4.1
 
 - Update dependencies
