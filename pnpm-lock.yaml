@@ -41,9 +41,6 @@ importers:
       config-captain:
         specifier: workspace:*
         version: link:../../shared/config-captain
-      object:
-        specifier: workspace:*
-        version: link:../../shared/object
     devDependencies:
       '@stryker-mutator/core':
         specifier: 8.x
@@ -169,30 +166,6 @@ importers:
         version: 5.4.5
 
   shared/config-captain:
-    devDependencies:
-      '@stryker-mutator/core':
-        specifier: 8.x
-        version: 8.2.6
-      '@stryker-mutator/jest-runner':
-        specifier: ^8.x
-        version: 8.2.6(@stryker-mutator/core@8.2.6)
-      '@stryker-mutator/typescript-checker':
-        specifier: 8.x
-        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
-      '@swc/core':
-        specifier: 1.x
-        version: 1.5.3
-      '@swc/jest':
-        specifier: 0.2.x
-        version: 0.2.36(@swc/core@1.5.3)
-      '@types/node':
-        specifier: 20.x
-        version: 20.12.9
-      typescript:
-        specifier: 5.x
-        version: 5.4.5
-
-  shared/object:
     devDependencies:
       '@stryker-mutator/core':
         specifier: 8.x
