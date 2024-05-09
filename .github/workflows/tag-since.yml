@@ -1,0 +1,19 @@
+name: Tags since
+
+on:
+  push:
+    branches: [main, feature/*]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.test.outputs.matrix }}
+
+    strategy:
+      matrix:
+        node-version: [22.x]
+
+    steps:
+      - uses: actions/checkout@v4
+      - run: echo "helloooo"
