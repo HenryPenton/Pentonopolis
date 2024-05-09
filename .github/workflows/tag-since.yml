@@ -4,6 +4,9 @@ on:
   push:
     branches: [main, feature/*]
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -21,6 +24,6 @@ jobs:
 
       - name: Push Changes
         env:
-          GITHUB_TOKEN: ${{ secrets.CONTINUOUS_DEPLOYMENT }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git push --tags
