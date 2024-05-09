@@ -18,3 +18,9 @@ jobs:
       - uses: actions/checkout@v4
       - run: git tag testtag123
       - run: git describe --tags
+
+      - name: Push Changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git push --tags
