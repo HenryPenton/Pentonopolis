@@ -16,4 +16,5 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - run: echo "helloooo"
+      - run: git tag testtag123
+      - run: git push --tags
