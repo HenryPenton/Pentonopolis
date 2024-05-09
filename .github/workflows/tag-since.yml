@@ -21,6 +21,6 @@ jobs:
 
       - name: Push Changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.CONTINUOUS_DEPLOYMENT }}
         run: |
           git push --tags
