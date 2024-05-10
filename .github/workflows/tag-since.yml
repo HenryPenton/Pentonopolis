@@ -10,21 +10,59 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.test.outputs.matrix }}
-
-    strategy:
-      matrix:
-        node-version: [22.x]
 
     steps:
       - uses: actions/checkout@v4
-      - run: git tag testtag123
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
+      - name: Generate cache keys
+        run: |
+          npm_dependencies_cache_key=npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ runner.os }}-coverage-nx-${{ hashFiles('nx.json') }}
+
+          echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
+          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+
+      - name: Restore cached npm dependencies
+        id: cache_dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ env.npm_dependencies_cache_key }}
+
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: ${{ env.nx_cache_key }}
+
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache npm dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ env.npm_dependencies_cache_key }}
+
       - run: git describe --tags
 
       - name: Push Changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          git push --tags
           nx affected -t test --base=$(git describe --tags) --head=HEAD
