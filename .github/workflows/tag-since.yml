@@ -69,4 +69,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pnpx nx affected -t release-minor --base=$(git describe --tags --abbrev=0) --head=HEAD
+          pnpx nx affected -t release-minor --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
