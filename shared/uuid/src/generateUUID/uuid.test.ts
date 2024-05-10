@@ -14,6 +14,7 @@ describe("uuid", () => {
       expect(generateNewId()).toHaveLength(36);
     });
   });
+
   describe("no dashes", () => {
     test("the uuids are strings", () => {
       expect(generateNewId(false)).toEqual(expect.any(String));
