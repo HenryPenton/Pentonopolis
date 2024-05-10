@@ -392,7 +392,5 @@ jobs:
           key: ${{ env.npm_dependencies_cache_key }}
 
       - name: Push Changes
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pnpx nx affected -t test --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
