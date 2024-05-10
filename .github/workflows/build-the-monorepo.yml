@@ -333,6 +333,7 @@ jobs:
           key: ${{ env.nx_cache_key }}
   continuous-deploy:
     runs-on: ubuntu-latest
+    environment: NPM
     needs: [build, test, mutate, coverage, formatting]
     steps:
       - uses: actions/checkout@v4
