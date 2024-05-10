@@ -393,4 +393,4 @@ jobs:
 
       - name: Push Changes
         run: |
-          pnpx nx affected -t test --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
+          pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
