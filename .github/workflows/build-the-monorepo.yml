@@ -70,7 +70,7 @@ jobs:
           gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
@@ -127,7 +127,7 @@ jobs:
           gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
@@ -192,7 +192,7 @@ jobs:
           gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
@@ -261,7 +261,7 @@ jobs:
           gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
@@ -323,7 +323,7 @@ jobs:
           gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
-          GH_TOKEN: ${{ env.GH_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
