@@ -1,5 +1,4 @@
 import { IClient } from "../client/client";
-import { getDummyConfig } from "../dummy_config/dummyConfig";
 import { IReader, NPMAudit, NPMAuditData, mapAuditToMessage } from "./audit";
 
 describe("Audit", () => {
@@ -21,8 +20,7 @@ describe("Audit", () => {
       }
     };
 
-    const dummyConfig = getDummyConfig({ TELEGRAM_CHAT_ID: "some-chat-id" });
-    const audit = new NPMAudit(dummyConfig, stubClient, stubReader);
+    const audit = new NPMAudit(stubClient, stubReader);
     await audit.fire();
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
