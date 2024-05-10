@@ -13,6 +13,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - run: |
+          git fetch
+          git describe --tags
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -58,10 +61,6 @@ jobs:
           path: |
             **/node_modules
           key: ${{ env.npm_dependencies_cache_key }}
-
-      - run: |
-          git fetch
-          git describe --tags
 
       - name: Push Changes
         env:
