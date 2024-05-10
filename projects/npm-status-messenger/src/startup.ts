@@ -4,7 +4,7 @@ import { IAuditReader, NPMAudit } from "./audit/audit";
 const config = new Configuration(
   {},
   { telegramApiUrl: "TELEGRAM_API_URL", telegramChatId: "TELEGRAM_CHAT_ID" },
-  [{}]
+  [process.env]
 );
 
 export type IConfig = typeof config;
