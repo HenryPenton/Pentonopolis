@@ -33,7 +33,7 @@ jobs:
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
 
-      - run: pnpx nx run $package_name:publish
+      - run: pnpm --filter $package_name publish
         name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
