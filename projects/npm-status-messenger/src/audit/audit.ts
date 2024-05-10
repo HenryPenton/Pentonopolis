@@ -33,9 +33,8 @@ export class NPMAudit implements IAudit {
   fire = async (): Promise<void> => {
     const auditData = await this.reader.read();
     const message = mapAuditToMessage(auditData);
-    const chatId = this.config.getConfigurationVariable("telegramChatId");
 
-    this.client.sendMessage(message, chatId);
+    this.client.sendMessage(message);
   };
 }
 

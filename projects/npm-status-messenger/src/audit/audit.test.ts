@@ -26,8 +26,7 @@ describe("Audit", () => {
     await audit.fire();
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
-      "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5",
-      "some-chat-id"
+      "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5"
     );
   });
 

@@ -9,16 +9,19 @@ export class TelegramClient implements IClient {
     private config: IConfig
   ) {}
 
-  sendMessage = async (message: string, chatid: string): Promise<void> => {
+  sendMessage = async (message: string): Promise<void> => {
     const telegramApiUrl =
       this.config.getConfigurationVariable("telegramApiUrl");
+
+    const telegramChatId =
+      this.config.getConfigurationVariable("telegramChatId");
 
     this.fetch(telegramApiUrl, {
       headers: {
         "Content-Type": "application/json"
       },
       method: "POST",
-      body: JSON.stringify({ chat_id: chatid, text: message })
+      body: JSON.stringify({ chat_id: telegramChatId, text: message })
     });
   };
 }
