@@ -67,7 +67,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm || true
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -124,7 +124,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm || true
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -189,7 +189,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm || true
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -258,7 +258,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm || true
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -320,7 +320,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm || true
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
