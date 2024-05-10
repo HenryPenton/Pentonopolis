@@ -1,4 +1,4 @@
-import { generateRandomStrings } from "../randomStringGenerator/generator";
+import { generateRandomStrings } from "../utils/randomStringGenerator/generator";
 
 type ProtectionMap = Map<string, string>;
 

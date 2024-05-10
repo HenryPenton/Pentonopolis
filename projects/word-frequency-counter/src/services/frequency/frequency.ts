@@ -1,5 +1,5 @@
 import { Config, defaultConfig } from "../../config";
-import { getUniqueSentenceComponents } from "../../utils/sentenceComponents/sentenceComponents";
+import { getUniqueSentenceComponents } from "../../sentenceComponents/sentenceComponents";
 import { allWordCount } from "../wordCount/wordCount";
 
 type FrequencyMap = Map<string, number>;
