@@ -84,5 +84,60 @@ jobs:
       nx_cache_key: ${{needs.build.outputs.nx_cache_key}}
     steps:
       - uses: actions/checkout@v4
-      - run: echo "${{env.npm_dependencies_cache_key}}"
-      - run: echo ${{env.nx_cache_key}}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org/
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+      - name: Restore cached npm dependencies
+        id: cache_dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ env.npm_dependencies_cache_key }}
+
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Cache npm dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ env.npm_dependencies_cache_key }}
+
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: ${{ env.nx_cache_key }}
+
+      - run: pnpm mutate
+
+      - name: Delete existing nx cache
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+        if: steps.cache_nx.outputs.cache-hit == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.CACHE_DELETE }}
+
+      - name: Cache nx
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .nx
+          key: ${{ env.nx_cache_key }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mutation reports
+          path: ./**/mutation.html
