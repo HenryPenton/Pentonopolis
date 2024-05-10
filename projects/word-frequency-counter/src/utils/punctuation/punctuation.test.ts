@@ -248,18 +248,4 @@ describe("punctuation", () => {
       expect(noPunctuationSentence).toBe("Lock & Co is a hat shop in london");
     });
   });
-
-  describe("word preservation with override string generator", () => {
-    test("a single specified word is protected from the punctuation remover", () => {
-      const override = jest.fn(() => "aaa");
-      const fullSentence = `I really don't like cheese`;
-      const noPunctuationSentence = punctuationRemover(fullSentence, {
-        protectionList: ["don't"],
-        overrideUniqueAlphaNumericGenerator: override
-      });
-
-      expect(override).toHaveBeenCalled();
-      expect(noPunctuationSentence).toBe("i really don't like cheese");
-    });
-  });
 });

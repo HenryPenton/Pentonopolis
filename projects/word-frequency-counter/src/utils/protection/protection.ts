@@ -7,7 +7,7 @@ export class Protection {
 
   constructor(
     protectedWords: string[],
-    readonly overrideGenerator?: () => string
+    private randomStringGenerator: () => string
   ) {
     this.protectionMap = this.buildProtectionMap(protectedWords);
   }
@@ -16,7 +16,7 @@ export class Protection {
     const protectionMap: ProtectionMap = new Map();
     const randomStrings = generateRandomStrings(
       protectedWords.length,
-      this.overrideGenerator
+      this.randomStringGenerator
     ).values();
 
     protectedWords.forEach((protectedWord) => {

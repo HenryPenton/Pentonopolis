@@ -1,3 +1,4 @@
+import { generateNewId } from "uuid";
 import { Config } from "../../config";
 import { Protection } from "../protection/protection";
 
@@ -12,10 +13,7 @@ export const punctuationRemover = (text: string, config: Config): string => {
   let content = text;
   const { protectionList } = config;
 
-  const protection = new Protection(
-    protectionList,
-    config.overrideUniqueAlphaNumericGenerator
-  );
+  const protection = new Protection(protectionList, () => generateNewId(false));
 
   content = protection.addWordProtection(content);
   content = removePunctuation(content);

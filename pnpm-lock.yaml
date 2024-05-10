@@ -166,6 +166,10 @@ importers:
         version: 5.4.5
 
   projects/word-frequency-counter:
+    dependencies:
+      uuid:
+        specifier: workspace:*
+        version: link:../../shared/uuid
     devDependencies:
       '@stryker-mutator/core':
         specifier: 8.x

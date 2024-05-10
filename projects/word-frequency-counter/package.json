@@ -74,5 +74,8 @@
     "@types/jest": "29.x",
     "jest": "29.x",
     "typescript": "5.x"
+  },
+  "dependencies": {
+    "uuid": "workspace:*"
   }
 }
