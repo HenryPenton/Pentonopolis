@@ -8,7 +8,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      nx_cache_key: ${{ steps.cache_keys.outputs.nx_cache_key }}
       npm_dependencies_cache_key: ${{ steps.cache_keys.outputs.npm_dependencies_cache_key }}
 
     steps:
@@ -30,7 +29,6 @@ jobs:
           nx_cache_key=${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
 
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> $GITHUB_OUTPUT
-          echo "nx_cache_key=$nx_cache_key" >> $GITHUB_OUTPUT
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
 
@@ -81,7 +79,6 @@ jobs:
     needs: build
     env:
       npm_dependencies_cache_key: ${{needs.build.outputs.npm_dependencies_cache_key}}
-      nx_cache_key: ${{needs.build.outputs.nx_cache_key}}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -104,14 +101,12 @@ jobs:
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Cache npm dependencies
-        if: steps.cache_dependencies.outputs.cache-hit != 'true'
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            **/node_modules
-          key: ${{ env.npm_dependencies_cache_key }}
-
+      - name: Generate nx cache key
+        id: cache_keys
+        run: |
+          nx_cache_key=${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }}
+          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+          
       - name: Restore nx cache
         id: cache_nx
         uses: actions/cache/restore@v4
