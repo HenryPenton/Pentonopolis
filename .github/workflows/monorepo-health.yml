@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  health:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.test.outputs.matrix }}
@@ -109,12 +109,12 @@ jobs:
           echo "$escaped_directories"
   outdated:
     name: outdated
-    needs: build
+    needs: health
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
-        directory: ${{fromJson(needs.build.outputs.matrix)}}
+        directory: ${{fromJson(needs.health.outputs.matrix)}}
 
     steps:
       - name: Download artifact
@@ -136,7 +136,7 @@ jobs:
           message_file: ${{ matrix.directory }}/outdated.json
   audit:
     name: audit
-    needs: build
+    needs: health
     runs-on: ubuntu-latest
 
     steps:
