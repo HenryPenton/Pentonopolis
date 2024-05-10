@@ -1,7 +1,7 @@
+import { generateNewId } from "uuid";
 import { SuggestedPayment } from "../interfaces/payment";
 import { PersonMap } from "../interfaces/person";
 import { Person } from "../person/Person";
-import { generateNewId } from "../utils/uuid";
 import { PaymentCalculator } from "./paymentCalculator";
 describe("controller", () => {
   describe("suggested payments", () => {

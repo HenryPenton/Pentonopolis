@@ -1,3 +1,4 @@
+import { generateNewId } from "uuid";
 import { PaymentSetDoesNotExistError } from "../exceptions/Payment";
 import { DebtMap } from "../interfaces/debt";
 import {
@@ -6,7 +7,6 @@ import {
   PaymentSet,
   PaymentSetDTO
 } from "../interfaces/payment";
-import { generateNewId } from "../utils/uuid";
 
 export interface IPerson {
   id: string;

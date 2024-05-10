@@ -110,8 +110,8 @@ importers:
   projects/who-owes-who:
     dependencies:
       uuid:
-        specifier: 9.x
-        version: 9.0.1
+        specifier: workspace:*
+        version: link:../../shared/uuid
     devDependencies:
       '@stryker-mutator/core':
         specifier: 8.x
@@ -212,6 +212,37 @@ importers:
       '@types/node':
         specifier: 20.x
         version: 20.12.11
+      typescript:
+        specifier: 5.x
+        version: 5.4.5
+
+  shared/uuid:
+    dependencies:
+      uuid:
+        specifier: 9.0.1
+        version: 9.0.1
+    devDependencies:
+      '@stryker-mutator/core':
+        specifier: 8.x
+        version: 8.2.6
+      '@stryker-mutator/jest-runner':
+        specifier: ^8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)
+      '@stryker-mutator/typescript-checker':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
+      '@swc/core':
+        specifier: 1.x
+        version: 1.5.5
+      '@swc/jest':
+        specifier: 0.2.x
+        version: 0.2.36(@swc/core@1.5.5)
+      '@types/node':
+        specifier: 20.x
+        version: 20.12.11
+      '@types/uuid':
+        specifier: 9.x
+        version: 9.0.8
       typescript:
         specifier: 5.x
         version: 5.4.5
