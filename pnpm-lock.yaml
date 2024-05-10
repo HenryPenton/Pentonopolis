@@ -36,11 +36,35 @@ importers:
         specifier: 5.x
         version: 5.4.5
 
+  projects/config-captain:
+    devDependencies:
+      '@stryker-mutator/core':
+        specifier: 8.x
+        version: 8.2.6
+      '@stryker-mutator/jest-runner':
+        specifier: ^8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)
+      '@stryker-mutator/typescript-checker':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
+      '@swc/core':
+        specifier: 1.x
+        version: 1.5.5
+      '@swc/jest':
+        specifier: 0.2.x
+        version: 0.2.36(@swc/core@1.5.5)
+      '@types/node':
+        specifier: 20.x
+        version: 20.12.11
+      typescript:
+        specifier: 5.x
+        version: 5.4.5
+
   projects/npm-status-messenger:
     dependencies:
       config-captain:
         specifier: workspace:*
-        version: link:../../shared/config-captain
+        version: link:../config-captain
     devDependencies:
       '@stryker-mutator/core':
         specifier: 8.x
@@ -169,30 +193,6 @@ importers:
         version: 5.4.5
 
   shared/array:
-    devDependencies:
-      '@stryker-mutator/core':
-        specifier: 8.x
-        version: 8.2.6
-      '@stryker-mutator/jest-runner':
-        specifier: ^8.x
-        version: 8.2.6(@stryker-mutator/core@8.2.6)
-      '@stryker-mutator/typescript-checker':
-        specifier: 8.x
-        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
-      '@swc/core':
-        specifier: 1.x
-        version: 1.5.5
-      '@swc/jest':
-        specifier: 0.2.x
-        version: 0.2.36(@swc/core@1.5.5)
-      '@types/node':
-        specifier: 20.x
-        version: 20.12.11
-      typescript:
-        specifier: 5.x
-        version: 5.4.5
-
-  shared/config-captain:
     devDependencies:
       '@stryker-mutator/core':
         specifier: 8.x
