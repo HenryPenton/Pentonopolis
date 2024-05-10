@@ -391,6 +391,6 @@ jobs:
             **/node_modules
           key: ${{ env.npm_dependencies_cache_key }}
 
-      - name: Push Changes
+      - name: Bump Affected packages
         run: |
           pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
