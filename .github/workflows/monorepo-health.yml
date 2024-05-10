@@ -11,17 +11,14 @@ jobs:
     outputs:
       matrix: ${{ steps.test.outputs.matrix }}
 
-    strategy:
-      matrix:
-        node-version: [22.x]
 
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 22
 
       - uses: pnpm/action-setup@v3
         with:
@@ -29,8 +26,8 @@ jobs:
 
       - name: Generate cache keys
         run: |
-          npm_dependencies_cache_key=npm-${{ matrix.node-version }}-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-          nx_cache_key=${{ matrix.node-version }}-${{ runner.os }}-monorepo-health-nx-${{ hashFiles('nx.json') }}
+          npm_dependencies_cache_key=npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ runner.os }}-monorepo-health-nx-${{ hashFiles('nx.json') }}
 
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
