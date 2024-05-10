@@ -62,3 +62,7 @@ singleFrequencyCount("Lock & Co is a hatters", "Lock & Co", {
 
 allFrequencyCount("Lock & Co is a hatters", { protectionList: ["Lock & Co"] }); // => Map{ 'Lock & Co' => 0.25; 'is' => 0.25; 'a' => 0.25; 'hatters' => 0.25; };
 ```
+
+## Changelog
+
+This package used to offer the ability to pass a random string generator. This is no longer required as it now uses uuid to do this task.
