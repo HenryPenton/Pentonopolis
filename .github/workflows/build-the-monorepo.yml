@@ -8,8 +8,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     outputs:
-      nx_cache_key: ${{ steps.test.outputs.nx_cache_key }}
-      npm_dependencies_cache_key: ${{ steps.test.outputs.npm_dependencies_cache_key }}
+      nx_cache_key: ${{ steps.cache_keys.outputs.nx_cache_key }}
+      npm_dependencies_cache_key: ${{ steps.cache_keys.outputs.npm_dependencies_cache_key }}
 
     steps:
       - uses: actions/checkout@v4
@@ -24,6 +24,7 @@ jobs:
           version: latest
 
       - name: Generate cache keys
+        id: cache_keys
         run: |
           npm_dependencies_cache_key=npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
           nx_cache_key=${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
@@ -85,4 +86,3 @@ jobs:
       - uses: actions/checkout@v4
       - run: echo "${{env.npm_dependencies_cache_key}}"
       - run: echo ${{env.nx_cache_key}}
-      - run: echo ${{needs.build.outputs.npm_dependencies_cache_key}}
