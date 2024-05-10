@@ -4,9 +4,6 @@ on:
   push:
     branches: [main, feature/*]
 
-permissions:
-  contents: write
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,6 +12,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          token: ${{ secrets.CONTINUOUS_DEPLOYMENT }}
 
       - run: |
           git fetch
