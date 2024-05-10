@@ -83,5 +83,5 @@ jobs:
       nx_cache_key: ${{needs.build.outputs.nx_cache_key}}
     steps:
       - uses: actions/checkout@v4
-      - run: echo ${{env.npm_dependencies_cache_key}}
+      - run: echo "${{env.npm_dependencies_cache_key}}"
       - run: echo ${{env.nx_cache_key}}
