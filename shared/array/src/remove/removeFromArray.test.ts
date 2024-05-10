@@ -1,4 +1,4 @@
-import { removeFromArray } from "./array";
+import { removeFromArray } from "./removeFromArray";
 
 describe("remove from array", () => {
   test("it removes an element from an array of one", () => {
