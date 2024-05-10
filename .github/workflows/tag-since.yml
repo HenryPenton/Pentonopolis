@@ -69,4 +69,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          nx affected -t test --base=$(git describe --tags) --head=HEAD
+          pnpx nx affected -t test --base=$(git describe --tags) --head=HEAD
