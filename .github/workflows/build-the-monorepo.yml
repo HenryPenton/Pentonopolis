@@ -106,7 +106,7 @@ jobs:
         run: |
           nx_cache_key=${{ runner.os }}-nx-mutate-${{ hashFiles('nx.json') }}
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
-          
+
       - name: Restore nx cache
         id: cache_nx
         uses: actions/cache/restore@v4
@@ -136,3 +136,68 @@ jobs:
         with:
           name: mutation reports
           path: ./**/mutation.html
+  coverage:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      npm_dependencies_cache_key: ${{needs.build.outputs.npm_dependencies_cache_key}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: latest
+
+      - name: Generate nx cache key
+        run: |
+          nx_cache_key=${{ runner.os }}-coverage-nx-${{ hashFiles('nx.json') }}
+          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+
+      - name: Restore cached npm dependencies
+        id: cache_dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ env.npm_dependencies_cache_key }}
+
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: ${{ env.nx_cache_key }}
+
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Test Coverage
+        run: |
+          pnpm test:coverage
+
+      - name: Delete existing nx cache
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache delete ${{ env.nx_cache_key }} --confirm
+        if: steps.cache_nx.outputs.cache-hit == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.CACHE_DELETE }}
+
+      - name: Cache nx
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .nx
+          key: ${{ env.nx_cache_key }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: coverage reports
+          path: ./projects/**/coverage
