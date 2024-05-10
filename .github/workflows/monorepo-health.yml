@@ -5,6 +5,9 @@ on:
     - cron: "45 7 */2 * *"
   workflow_dispatch:
 
+permissions:
+  actions: write
+
 jobs:
   health:
     runs-on: ubuntu-latest
@@ -70,7 +73,7 @@ jobs:
           gh actions-cache delete ${{ env.nx_cache_key }} --confirm
         if: steps.cache_nx.outputs.cache-hit == 'true'
         env:
-          GH_TOKEN: ${{ secrets.CACHE_DELETE }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Cache nx
         uses: actions/cache/save@v4
