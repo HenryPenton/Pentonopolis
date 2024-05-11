@@ -16,7 +16,15 @@ export class TelegramClient implements IClient {
     const telegramChatId =
       this.config.getConfigurationVariable("telegramChatId");
 
-    this.fetch(telegramApiUrl, {
+    const telegramBotToken =
+      this.config.getConfigurationVariable("telegramBotToken");
+
+    const sendMessageUrl = new URL(
+      `/bot${telegramBotToken}/sendMessage`,
+      `${telegramApiUrl}`
+    );
+
+    this.fetch(sendMessageUrl.toString(), {
       headers: {
         "Content-Type": "application/json"
       },

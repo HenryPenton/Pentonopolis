@@ -4,7 +4,11 @@ import { TelegramClient } from "./client/telegramClient";
 
 const config = new Configuration(
   {},
-  { telegramApiUrl: "TELEGRAM_API_URL", telegramChatId: "TELEGRAM_CHAT_ID" },
+  {
+    telegramApiUrl: "TELEGRAM_API_URL",
+    telegramChatId: "TELEGRAM_CHAT_ID",
+    telegramBotToken: "TELEGRAM_BOT_TOKEN"
+  },
   [process.env]
 );
 
