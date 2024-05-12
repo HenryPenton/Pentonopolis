@@ -1,4 +1,6 @@
 import { IClient } from "../client/client";
+import { mapAuditToMessage } from "../mappers/auditToMessageMapper";
+import { IAuditReader } from "../reader/reader";
 
 export type NPMAuditData = {
   metadata: {
@@ -12,15 +14,9 @@ export type NPMAuditData = {
   };
 };
 
-export interface IReader<T> {
-  read: () => Promise<T>;
-}
-
 export interface IAudit {
   fire: () => Promise<void>;
 }
-
-export interface IAuditReader extends IReader<NPMAuditData> {}
 
 export class NPMAudit implements IAudit {
   constructor(
@@ -35,17 +31,3 @@ export class NPMAudit implements IAudit {
     this.client.sendMessage(message);
   };
 }
-
-export const mapAuditToMessage = (audit: NPMAuditData): string => {
-  const vulnerabilityMap = new Map(
-    Object.entries(audit.metadata.vulnerabilities)
-  );
-
-  let message = `Vulnerabilities: `;
-
-  vulnerabilityMap.forEach((vulnerabilityCount, vulnerabilityName) => {
-    message += `${vulnerabilityName}: ${vulnerabilityCount}, `;
-  });
-
-  return message.slice(0, message.length - 2);
-};

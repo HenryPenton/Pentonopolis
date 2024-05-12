@@ -1,11 +1,12 @@
 import { IClient } from "../client/client";
-import { IReader, NPMAudit, NPMAuditData, mapAuditToMessage } from "./audit";
+import { ISynchronousReader } from "../reader/reader";
+import { NPMAudit, NPMAuditData } from "./audit";
 
 describe("Audit", () => {
-  test("gets audit data from a reader", async () => {
+  test("sends a correctly formatted message", async () => {
     const stubClient: IClient = { sendMessage: jest.fn() };
-    const stubReader: IReader<NPMAuditData> = {
-      read: async (): Promise<NPMAuditData> => {
+    const stubReader: ISynchronousReader<NPMAuditData> = {
+      read: (): NPMAuditData => {
         return {
           metadata: {
             vulnerabilities: {
@@ -26,25 +27,5 @@ describe("Audit", () => {
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
       "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5"
     );
-  });
-
-  describe("formatData", () => {
-    test("data formatted correctly", async () => {
-      const message = mapAuditToMessage({
-        metadata: {
-          vulnerabilities: {
-            info: 1,
-            low: 2,
-            moderate: 3,
-            high: 4,
-            critical: 5
-          }
-        }
-      });
-
-      expect(message).toEqual(
-        "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5"
-      );
-    });
   });
 });

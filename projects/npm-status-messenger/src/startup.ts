@@ -1,6 +1,7 @@
 import { Configuration } from "config-captain";
-import { IAuditReader, NPMAudit } from "./audit/audit";
+import { NPMAudit } from "./audit/audit";
 import { TelegramClient } from "./client/telegramClient";
+import { AuditReader } from "./reader/auditReader";
 
 const config = new Configuration(
   {},
@@ -14,18 +15,12 @@ const config = new Configuration(
 
 export type IConfig = typeof config;
 
+const reader = new AuditReader();
+
 export const run = (): void => {
   const telegramClient = new TelegramClient(fetch, config);
 
-  const dummyReader: IAuditReader = {
-    read: async () => ({
-      metadata: {
-        vulnerabilities: { critical: 1, high: 1, moderate: 1, low: 1, info: 1 }
-      }
-    })
-  };
-
-  const audit = new NPMAudit(telegramClient, dummyReader);
+  const audit = new NPMAudit(telegramClient, reader);
 
   audit.fire();
 };
