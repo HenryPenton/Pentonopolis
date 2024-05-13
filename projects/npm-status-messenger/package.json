@@ -4,6 +4,7 @@
   "description": "An NPM status messenger",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "bin": "dist/index.js",
   "scripts": {
     "build": "tsc",
     "dependencies:check": "pnpm outdated --json > outdated.json || true",
