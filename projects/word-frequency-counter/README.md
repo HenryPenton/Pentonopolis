@@ -1,5 +1,7 @@
 # README
 
+![Build](https://github.com/HenryPenton/pentonopolis/actions/workflows/build-the-monorepo.yml/badge.svg)
+
 A typescript word frequency counter, built with test driven development.
 
 ```javascript

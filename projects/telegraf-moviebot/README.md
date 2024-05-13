@@ -1,5 +1,7 @@
 # Moviebot Telegram
 
+![Build](https://github.com/HenryPenton/pentonopolis/actions/workflows/build-the-monorepo.yml/badge.svg)
+
 An open movie database bot written in typescript.
 
 ```javascript

@@ -1,5 +1,7 @@
 # README
 
+![Build](https://github.com/HenryPenton/pentonopolis/actions/workflows/build-the-monorepo.yml/badge.svg)
+
 This is a package for tracking payments made by people within a group. After updating a the system with a payment, a list of suggested payments to balance the debts can be generated.
 
 The system is currency agnostic, however this document will refer to dollars for the purposes of ubiquitous language.
@@ -90,13 +92,13 @@ The payments suggested to balance all debts.
   {
     from: "05463ea3-4843-47f9-8f2d-dd0514294eb6",
     to: "9b563cc2-7782-49b3-901a-2c52e3e9f0b0",
-    amount: 3300,
+    amount: 3300
   },
   {
     from: "107c79ed-e170-4bf3-8963-bae9db791483",
     to: "9b563cc2-7782-49b3-901a-2c52e3e9f0b0",
-    amount: 3300,
-  },
+    amount: 3300
+  }
 ];
 ```
 
