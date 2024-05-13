@@ -2,12 +2,9 @@ import { NPMAuditData } from "../audit/audit";
 import { IAuditReader, SyncReader } from "./reader";
 
 export class AuditReader implements IAuditReader {
-  constructor(private reader: SyncReader) {}
-  read = (): NPMAuditData => {
-    return {
-      metadata: {
-        vulnerabilities: { info: 1, high: 1, low: 1, moderate: 1, critical: 1 }
-      }
-    };
+  constructor(private readonly reader: SyncReader) {}
+
+  read = (path: string): NPMAuditData => {
+    return JSON.parse(this.reader(path, "utf-8"));
   };
 }

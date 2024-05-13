@@ -15,7 +15,7 @@ export type NPMAuditData = {
 };
 
 export interface IAudit {
-  fire: () => Promise<void>;
+  fire: () => void;
 }
 
 export class NPMAudit implements IAudit {
@@ -24,8 +24,8 @@ export class NPMAudit implements IAudit {
     private reader: IAuditReader
   ) {}
 
-  fire = async (): Promise<void> => {
-    const auditData = await this.reader.read();
+  fire = (): void => {
+    const auditData = this.reader.read("./audit.json");
     const message = mapAuditToMessage(auditData);
 
     this.client.sendMessage(message);
