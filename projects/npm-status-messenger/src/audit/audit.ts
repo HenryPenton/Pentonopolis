@@ -15,7 +15,7 @@ export type NPMAuditData = {
 };
 
 export interface IAudit {
-  fire: () => void;
+  fire: (pathToFile: string) => void;
 }
 
 export class NPMAudit implements IAudit {
@@ -24,8 +24,8 @@ export class NPMAudit implements IAudit {
     private reader: IAuditReader
   ) {}
 
-  fire = (): void => {
-    const auditData = this.reader.read("./audit.json");
+  fire = (pathToFile: string): void => {
+    const auditData = this.reader.read(pathToFile);
     const message = mapAuditToMessage(auditData);
 
     this.client.sendMessage(message);

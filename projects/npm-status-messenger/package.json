@@ -73,6 +73,7 @@
     "typescript": "5.x"
   },
   "dependencies": {
+    "commander": "12.0.0",
     "config-captain": "workspace:*"
   }
 }
