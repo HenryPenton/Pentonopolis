@@ -23,11 +23,9 @@ export type IConfig = typeof config;
 
 const reader = new AuditReader(readFileSync);
 
-export const run = (): void => {
-  if (audit) {
-    const telegramClient = new TelegramClient(fetch, config);
-    const audit = new NPMAudit(telegramClient, reader);
+if (audit) {
+  const telegramClient = new TelegramClient(fetch, config);
+  const audit = new NPMAudit(telegramClient, reader);
 
-    audit.fire("./audit.json");
-  }
-};
+  audit.fire("./audit.json");
+}

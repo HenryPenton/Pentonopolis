@@ -1,4 +1,4 @@
-import { IConfig } from "../startup";
+import { IConfig } from "..";
 import { IClient } from "./client";
 
 export type IFetch = typeof fetch;
