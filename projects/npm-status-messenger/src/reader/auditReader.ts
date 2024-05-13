@@ -1,7 +1,8 @@
 import { NPMAuditData } from "../audit/audit";
-import { IAuditReader } from "./reader";
+import { IAuditReader, SyncReader } from "./reader";
 
 export class AuditReader implements IAuditReader {
+  constructor(private reader: SyncReader) {}
   read = (): NPMAuditData => {
     return {
       metadata: {

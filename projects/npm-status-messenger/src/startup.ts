@@ -1,4 +1,5 @@
 import { Configuration } from "config-captain";
+import { readFileSync } from "fs";
 import { NPMAudit } from "./audit/audit";
 import { TelegramClient } from "./client/telegramClient";
 import { AuditReader } from "./reader/auditReader";
@@ -15,7 +16,7 @@ const config = new Configuration(
 
 export type IConfig = typeof config;
 
-const reader = new AuditReader();
+const reader = new AuditReader(readFileSync);
 
 export const run = (): void => {
   const telegramClient = new TelegramClient(fetch, config);
