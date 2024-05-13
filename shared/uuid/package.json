@@ -58,6 +58,7 @@
     "@swc/jest": "0.2.x",
     "@types/node": "20.x",
     "@types/uuid": "9.x",
+    "jest": "29.x",
     "typescript": "5.x"
   },
   "dependencies": {

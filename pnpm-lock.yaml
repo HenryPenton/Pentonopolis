@@ -9,8 +9,11 @@ importers:
   .:
     devDependencies:
       '@types/jest':
-        specifier: 29.x
+        specifier: ^29.5.12
         version: 29.5.12
+      '@types/node':
+        specifier: ^20.12.11
+        version: 20.12.11
       '@typescript-eslint/eslint-plugin':
         specifier: 7.x
         version: 7.8.0(@typescript-eslint/parser@7.8.0(eslint@8.57.0)(typescript@5.4.5))(eslint@8.57.0)(typescript@5.4.5)
@@ -23,9 +26,6 @@ importers:
       husky:
         specifier: ^9.0.11
         version: 9.0.11
-      jest:
-        specifier: 29.x
-        version: 29.7.0(@types/node@20.12.11)
       nx:
         specifier: 19.x
         version: 19.0.2(@swc/core@1.5.5)
@@ -53,9 +53,9 @@ importers:
       '@swc/jest':
         specifier: 0.2.x
         version: 0.2.36(@swc/core@1.5.5)
-      '@types/node':
-        specifier: 20.x
-        version: 20.12.11
+      jest:
+        specifier: 29.x
+        version: 29.7.0(@types/node@20.12.11)
       typescript:
         specifier: 5.x
         version: 5.4.5
@@ -81,12 +81,6 @@ importers:
       '@swc/jest':
         specifier: 0.x
         version: 0.2.36(@swc/core@1.5.5)
-      '@types/jest':
-        specifier: 29.x
-        version: 29.5.12
-      '@types/node':
-        specifier: 20.x
-        version: 20.12.11
       '@types/uuid':
         specifier: 9.x
         version: 9.0.8
@@ -121,9 +115,6 @@ importers:
       '@stryker-mutator/typescript-checker':
         specifier: 8.x
         version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
-      '@types/jest':
-        specifier: 29.x
-        version: 29.5.12
       jest:
         specifier: 29.x
         version: 29.7.0(@types/node@20.12.11)
@@ -155,9 +146,6 @@ importers:
       '@swc/jest':
         specifier: 0.2.x
         version: 0.2.36(@swc/core@1.5.5)
-      '@types/jest':
-        specifier: 29.x
-        version: 29.5.12
       '@types/uuid':
         specifier: 9.x
         version: 9.0.8
@@ -189,9 +177,6 @@ importers:
       '@swc/jest':
         specifier: 0.2.x
         version: 0.2.36(@swc/core@1.5.5)
-      '@types/jest':
-        specifier: 29.x
-        version: 29.5.12
       jest:
         specifier: 29.x
         version: 29.7.0(@types/node@20.12.11)
@@ -216,9 +201,9 @@ importers:
       '@swc/jest':
         specifier: 0.2.x
         version: 0.2.36(@swc/core@1.5.5)
-      '@types/node':
-        specifier: 20.x
-        version: 20.12.11
+      jest:
+        specifier: 29.7.0
+        version: 29.7.0(@types/node@20.12.11)
       typescript:
         specifier: 5.x
         version: 5.4.5
@@ -250,6 +235,9 @@ importers:
       '@types/uuid':
         specifier: 9.x
         version: 9.0.8
+      jest:
+        specifier: 29.x
+        version: 29.7.0(@types/node@20.12.11)
       typescript:
         specifier: 5.x
         version: 5.4.5
