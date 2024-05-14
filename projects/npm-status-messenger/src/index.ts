@@ -7,10 +7,11 @@ import { JSONReader } from "./reader/jsonReader";
 import { NpmAuditValidator } from "./validator/NPMAuditValidator";
 
 program.option("--audit");
+program.option("--outdated");
 program.argument("<file>", "file to parse");
 program.parse();
 
-const { audit } = program.opts();
+const { audit, outdated } = program.opts();
 
 const config = new Configuration(
   {},
@@ -29,9 +30,10 @@ const reader = new JSONReader<NPMAuditData>(
   new NpmAuditValidator()
 );
 
+const telegramClient = new TelegramClient(fetch, config);
+
 if (audit) {
   try {
-    const telegramClient = new TelegramClient(fetch, config);
     const audit = new NPMAudit(telegramClient, reader);
 
     audit.fire(program.args[0]);
@@ -39,4 +41,8 @@ if (audit) {
     // eslint-disable-next-line no-console
     console.error("Failed to get audit data");
   }
+}
+if (outdated) {
+  // eslint-disable-next-line no-console
+  console.log("outdated placeholder");
 }
