@@ -29,9 +29,8 @@ if (audit) {
   try {
     const telegramClient = new TelegramClient(fetch, config);
     const audit = new NPMAudit(telegramClient, reader);
-    // eslint-disable-next-line no-console
-    console.log(program.args[0]);
-    audit.fire("./audit.json");
+
+    audit.fire(program.args[0]);
   } catch {
     // eslint-disable-next-line no-console
     console.error("Failed to get audit data");
