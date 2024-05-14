@@ -27,6 +27,7 @@ describe("JSON Reader", () => {
     expect(data).toEqual({
       abc: "something"
     });
+    expect(dummyReaderFileSync).toHaveBeenCalledWith("path/to/file", "utf-8");
   });
 
   test("reader throws a no data available error if validator returns not valid", () => {
