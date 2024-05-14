@@ -1,5 +1,5 @@
-import { NPMAuditData } from "../audit/audit";
-import { InvalidDataError } from "../errors/errors";
+import { NPMAuditData } from "../../audit/audit";
+import { InvalidDataError } from "../../errors/errors";
 import { NpmAuditValidator } from "./NPMAuditValidator";
 describe("npm audit validator", () => {
   const validAuditData: NPMAuditData = {

@@ -1,6 +1,7 @@
 import { IClient } from "../client/client";
 import { mapAuditToMessage } from "../mappers/auditToMessageMapper";
 import { ISynchronousReader } from "../reader/reader";
+import { IRunner } from "../runner/runner";
 
 export type NPMAuditData = {
   metadata: {
@@ -14,11 +15,7 @@ export type NPMAuditData = {
   };
 };
 
-export interface IAudit {
-  fire: (pathToFile: string) => void;
-}
-
-export class NPMAudit implements IAudit {
+export class NPMAudit implements IRunner {
   constructor(
     private client: IClient,
     private reader: ISynchronousReader<NPMAuditData>

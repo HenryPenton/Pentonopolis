@@ -3,8 +3,10 @@ import { Configuration } from "config-captain";
 import { readFileSync } from "fs";
 import { NPMAudit, NPMAuditData } from "./audit/audit";
 import { TelegramClient } from "./client/telegramClient";
+import { NPMOutdated, OutdatedData } from "./outdated/outdated";
 import { JSONReader } from "./reader/jsonReader";
-import { NpmAuditValidator } from "./validator/NPMAuditValidator";
+import { NpmAuditValidator } from "./validator/audit/NPMAuditValidator";
+import { NpmOutdatedValidator } from "./validator/outdated/NPMOutdatedValidator";
 
 program.option("--audit");
 program.option("--outdated");
@@ -25,7 +27,7 @@ const config = new Configuration(
 
 export type IConfig = typeof config;
 
-const reader = new JSONReader<NPMAuditData>(
+const auditReader = new JSONReader<NPMAuditData>(
   readFileSync,
   new NpmAuditValidator()
 );
@@ -34,7 +36,7 @@ const telegramClient = new TelegramClient(fetch, config);
 
 if (audit) {
   try {
-    const audit = new NPMAudit(telegramClient, reader);
+    const audit = new NPMAudit(telegramClient, auditReader);
 
     audit.fire(program.args[0]);
   } catch {
@@ -42,9 +44,18 @@ if (audit) {
     console.error("Failed to get audit data");
   }
 }
+
+const outdatedReader = new JSONReader<OutdatedData>(
+  readFileSync,
+  new NpmOutdatedValidator()
+);
+
 if (outdated) {
+  const outdated = new NPMOutdated(telegramClient, outdatedReader);
   // eslint-disable-next-line no-console
   console.log(program.args[0]);
   // eslint-disable-next-line no-console
   console.log("outdated placeholder");
+
+  outdated.fire();
 }
