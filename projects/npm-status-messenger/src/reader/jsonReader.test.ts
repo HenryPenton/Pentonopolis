@@ -1,6 +1,6 @@
-import { AuditReader } from "./auditReader";
-
-describe("Telegram Client", () => {
+import { NPMAuditData } from "../audit/audit";
+import { JSONReader } from "./jsonReader";
+describe("JSON Reader", () => {
   test("reader reads", () => {
     const dummyReaderFileSync = jest.fn().mockReturnValue(
       JSON.stringify({
@@ -15,7 +15,7 @@ describe("Telegram Client", () => {
         }
       })
     );
-    const reader = new AuditReader(dummyReaderFileSync);
+    const reader = new JSONReader<NPMAuditData>(dummyReaderFileSync);
     const data = reader.read("path/to/file");
 
     expect(data).toEqual({
@@ -25,4 +25,6 @@ describe("Telegram Client", () => {
     });
     expect(dummyReaderFileSync).toHaveBeenCalledWith("path/to/file", "utf-8");
   });
+
+  test("reader validator should verify data is present", () => {});
 });

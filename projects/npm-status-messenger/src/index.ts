@@ -1,12 +1,14 @@
 import { program } from "commander";
 import { Configuration } from "config-captain";
 import { readFileSync } from "fs";
-import { NPMAudit } from "./audit/audit";
+import { NPMAudit, NPMAuditData } from "./audit/audit";
 import { TelegramClient } from "./client/telegramClient";
-import { AuditReader } from "./reader/auditReader";
+import { JSONReader } from "./reader/jsonReader";
 
 program.option("--audit");
+program.argument("<file>", "file to parse");
 program.parse();
+
 const { audit } = program.opts();
 
 const config = new Configuration(
@@ -21,7 +23,7 @@ const config = new Configuration(
 
 export type IConfig = typeof config;
 
-const reader = new AuditReader(readFileSync);
+const reader = new JSONReader<NPMAuditData>(readFileSync);
 
 if (audit) {
   const telegramClient = new TelegramClient(fetch, config);
