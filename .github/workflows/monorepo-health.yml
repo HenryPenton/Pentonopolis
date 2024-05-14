@@ -154,7 +154,7 @@ jobs:
 
       - name: Print audit
         run: |
-          pnpx npm-status-messenger --audit
+          pnpx npm-status-messenger --audit ./audit.json
         env:
           TELEGRAM_API_URL: https://api.telegram.org/
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
