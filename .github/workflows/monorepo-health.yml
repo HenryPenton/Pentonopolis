@@ -140,13 +140,6 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
 
-      - name: send telegram message
-        if: always()
-        uses: appleboy/telegram-action@master
-        with:
-          to: ${{ secrets.TELEGRAM_TO }}
-          token: ${{ secrets.TELEGRAM_TOKEN }}
-          message_file: ${{ matrix.directory }}/outdated.json
   audit:
     name: audit
     needs: [health, outdated]
