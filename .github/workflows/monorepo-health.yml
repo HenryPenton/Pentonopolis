@@ -134,7 +134,7 @@ jobs:
 
       - name: Send outdated
         run: |
-          pnpx npm-status-messenger --outdated ${{matrix.directory}}}/outdated.json
+          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json
         env:
           TELEGRAM_API_URL: https://api.telegram.org/
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
