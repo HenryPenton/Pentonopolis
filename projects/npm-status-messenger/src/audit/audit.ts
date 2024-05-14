@@ -25,9 +25,12 @@ export class NPMAudit implements IAudit {
   ) {}
 
   fire = (pathToFile: string): void => {
-    const auditData = this.reader.read(pathToFile);
-    const message = mapAuditToMessage(auditData);
-
-    this.client.sendMessage(message);
+    try {
+      const auditData = this.reader.read(pathToFile);
+      const message = mapAuditToMessage(auditData);
+      this.client.sendMessage(message);
+    } catch {
+      this.client.sendMessage("No parseable vulnerability data could be found");
+    }
   };
 }

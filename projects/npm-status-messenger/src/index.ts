@@ -4,6 +4,7 @@ import { readFileSync } from "fs";
 import { NPMAudit, NPMAuditData } from "./audit/audit";
 import { TelegramClient } from "./client/telegramClient";
 import { JSONReader } from "./reader/jsonReader";
+import { NpmAuditValidator } from "./validator/NPMAuditValidator";
 
 program.option("--audit");
 program.argument("<file>", "file to parse");
@@ -23,7 +24,10 @@ const config = new Configuration(
 
 export type IConfig = typeof config;
 
-const reader = new JSONReader<NPMAuditData>(readFileSync);
+const reader = new JSONReader<NPMAuditData>(
+  readFileSync,
+  new NpmAuditValidator()
+);
 
 if (audit) {
   try {
