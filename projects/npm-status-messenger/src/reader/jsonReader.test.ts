@@ -1,5 +1,6 @@
 import { NPMAuditData } from "../audit/audit";
-import { IValidator, InvalidDataError, JSONReader } from "./jsonReader";
+import { InvalidDataError } from "../errors/errors";
+import { IValidator, JSONReader } from "./jsonReader";
 describe("JSON Reader", () => {
   test("reader reads", () => {
     const dummyReaderFileSync = jest.fn().mockReturnValue(

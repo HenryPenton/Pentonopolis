@@ -1,3 +1,4 @@
+import { InvalidDataError } from "../errors/errors";
 import { ISynchronousReader, SyncReader } from "./reader";
 
 export interface IValidator<T> {
@@ -20,5 +21,3 @@ export class JSONReader<T> implements ISynchronousReader<T> {
     }
   };
 }
-
-export class InvalidDataError extends Error {}
