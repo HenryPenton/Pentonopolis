@@ -2,9 +2,9 @@
   "name": "npm-status-messenger",
   "version": "0.3.27",
   "description": "An NPM status messenger",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "bin": "dist/index.js",
+  "main": "dist/startup.js",
+  "types": "dist/startup.d.ts",
+  "bin": "dist/startup.js",
   "scripts": {
     "build": "tsc",
     "dependencies:check": "pnpm outdated --json > outdated.json || true",
