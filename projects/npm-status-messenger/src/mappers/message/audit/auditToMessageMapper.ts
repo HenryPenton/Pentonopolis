@@ -1,4 +1,4 @@
-import { NPMAuditData } from "../audit/audit";
+import { NPMAuditData } from "../../../audit/audit";
 
 export const mapAuditToMessage = (audit: NPMAuditData): string => {
   const vulnerabilityMap = new Map(

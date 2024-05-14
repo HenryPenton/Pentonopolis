@@ -1,5 +1,5 @@
 import { IClient } from "../client/client";
-import { mapAuditToMessage } from "../mappers/auditToMessageMapper";
+import { mapAuditToMessage } from "../mappers/message/audit/auditToMessageMapper";
 import { ISynchronousReader } from "../reader/reader";
 import { IRunner } from "../runner/runner";
 

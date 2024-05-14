@@ -1,4 +1,5 @@
 import { IClient } from "../client/client";
+import { mapOutdatedToMessage } from "../mappers/message/outdated/outdatedToMessageMapper";
 import { ISynchronousReader } from "../reader/reader";
 import { IRunner } from "../runner/runner";
 
@@ -11,5 +12,11 @@ export class NPMOutdated implements IRunner {
     private client: IClient,
     private reader: ISynchronousReader<OutdatedData>
   ) {}
-  fire = (): void => {};
+
+  fire = (path: string): void => {
+    const data = this.reader.read(path);
+    const message = mapOutdatedToMessage(data);
+
+    this.client.sendMessage(message);
+  };
 }

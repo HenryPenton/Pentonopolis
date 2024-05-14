@@ -1,4 +1,4 @@
-import { mapAuditToMessage } from "../mappers/auditToMessageMapper";
+import { mapAuditToMessage } from "./auditToMessageMapper";
 
 describe("formatData", () => {
   test("data formatted correctly", async () => {
