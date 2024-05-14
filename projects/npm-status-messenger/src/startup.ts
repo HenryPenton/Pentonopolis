@@ -52,10 +52,7 @@ const outdatedReader = new JSONReader<OutdatedData>(
 
 if (outdated) {
   const outdated = new NPMOutdated(telegramClient, outdatedReader);
-  // eslint-disable-next-line no-console
   const filepath = program.args[0];
-  // eslint-disable-next-line no-console
-  console.log("outdated placeholder");
 
   outdated.fire(filepath);
 }
