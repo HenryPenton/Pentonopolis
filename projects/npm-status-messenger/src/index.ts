@@ -44,5 +44,7 @@ if (audit) {
 }
 if (outdated) {
   // eslint-disable-next-line no-console
+  console.log(program.args[0]);
+  // eslint-disable-next-line no-console
   console.log("outdated placeholder");
 }
