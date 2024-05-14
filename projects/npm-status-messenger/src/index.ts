@@ -26,8 +26,14 @@ export type IConfig = typeof config;
 const reader = new JSONReader<NPMAuditData>(readFileSync);
 
 if (audit) {
-  const telegramClient = new TelegramClient(fetch, config);
-  const audit = new NPMAudit(telegramClient, reader);
-
-  audit.fire("./audit.json");
+  try {
+    const telegramClient = new TelegramClient(fetch, config);
+    const audit = new NPMAudit(telegramClient, reader);
+    // eslint-disable-next-line no-console
+    console.log(program.args[0]);
+    audit.fire("./audit.json");
+  } catch {
+    // eslint-disable-next-line no-console
+    console.error("Failed to get audit data");
+  }
 }
