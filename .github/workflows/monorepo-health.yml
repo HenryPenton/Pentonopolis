@@ -132,7 +132,7 @@ jobs:
         with:
           version: latest
 
-      - name: Print audit
+      - name: Send outdated
         run: |
           pnpx npm-status-messenger --outdated test
         env:
@@ -163,7 +163,7 @@ jobs:
         with:
           version: latest
 
-      - name: Print audit
+      - name: Send audit
         run: |
           pnpx npm-status-messenger --audit ./audit.json
         env:
