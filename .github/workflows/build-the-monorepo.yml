@@ -64,7 +64,9 @@ jobs:
             **/node_modules
           key: ${{ env.npm_dependencies_cache_key }}
 
-      - run: pnpm build
+      - run: |
+          pnpm build
+          pnpm test
 
       - name: Delete existing nx cache
         run: |
