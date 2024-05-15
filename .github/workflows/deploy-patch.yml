@@ -82,4 +82,4 @@ jobs:
 
       - name: Bump Affected packages
         run: |
-          pnpx nx ${{ inputs.package-name }} release-patch
+          pnpx nx release-patch ${{ inputs.package-name }}
