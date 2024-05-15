@@ -1,4 +1,4 @@
-name: Build the Monorepo
+name: Mutation Tests
 
 on:
   push:
