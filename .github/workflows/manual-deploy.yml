@@ -15,6 +15,11 @@ on:
             "who-owes-who",
             "word-frequency-counter"
           ]
+      deployment-type:
+        description: "Type of deployment to do"
+        required: true
+        type: choice
+        options: ["patch", "minor", "major"]
 
 permissions:
   actions: write
@@ -82,4 +87,4 @@ jobs:
 
       - name: Bump Affected packages
         run: |
-          pnpx nx release-patch ${{ inputs.package-name }}
+          pnpx nx release-${{ inputs.deployment-type }} ${{ inputs.package-name }}
