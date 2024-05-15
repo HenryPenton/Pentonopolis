@@ -36,7 +36,6 @@ jobs:
 
       - run: |
           git fetch
-          git describe --tags --abbrev=0
           git config --global user.email ${{ secrets.GIT_EMAIL }}
           git config --global user.name "ci"
 
@@ -52,7 +51,7 @@ jobs:
       - name: Generate cache keys
         run: |
           npm_dependencies_cache_key=npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-          nx_cache_key=${{ runner.os }}-deploy-nx-${{ hashFiles('nx.json') }}
+          nx_cache_key=${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
 
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
