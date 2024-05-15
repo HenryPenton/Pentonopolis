@@ -33,7 +33,26 @@ jobs:
 
       - run: git fetch
       - run: git checkout main
-      - run: pnpm i --frozen-lockfile
+
+      - name: Restore cached npm dependencies
+        id: cache_dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+          key: ${{ env.npm_dependencies_cache_key }}
+
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: ${{ env.nx_cache_key }}
+
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
 
       - name: Extract package name from tag
         id: extract_package_name
