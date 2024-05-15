@@ -6,6 +6,8 @@ on:
       package-name:
         description: "Package to do a patch deployment of"
         required: true
+        type: choice
+        options: ["config-captain", "npm-status-messenger"]
 
 permissions:
   actions: write
