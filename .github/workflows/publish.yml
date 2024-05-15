@@ -22,6 +22,15 @@ jobs:
         with:
           version: latest
 
+      - name: Generate cache keys
+        id: cache_keys
+        run: |
+          npm_dependencies_cache_key=npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+
+          echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
+          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+
       - run: git fetch
       - run: git checkout main
       - run: pnpm i --frozen-lockfile
@@ -33,7 +42,7 @@ jobs:
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
 
-      - run: pnpm --filter $package_name publish
+      - run: pnpm --filter $package_name publish --dry-run
         name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
