@@ -1,4 +1,4 @@
 pnpm lint:check
 pnpm prettier:check
 
-pnpm test
+pnpm build
