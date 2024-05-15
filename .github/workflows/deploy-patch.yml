@@ -7,7 +7,14 @@ on:
         description: "Package to do a patch deployment of"
         required: true
         type: choice
-        options: ["config-captain", "npm-status-messenger"]
+        options:
+          [
+            "config-captain",
+            "npm-status-messenger",
+            "moviebot-telegram",
+            "who-owes-who",
+            "word-frequency-counter"
+          ]
 
 permissions:
   actions: write
@@ -75,5 +82,4 @@ jobs:
 
       - name: Bump Affected packages
         run: |
-          echo "${{ inputs.package-name }}"
-          # pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
+          pnpx nx ${{ inputs.package-name }} release-patch
