@@ -14,9 +14,9 @@ const config = {
   concurrency: 2,
   appendPlugins: [
     "@stryker-mutator/jest-runner",
-    "@stryker-mutator/typescript-checker",
+    "@stryker-mutator/typescript-checker"
   ],
   ignorePatterns: ["dist/**/*"],
-  disableTypeChecks: true,
+  disableTypeChecks: true
 };
 export default config;
