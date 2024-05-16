@@ -1,5 +1,5 @@
-import { InvalidDataError } from "../../errors/errors";
-import { OutdatedData } from "../../outdated/outdated";
+import { InvalidDataError } from "../../errors/dataErrors";
+import { OutdatedData } from "../../services/outdated/outdated";
 import { IValidator } from "../validator";
 
 export class NpmOutdatedValidator implements IValidator<OutdatedData> {

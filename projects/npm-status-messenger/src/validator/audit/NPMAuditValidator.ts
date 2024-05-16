@@ -1,5 +1,5 @@
-import { NPMAuditData } from "../../audit/audit";
-import { InvalidDataError } from "../../errors/errors";
+import { NPMAuditData } from "../../services/audit/audit";
+import { InvalidDataError } from "../../errors/dataErrors";
 import { IValidator } from "../validator";
 
 export class NpmAuditValidator implements IValidator<NPMAuditData> {

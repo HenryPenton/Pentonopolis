@@ -1,5 +1,6 @@
+import { NoDataAvailableError } from "../errors/dataErrors";
 import { IValidator } from "../validator/validator";
-import { ISynchronousReader, NoDataAvailableError, SyncReader } from "./reader";
+import { ISynchronousReader, SyncReader } from "./reader";
 
 export class JSONReader<T> implements ISynchronousReader<T> {
   constructor(

@@ -1,9 +1,9 @@
 import { program } from "commander";
 import { Configuration } from "config-captain";
 import { readFileSync } from "fs";
-import { NPMAudit, NPMAuditData } from "./audit/audit";
+import { NPMAudit, NPMAuditData } from "./services/audit/audit";
 import { TelegramClient } from "./client/telegramClient";
-import { NPMOutdated, OutdatedData } from "./outdated/outdated";
+import { NPMOutdated, OutdatedData } from "./services/outdated/outdated";
 import { JSONReader } from "./reader/jsonReader";
 import { NpmAuditValidator } from "./validator/audit/NPMAuditValidator";
 import { NpmOutdatedValidator } from "./validator/outdated/NPMOutdatedValidator";

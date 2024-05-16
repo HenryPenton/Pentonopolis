@@ -1,6 +1,6 @@
-import { IClient } from "../client/client";
+import { IClient } from "../../client/client";
+import { ISynchronousReader } from "../../reader/reader";
 import { mapOutdatedToMessage } from "../mappers/message/outdated/outdatedToMessageMapper";
-import { ISynchronousReader } from "../reader/reader";
 import { IRunner } from "../runner/runner";
 
 export type OutdatedData = {
