@@ -1,9 +1,9 @@
 import { Config, defaultConfig } from "../../config";
-import { punctuationRemover } from "../../utils/punctuation/punctuation";
 import {
   getSentenceComponents,
   getUniqueSentenceComponents
 } from "../../sentenceComponents/sentenceComponents";
+import { punctuationRemover } from "../../utils/punctuation/punctuation";
 
 type WordMap = Map<string, number>;
 /**

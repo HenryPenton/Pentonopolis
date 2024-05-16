@@ -1,5 +1,6 @@
 import "dotenv/config";
 import { Telegraf } from "telegraf";
+import { State } from "./State/State";
 import { stripCommand } from "./commandParser/commandParser";
 import { Commands, SearchType } from "./commands";
 import { CleanupResponse } from "./responseGenerator/responses/CleanupResponse/CleanupResponse";
@@ -9,13 +10,12 @@ import {
 } from "./responseGenerator/responses/GetMoviePollResponse/GetMoviePollResponse";
 import { GetMovieResponse } from "./responseGenerator/responses/GetMovieResponse/GetMovieResponse";
 import { GetVotesResponse } from "./responseGenerator/responses/GetVotesResponse/GetVotesResponse";
-import { helpDefinitions } from "./responseGenerator/responses/HelpResponse/helpDefinitions";
 import { HelpResponse } from "./responseGenerator/responses/HelpResponse/HelpResponse";
+import { helpDefinitions } from "./responseGenerator/responses/HelpResponse/helpDefinitions";
 import { MovieResponse } from "./responseGenerator/responses/MovieResponse/MovieResponse";
 import { RemovieResponse } from "./responseGenerator/responses/RemovieResponse/RemovieResponse";
 import { RemoviesResponse } from "./responseGenerator/responses/RemoviesResponse/RemoviesResponse";
 import { SetMovieResponse } from "./responseGenerator/responses/SetMovieResponse/SetMovieResponse";
-import { State } from "./State/State";
 
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN || "");
 const state = new State();

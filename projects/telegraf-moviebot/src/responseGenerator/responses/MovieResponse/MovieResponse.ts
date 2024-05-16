@@ -66,7 +66,7 @@ export class MovieResponse extends AsyncMovieResponse {
         this.getRatings(movie.Ratings),
         this.getDirector(movie.Director),
         this.getPlot(movie.Plot),
-        await getTrailer(titleAndYear),
+        await getTrailer(titleAndYear)
       ];
 
       return this.combineKnownInformation(movieDetails);

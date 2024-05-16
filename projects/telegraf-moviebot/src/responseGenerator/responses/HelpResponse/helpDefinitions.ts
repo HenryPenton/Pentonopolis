@@ -17,5 +17,5 @@ export const helpDefinitions: HelpDefinitions = {
   setmovie: `${setsAMovie}by name`,
   setmovieid: `${setsAMovie}by imdb id`,
   setmovieyear: `${setsAMovie}by its year${yearFormat}`,
-  votes: `Get the voting status on the current movie poll`,
+  votes: `Get the voting status on the current movie poll`
 };
