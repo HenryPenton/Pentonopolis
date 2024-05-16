@@ -1,3 +1,3 @@
 export interface IValidator<T> {
-  isValid: (data: unknown) => T;
+  validate: (data: unknown) => T;
 }

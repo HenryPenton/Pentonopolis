@@ -10,7 +10,7 @@ export class JSONReader<T> implements ISynchronousReader<T> {
   read = (path: string): T => {
     try {
       const dataFromFile = JSON.parse(this.reader(path, "utf-8"));
-      return this.validator.isValid(dataFromFile);
+      return this.validator.validate(dataFromFile);
     } catch {
       throw new NoDataAvailableError();
     }

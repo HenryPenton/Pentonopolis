@@ -15,7 +15,7 @@ describe("JSON Reader", () => {
       .mockReturnValue(JSON.stringify(validTestObject));
 
     const dummyValidator: IValidator<TestType> = {
-      isValid: jest.fn().mockReturnValue(validTestObject)
+      validate: jest.fn().mockReturnValue(validTestObject)
     };
 
     const reader = new JSONReader<TestType>(
@@ -36,7 +36,7 @@ describe("JSON Reader", () => {
       .mockReturnValue(JSON.stringify(validTestObject));
 
     const dummyValidator: IValidator<TestType> = {
-      isValid: () => {
+      validate: () => {
         throw new InvalidDataError("whatever reason");
       }
     };

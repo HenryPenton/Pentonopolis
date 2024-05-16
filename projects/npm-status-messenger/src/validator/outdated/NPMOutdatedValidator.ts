@@ -3,7 +3,7 @@ import { OutdatedData } from "../../outdated/outdated";
 import { IValidator } from "../validator";
 
 export class NpmOutdatedValidator implements IValidator<OutdatedData> {
-  isValid = (data: unknown): OutdatedData => {
+  validate = (data: unknown): OutdatedData => {
     const potentialData = data as OutdatedData;
     const dataMap = new Map(Object.entries(potentialData));
     const actualOutdatedData: OutdatedData = {};

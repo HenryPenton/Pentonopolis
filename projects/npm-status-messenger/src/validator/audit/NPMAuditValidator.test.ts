@@ -16,7 +16,7 @@ describe("npm audit validator", () => {
   test("returns data if its valid", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
-    expect(npmAuditDataValidator.isValid(validAuditData)).toEqual(
+    expect(npmAuditDataValidator.validate(validAuditData)).toEqual(
       validAuditData
     );
   });
@@ -24,7 +24,7 @@ describe("npm audit validator", () => {
   test("must have metadata", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
-    expect(() => npmAuditDataValidator.isValid({})).toThrow(
+    expect(() => npmAuditDataValidator.validate({})).toThrow(
       new InvalidDataError("Metadata missing")
     );
   });
@@ -32,7 +32,7 @@ describe("npm audit validator", () => {
   test("must have vulnerabilities", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
-    expect(() => npmAuditDataValidator.isValid({ metadata: {} })).toThrow(
+    expect(() => npmAuditDataValidator.validate({ metadata: {} })).toThrow(
       new InvalidDataError("Vulnerabilities missing")
     );
   });
@@ -40,7 +40,7 @@ describe("npm audit validator", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
     expect(() =>
-      npmAuditDataValidator.isValid({
+      npmAuditDataValidator.validate({
         metadata: {
           vulnerabilities: {
             low: 0,
@@ -56,7 +56,7 @@ describe("npm audit validator", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
     expect(() =>
-      npmAuditDataValidator.isValid({
+      npmAuditDataValidator.validate({
         metadata: {
           vulnerabilities: {
             info: 0,
@@ -72,7 +72,7 @@ describe("npm audit validator", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
     expect(() =>
-      npmAuditDataValidator.isValid({
+      npmAuditDataValidator.validate({
         metadata: {
           vulnerabilities: {
             info: 0,
@@ -88,7 +88,7 @@ describe("npm audit validator", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
     expect(() =>
-      npmAuditDataValidator.isValid({
+      npmAuditDataValidator.validate({
         metadata: {
           vulnerabilities: {
             info: 0,
@@ -104,7 +104,7 @@ describe("npm audit validator", () => {
     const npmAuditDataValidator = new NpmAuditValidator();
 
     expect(() =>
-      npmAuditDataValidator.isValid({
+      npmAuditDataValidator.validate({
         metadata: {
           vulnerabilities: {
             info: 0,

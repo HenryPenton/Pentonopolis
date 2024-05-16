@@ -3,7 +3,7 @@ import { InvalidDataError } from "../../errors/errors";
 import { IValidator } from "../validator";
 
 export class NpmAuditValidator implements IValidator<NPMAuditData> {
-  isValid = (data: unknown): NPMAuditData => {
+  validate = (data: unknown): NPMAuditData => {
     const potentialData = data as NPMAuditData;
 
     if (potentialData.metadata === undefined) {

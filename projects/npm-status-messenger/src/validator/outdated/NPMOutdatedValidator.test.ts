@@ -5,7 +5,7 @@ describe("outdated validator", () => {
   test("returns the data if valid for a single dependency", () => {
     const outdatedValidator = new NpmOutdatedValidator();
 
-    const validData = outdatedValidator.isValid({
+    const validData = outdatedValidator.validate({
       aaaa: { current: "1.2.3", latest: "2.3.4" }
     });
 
@@ -19,7 +19,7 @@ describe("outdated validator", () => {
   test("returns the data if valid for two dependencies", () => {
     const outdatedValidator = new NpmOutdatedValidator();
 
-    const validData = outdatedValidator.isValid({
+    const validData = outdatedValidator.validate({
       aaaa: { current: "1.2.3", latest: "2.3.4" },
       bbbb: { current: "4.5.6", latest: "5.6.7" }
     });
@@ -36,7 +36,7 @@ describe("outdated validator", () => {
     const outdatedValidator = new NpmOutdatedValidator();
 
     const validationAttempt = (): OutdatedData =>
-      outdatedValidator.isValid({
+      outdatedValidator.validate({
         aaaa: { current: "1.2.3", latest: "2.3.4" },
         aaalflfa: "",
         bbbb: { current: "4.5.6", latest: "5.6.7" }
@@ -50,7 +50,7 @@ describe("outdated validator", () => {
     const outdatedValidator = new NpmOutdatedValidator();
 
     const validationAttempt = (): OutdatedData =>
-      outdatedValidator.isValid("wrong");
+      outdatedValidator.validate("wrong");
 
     expect(validationAttempt).toThrow(
       new InvalidDataError("Invalid outdated data")
