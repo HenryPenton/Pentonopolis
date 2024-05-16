@@ -1,7 +1,6 @@
-import { InvalidDataError } from "../errors/errors";
+import { InvalidDataError, NoDataAvailableError } from "../errors/dataErrors";
 import { IValidator } from "../validator/validator";
 import { JSONReader } from "./jsonReader";
-import { NoDataAvailableError } from "./reader";
 
 type TestType = { abc: string };
 describe("JSON Reader", () => {

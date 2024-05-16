@@ -1,5 +1,5 @@
-import { InvalidDataError } from "../../errors/errors";
-import { OutdatedData } from "../../outdated/outdated";
+import { InvalidDataError } from "../../errors/dataErrors";
+import { OutdatedData } from "../../services/outdated/outdated";
 import { NpmOutdatedValidator } from "./NPMOutdatedValidator";
 describe("outdated validator", () => {
   test("returns the data if valid for a single dependency", () => {

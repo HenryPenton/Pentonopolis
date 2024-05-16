@@ -1,5 +1,6 @@
-import { IClient } from "../client/client";
-import { ISynchronousReader, NoDataAvailableError } from "../reader/reader";
+import { IClient } from "../../client/client";
+import { NoDataAvailableError } from "../../errors/dataErrors";
+import { ISynchronousReader } from "../../reader/reader";
 import { NPMAudit, NPMAuditData } from "./audit";
 
 describe("Audit", () => {

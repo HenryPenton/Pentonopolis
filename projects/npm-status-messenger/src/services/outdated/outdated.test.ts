@@ -1,5 +1,6 @@
 import { IClient } from "../../client/client";
-import { ISynchronousReader, NoDataAvailableError } from "../../reader/reader";
+import { NoDataAvailableError } from "../../errors/dataErrors";
+import { ISynchronousReader } from "../../reader/reader";
 import { NPMOutdated, OutdatedData } from "./outdated";
 
 describe("outdated", () => {

@@ -1,4 +1,4 @@
-import { getDummyConfig } from "../dummy_config/dummyConfig";
+import { getDummyConfig } from "../config/dummy_config/dummyConfig";
 import { IFetch, TelegramClient } from "./telegramClient";
 describe("Telegram Client", () => {
   test("sends message to telegram", () => {
