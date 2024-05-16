@@ -1,5 +1,5 @@
 import { IClient } from "../client/client";
-import { ISynchronousReader } from "../reader/reader";
+import { ISynchronousReader, NoDataAvailableError } from "../reader/reader";
 import { NPMOutdated, OutdatedData } from "./outdated";
 
 describe("outdated", () => {
@@ -19,6 +19,23 @@ describe("outdated", () => {
 
     expect(dummyClient.sendMessage).toHaveBeenCalledWith(
       "Outdated Packages:\ndef: 1.2.3 -> 1.2.4"
+    );
+  });
+
+  test("sends a warning if outdated data not found", () => {
+    const stubClient: IClient = { sendMessage: jest.fn() };
+
+    const stubReader: ISynchronousReader<OutdatedData> = {
+      read: () => {
+        throw new NoDataAvailableError();
+      }
+    };
+
+    const outdated = new NPMOutdated(stubClient, stubReader);
+    outdated.fire("path/to/outdated/file");
+
+    expect(stubClient.sendMessage).toHaveBeenCalledWith(
+      "No parseable version data could be found"
     );
   });
 });

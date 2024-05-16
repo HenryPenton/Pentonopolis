@@ -14,9 +14,13 @@ export class NPMOutdated implements IRunner {
   ) {}
 
   fire = (path: string): void => {
-    const data = this.reader.read(path);
-    const message = mapOutdatedToMessage(data);
+    try {
+      const outdatedData = this.reader.read(path);
+      const message = mapOutdatedToMessage(outdatedData);
 
-    this.client.sendMessage(message);
+      this.client.sendMessage(message);
+    } catch {
+      this.client.sendMessage("No parseable version data could be found");
+    }
   };
 }
