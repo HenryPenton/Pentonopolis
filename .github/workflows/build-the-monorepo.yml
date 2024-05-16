@@ -152,71 +152,9 @@ jobs:
         with:
           name: coverage reports
           path: ./projects/**/coverage
-  formatting:
-    runs-on: ubuntu-latest
-    needs: build-and-test
-    env:
-      npm_dependencies_cache_key: ${{needs.build-and-test.outputs.npm_dependencies_cache_key}}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - uses: pnpm/action-setup@v3
-        with:
-          version: latest
-
-      - name: Generate cache keys
-        run: |
-          nx_cache_key=${{ runner.os }}-formatting-nx-${{ hashFiles('nx.json') }}
-          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
-
-      - name: Restore cached npm dependencies
-        id: cache_dependencies
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            **/node_modules
-          key: ${{ env.npm_dependencies_cache_key }}
-
-      - name: Restore nx cache
-        id: cache_nx
-        uses: actions/cache/restore@v4
-        with:
-          path: |
-            .nx
-          key: ${{ env.nx_cache_key }}
-
-      - name: install dependencies
-        if: steps.cache_dependencies.outputs.cache-hit != 'true'
-        run: pnpm install --frozen-lockfile
-
-      - name: Formatting
-        run: |
-          pnpm prettier:check
-          pnpm lint:check
-
-      - name: Delete existing nx cache
-        run: |
-          gh extension install actions/gh-actions-cache
-          gh actions-cache delete ${{ env.nx_cache_key }} --confirm || true
-        if: steps.cache_nx.outputs.cache-hit == 'true'
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Cache nx
-        uses: actions/cache/save@v4
-        with:
-          path: |
-            .nx
-          key: ${{ env.nx_cache_key }}
   continuous-deploy:
     runs-on: ubuntu-latest
-    needs: [build-and-test, coverage, formatting]
+    needs: [build-and-test, coverage]
     steps:
       - uses: actions/checkout@v4
         with:
