@@ -39,4 +39,18 @@ describe("outdated", () => {
       "No parseable version data could be found"
     );
   });
+  test("doesn't send a message if there are no outdated packages", () => {
+    const stubClient: IClient = { sendMessage: jest.fn() };
+
+    const stubReader: ISynchronousReader<OutdatedData> = {
+      read: () => {
+        return {};
+      }
+    };
+
+    const audit = new NPMOutdated(stubClient, stubReader);
+    audit.fire("path/to/outdated/file");
+
+    expect(stubClient.sendMessage).not.toHaveBeenCalled();
+  });
 });
