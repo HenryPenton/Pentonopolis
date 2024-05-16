@@ -4,6 +4,6 @@ export * from "./exceptions/Person";
 export {
   PaymentCore,
   PaymentSetDTO,
-  SuggestedPayment,
+  SuggestedPayment
 } from "./interfaces/payment";
 export { UpdateMap } from "./interfaces/person";

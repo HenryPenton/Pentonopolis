@@ -11,8 +11,8 @@
     "lint": "eslint . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
     "prepare": "pnpm run build",
-    "prettier:check": "prettier --check ./src/**/*.ts",
-    "prettier": "prettier --write ./src/**/*.ts",
+    "prettier:check": "prettier --check **/*.ts",
+    "prettier": "prettier --write **/*.ts",
     "test:compile": "tsc --project tsconfig-test.json",
     "test:coverage": "jest --coverage",
     "test": "jest"

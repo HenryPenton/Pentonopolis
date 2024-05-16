@@ -1,7 +1,7 @@
 export enum SearchType {
   WITH_YEAR,
   WITH_ID,
-  WITH_SEARCH_TERM,
+  WITH_SEARCH_TERM
 }
 
 export enum Commands {
@@ -17,5 +17,5 @@ export enum Commands {
   reset = "reset",
   cleanup = "cleanup",
   votes = "votes",
-  help = "help",
+  help = "help"
 }
