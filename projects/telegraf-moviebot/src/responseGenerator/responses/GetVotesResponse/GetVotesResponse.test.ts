@@ -1,5 +1,5 @@
-import { GetVotesResponse } from "./GetVotesResponse";
 import { State } from "../../../State/State";
+import { GetVotesResponse } from "./GetVotesResponse";
 
 describe("GetVotesResponse", () => {
   test("handles no votes in state", () => {

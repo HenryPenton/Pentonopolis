@@ -4,7 +4,7 @@ import { getTrailer, YoutubeResponse } from "./trailerFetcher";
 describe("movie fetcher", () => {
   test("get trailer successful", async () => {
     const youtubeResponse: YoutubeResponse = {
-      items: [{ id: { videoId: "abcde" } }],
+      items: [{ id: { videoId: "abcde" } }]
     };
 
     jest

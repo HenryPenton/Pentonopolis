@@ -148,7 +148,7 @@ describe("movie responses with other information", () => {
     Director: "director",
     Ratings: [{ Source: "sriracha", Value: "tasty" }],
     Plot: "dude where is my automobile",
-    Year: "1995",
+    Year: "1995"
   };
   test("movie with multiple ratings", async () => {
     const state = new State();
@@ -160,7 +160,7 @@ describe("movie responses with other information", () => {
     jest.spyOn(MF, "getMovieWithID").mockResolvedValueOnce({
       Title: "thingy movie",
       imdbID: "tt12345457",
-      ...genericMovieInfo,
+      ...genericMovieInfo
     });
     expect(await setMovieResponse.fire()).toBe(
       `thingy movie (sriracha Rating: tasty) added to the film selection`
@@ -174,7 +174,7 @@ describe("multi movie", () => {
     Director: "director",
     Ratings: [{ Source: "sriracha", Value: "tasty" }],
     Plot: "dude where is my automobile",
-    Year: "1995",
+    Year: "1995"
   };
   test("multiple movies", async () => {
     const state = new State();
@@ -188,17 +188,17 @@ describe("multi movie", () => {
       .mockResolvedValueOnce({
         Title: "abcde",
         imdbID: "tt12345457",
-        ...genericMovieInfo,
+        ...genericMovieInfo
       })
       .mockResolvedValueOnce({
         Title: "edcba",
         imdbID: "tt7654321",
-        ...genericMovieInfo,
+        ...genericMovieInfo
       })
       .mockResolvedValueOnce({
         Title: "vwxyz",
         imdbID: "tt9876543",
-        ...genericMovieInfo,
+        ...genericMovieInfo
       });
     expect(await setMovieResponse.fire()).toBe(
       `abcde (sriracha Rating: tasty), edcba (sriracha Rating: tasty) and vwxyz (sriracha Rating: tasty) added to the film selection`

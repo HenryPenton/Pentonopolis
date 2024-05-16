@@ -30,7 +30,7 @@ describe("movie fetcher", () => {
   test("get movie fails", async () => {
     jest.spyOn(FETCH, "fetcher").mockRejectedValue(new Error("oops"));
     expect(await getMovieWithYear("abcde", "1234")).toEqual({
-      Response: "False",
+      Response: "False"
     });
   });
 });

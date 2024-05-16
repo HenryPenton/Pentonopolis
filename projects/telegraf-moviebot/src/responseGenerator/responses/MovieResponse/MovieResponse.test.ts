@@ -67,14 +67,14 @@ describe("movie responses with other information", () => {
     Director: "director",
     Ratings: [{ Source: "source", Value: "value" }],
     Plot: "dude where is my automobile",
-    Year: "1995",
+    Year: "1995"
   };
   test("get a movie by imdb id", async () => {
     const mR = new MovieResponse("tt12345457", SearchType.WITH_ID);
     jest.spyOn(MF, "getMovieWithID").mockResolvedValueOnce({
       Title: "thingy movie",
       imdbID: "tt12345457",
-      ...genericMovieInfo,
+      ...genericMovieInfo
     });
     expect(await mR.fire()).toBe(
       `Movie: thingy movie (1995)\n\nRuntime: runtime\n\nsource: value\n\nDirector: director\n\nPlot: dude where is my automobile`
@@ -108,17 +108,17 @@ describe("movie responses with other information", () => {
     Director: "director",
     Ratings: [
       { Source: "source", Value: "value" },
-      { Source: "sriracha", Value: "tasty" },
+      { Source: "sriracha", Value: "tasty" }
     ],
     Plot: "dude where is my automobile",
-    Year: "1995",
+    Year: "1995"
   };
   test("movie with multiple ratings", async () => {
     const mR = new MovieResponse("tt12345457", SearchType.WITH_ID);
     jest.spyOn(MF, "getMovieWithID").mockResolvedValueOnce({
       Title: "thingy movie",
       imdbID: "tt12345457",
-      ...genericMovieInfo,
+      ...genericMovieInfo
     });
     expect(await mR.fire()).toBe(
       `Movie: thingy movie (1995)\n\nRuntime: runtime\n\nsource: value\nsriracha: tasty\n\nDirector: director\n\nPlot: dude where is my automobile`
