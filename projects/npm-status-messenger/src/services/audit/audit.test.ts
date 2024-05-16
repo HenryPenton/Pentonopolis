@@ -48,4 +48,29 @@ describe("Audit", () => {
       "No parseable vulnerability data could be found"
     );
   });
+
+  test("doesn't send a message if there are no vulnerabilities", () => {
+    const stubClient: IClient = { sendMessage: jest.fn() };
+
+    const stubReader: ISynchronousReader<NPMAuditData> = {
+      read: () => {
+        return {
+          metadata: {
+            vulnerabilities: {
+              low: 0,
+              moderate: 0,
+              high: 0,
+              info: 0,
+              critical: 0
+            }
+          }
+        };
+      }
+    };
+
+    const audit = new NPMAudit(stubClient, stubReader);
+    audit.fire("path/to/audit/file");
+
+    expect(stubClient.sendMessage).not.toHaveBeenCalled();
+  });
 });

@@ -21,11 +21,27 @@ export class NPMAudit implements IRunner {
     private reader: ISynchronousReader<NPMAuditData>
   ) {}
 
+  isAuditMessageRequired = (data: NPMAuditData): boolean => {
+    const { low, moderate, info, critical, high } =
+      data.metadata.vulnerabilities;
+
+    return !(
+      low === 0 &&
+      moderate === 0 &&
+      info === 0 &&
+      critical === 0 &&
+      high === 0
+    );
+  };
+
   fire = (pathToFile: string): void => {
     try {
       const auditData = this.reader.read(pathToFile);
-      const message = mapAuditToMessage(auditData);
-      this.client.sendMessage(message);
+      const isAuditMessageRequired = this.isAuditMessageRequired(auditData);
+      if (isAuditMessageRequired) {
+        const message = mapAuditToMessage(auditData);
+        this.client.sendMessage(message);
+      }
     } catch {
       this.client.sendMessage("No parseable vulnerability data could be found");
     }
