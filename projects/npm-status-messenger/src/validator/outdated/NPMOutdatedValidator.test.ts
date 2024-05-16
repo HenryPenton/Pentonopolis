@@ -56,4 +56,14 @@ describe("outdated validator", () => {
       new InvalidDataError("Invalid outdated data")
     );
   });
+
+  test("throws an Invalid Data Error if the object is actually a number", () => {
+    const outdatedValidator = new NpmOutdatedValidator();
+
+    const validationAttempt = (): OutdatedData => outdatedValidator.validate(2);
+
+    expect(validationAttempt).toThrow(
+      new InvalidDataError("Invalid outdated data")
+    );
+  });
 });
