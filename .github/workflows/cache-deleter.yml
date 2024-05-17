@@ -1,0 +1,19 @@
+name: Delete caches
+
+on:
+  workflow_dispatch:
+
+permissions:
+  actions: write
+
+jobs:
+  cache-deletion:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Delete existing nx cache
+        run: |
+          gh extension install actions/gh-actions-cache
+          gh actions-cache list
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
