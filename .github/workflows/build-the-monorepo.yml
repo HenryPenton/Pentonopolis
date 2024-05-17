@@ -280,7 +280,7 @@ jobs:
           tag=${{ github.ref_name }}
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
-          ls
+          ls projects/config-captain
 
       - run: pnpx nx deploy $package_name
         name: Publish to NPM
