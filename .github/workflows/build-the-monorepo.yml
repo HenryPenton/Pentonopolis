@@ -66,7 +66,7 @@ jobs:
 
       - run: |
           pnpm build
-          pnpm test
+          pnpm test:coverage
 
       - name: Delete existing nx cache
         run: |
@@ -82,7 +82,7 @@ jobs:
           path: |
             .nx
           key: ${{ env.nx_cache_key }}
-  coverage:
+  formatting:
     runs-on: ubuntu-latest
     needs: build-and-test
     env:
@@ -101,7 +101,7 @@ jobs:
 
       - name: Generate nx cache key
         run: |
-          nx_cache_key=${{ runner.os }}-coverage-nx-${{ hashFiles('nx.json') }}
+          nx_cache_key=${{ runner.os }}-formatting-nx-${{ hashFiles('nx.json') }}
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
 
       - name: Restore cached npm dependencies
@@ -154,7 +154,7 @@ jobs:
           path: ./projects/**/coverage
   continuous-deploy:
     runs-on: ubuntu-latest
-    needs: [build-and-test, coverage]
+    needs: [build-and-test, formatting]
     steps:
       - uses: actions/checkout@v4
         with:
