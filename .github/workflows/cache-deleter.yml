@@ -22,7 +22,7 @@ jobs:
 
             set -- $line
 
-            cache-name=$1
+            cache-name="$1"
             gh actions-cache delete $cache-name --confirm || true
 
 
