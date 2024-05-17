@@ -51,8 +51,8 @@ jobs:
 
       - name: Generate cache keys
         run: |
-          npm_dependencies_cache_key=npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-          nx_cache_key=${{ runner.os }}-nx-${{ hashFiles('nx.json') }}
+          npm_dependencies_cache_key=manual-deploy-npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ runner.os }}-nx-manual-deploy-${{ hashFiles('nx.json') }}
 
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
