@@ -71,7 +71,7 @@ jobs:
         name: upload build artifacts
         with:
           name: build-artifacts
-          path: ./projects/**/dist/**/*
+          path: ./projects/**/dist
 
       - name: Delete existing nx cache
         run: |
