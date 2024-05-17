@@ -225,22 +225,10 @@ jobs:
     needs: [build-and-test, formatting]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
-      - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
-
-      # - uses: pnpm/action-setup@v3
-      #   with:
-      #     version: latest
-
-      # - run: git fetch
-      # - run: git checkout main
-
-      # - name: install dependencies
-      #   run: pnpm install --frozen-lockfile
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -256,7 +244,6 @@ jobs:
           package_version=$(echo "$tag" | cut -d'@' -f2)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
           echo "package_version=$package_version" >> "$GITHUB_ENV"
-          ls projects/npm-status-messenger
 
       - run: npm publish ./build/$package_name/$package_name-$package_version.tgz
         name: Publish to NPM
