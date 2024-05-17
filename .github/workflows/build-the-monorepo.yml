@@ -280,7 +280,10 @@ jobs:
         run: |
           tag=${{ github.ref_name }}
           package_name=$(echo "$tag" | cut -d'@' -f1)
+          package_version=$(echo "$tag" | cut -d'@' -f2)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
+          echo "package_version=$package_version" >> "$GITHUB_ENV"
+          echo $package_version
           ls builds
 
       - run: pnpx nx deploy $package_name
