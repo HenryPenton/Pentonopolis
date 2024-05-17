@@ -15,7 +15,7 @@ jobs:
 
       - name: Delete existing nx cache
         run: |
-          filename = cache-list
+          filename="cache-list"
           gh extension install actions/gh-actions-cache
           gh actions-cache list > cache-list
           while IFS= read -r line; do
