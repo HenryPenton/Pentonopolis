@@ -285,7 +285,7 @@ jobs:
           echo "package_version=$package_version" >> "$GITHUB_ENV"
           ls projects/config-captain
 
-      - run: pnpm publish --filter $package_name --dry-run
+      - run: pnpx nx deploy $package_name
         name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
