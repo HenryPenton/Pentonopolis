@@ -19,7 +19,13 @@ jobs:
           gh extension install actions/gh-actions-cache
           gh actions-cache list > cache-list
           while IFS= read -r line; do
-            echo "$line aaa"
+
+            set -- $line
+
+            first_word=$1
+
+            echo "First word: $first_word"
+
           done < "$filename"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
