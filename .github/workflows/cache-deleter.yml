@@ -22,9 +22,9 @@ jobs:
 
             set -- $line
 
-            first_word=$1
+            cache-name=$1
+            gh actions-cache delete $cache-name --confirm || true
 
-            echo "First word: $first_word"
 
           done < "$filename"
         env:
