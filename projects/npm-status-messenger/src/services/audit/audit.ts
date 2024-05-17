@@ -21,7 +21,7 @@ export class NPMAudit implements IRunner {
     private reader: ISynchronousReader<NPMAuditData>
   ) {}
 
-  isAuditMessageRequired = (data: NPMAuditData): boolean => {
+  private isAuditMessageRequired = (data: NPMAuditData): boolean => {
     const { low, moderate, info, critical, high } =
       data.metadata.vulnerabilities;
 

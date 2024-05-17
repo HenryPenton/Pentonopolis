@@ -4,33 +4,42 @@ import { ISynchronousReader } from "../../reader/reader";
 import { NPMAudit, NPMAuditData } from "./audit";
 
 describe("Audit", () => {
-  test("sends a correctly formatted message", () => {
-    const stubClient: IClient = { sendMessage: jest.fn() };
+  test.each([
+    [1, 0, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1]
+  ])(
+    "sends a correctly formatted message",
+    (info, low, moderate, high, critical) => {
+      const stubClient: IClient = { sendMessage: jest.fn() };
 
-    const mockRead = jest.fn().mockReturnValue({
-      metadata: {
-        vulnerabilities: {
-          info: 1,
-          low: 2,
-          moderate: 3,
-          high: 4,
-          critical: 5
+      const mockRead = jest.fn().mockReturnValue({
+        metadata: {
+          vulnerabilities: {
+            info,
+            low,
+            moderate,
+            high,
+            critical
+          }
         }
-      }
-    });
+      });
 
-    const stubReader: ISynchronousReader<NPMAuditData> = {
-      read: mockRead
-    };
+      const stubReader: ISynchronousReader<NPMAuditData> = {
+        read: mockRead
+      };
 
-    const audit = new NPMAudit(stubClient, stubReader);
-    audit.fire("path/to/audit/file");
+      const audit = new NPMAudit(stubClient, stubReader);
+      audit.fire("path/to/audit/file");
 
-    expect(stubClient.sendMessage).toHaveBeenCalledWith(
-      "Vulnerabilities: info: 1, low: 2, moderate: 3, high: 4, critical: 5"
-    );
-    expect(mockRead).toHaveBeenCalledWith("path/to/audit/file");
-  });
+      expect(stubClient.sendMessage).toHaveBeenCalledWith(
+        `Vulnerabilities: info: ${info}, low: ${low}, moderate: ${moderate}, high: ${high}, critical: ${critical}`
+      );
+      expect(mockRead).toHaveBeenCalledWith("path/to/audit/file");
+    }
+  );
 
   test("sends a warning if vulnerability data not found", () => {
     const stubClient: IClient = { sendMessage: jest.fn() };
