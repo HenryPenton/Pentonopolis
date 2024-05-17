@@ -46,15 +46,12 @@
       "cache": true
     },
     "release-patch": {
-      "dependsOn": ["test", "build", "test:coverage"],
       "cache": false
     },
     "release-minor": {
-      "dependsOn": ["test", "build", "test:coverage"],
       "cache": false
     },
     "release-major": {
-      "dependsOn": ["test", "build", "test:coverage"],
       "cache": false
     }
   },
