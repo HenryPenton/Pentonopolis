@@ -272,7 +272,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: .
+          path: ./builds
 
       - name: Extract package name from tag
         id: extract_package_name
@@ -280,7 +280,7 @@ jobs:
           tag=${{ github.ref_name }}
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
-          ls projects/config-captain
+          ls builds
 
       - run: pnpx nx deploy $package_name
         name: Publish to NPM
