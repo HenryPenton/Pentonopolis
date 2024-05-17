@@ -64,7 +64,8 @@ jobs:
           key: ${{ env.npm_dependencies_cache_key }}
 
       - run: |
-          pnpm build
+          pnpx nx affected -t build --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
+
           pnpm test:coverage
           pnpm tarball
 
