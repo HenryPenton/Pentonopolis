@@ -68,8 +68,8 @@ jobs:
           pnpm test:coverage
 
       - run: |
-          pnpm pack
-          ls
+          pnpm tarball
+          ls projects/config-captain
 
       - uses: actions/upload-artifact@v4
         name: upload build artifacts

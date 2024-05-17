@@ -17,6 +17,7 @@
     "release-major": "pnpm exec nx run-many -t release-major",
     "release-minor": "pnpm exec nx run-many -t release-minor",
     "release-patch": "pnpm exec nx run-many -t release-patch",
+    "tarball": "pnpm exec nx run-many -t tarball",
     "test:compile": "pnpm exec nx run-many -t test:compile",
     "test:coverage": "pnpm exec nx run-many -t test:coverage",
     "test": "pnpm exec nx run-many -t test",
