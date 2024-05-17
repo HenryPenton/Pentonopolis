@@ -262,9 +262,9 @@ jobs:
 
       - run: |
           cd ./builds/$package_name
-          pnpm publish $package_name-$package_version.tgz --dry-run
-          echo "spacer"
           pnpm publish --dry-run
+          echo "spacer"
+          pnpm publish $package_name-$package_version.tgz --dry-run
         name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
