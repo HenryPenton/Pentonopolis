@@ -69,6 +69,11 @@ jobs:
           pnpm tarball
 
       - uses: actions/upload-artifact@v4
+        with:
+          name: coverage reports
+          path: ./projects/**/coverage
+
+      - uses: actions/upload-artifact@v4
         name: upload build artifacts
         with:
           name: build-artifacts
@@ -152,10 +157,6 @@ jobs:
             .nx
           key: ${{ env.nx_cache_key }}
 
-      - uses: actions/upload-artifact@v4
-        with:
-          name: coverage reports
-          path: ./projects/**/coverage
   version-bump:
     runs-on: ubuntu-latest
     if: github.event_name == 'push' && !contains(github.ref, 'refs/tags/')
