@@ -60,6 +60,40 @@ importers:
         specifier: 5.x
         version: 5.4.5
 
+  projects/moviebot-telegram:
+    dependencies:
+      array:
+        specifier: workspace:*
+        version: link:../../shared/array
+      axios:
+        specifier: 1.x
+        version: 1.6.8
+      dotenv:
+        specifier: 16.x
+        version: 16.4.5
+      telegraf:
+        specifier: 4.x
+        version: 4.16.3
+    devDependencies:
+      '@stryker-mutator/core':
+        specifier: 8.x
+        version: 8.2.6
+      '@stryker-mutator/jest-runner':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)
+      '@stryker-mutator/typescript-checker':
+        specifier: 8.x
+        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
+      jest:
+        specifier: 29.x
+        version: 29.7.0(@types/node@20.12.12)
+      ts-jest:
+        specifier: 29.x
+        version: 29.1.2(@babel/core@7.24.5)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.5))(jest@29.7.0(@types/node@20.12.12))(typescript@5.4.5)
+      typescript:
+        specifier: 5.x
+        version: 5.4.5
+
   projects/npm-status-messenger:
     dependencies:
       commander:
@@ -90,40 +124,6 @@ importers:
       jest:
         specifier: 29.x
         version: 29.7.0(@types/node@20.12.12)
-      typescript:
-        specifier: 5.x
-        version: 5.4.5
-
-  projects/telegraf-moviebot:
-    dependencies:
-      array:
-        specifier: workspace:*
-        version: link:../../shared/array
-      axios:
-        specifier: 1.x
-        version: 1.6.8
-      dotenv:
-        specifier: 16.x
-        version: 16.4.5
-      telegraf:
-        specifier: 4.x
-        version: 4.16.3
-    devDependencies:
-      '@stryker-mutator/core':
-        specifier: 8.x
-        version: 8.2.6
-      '@stryker-mutator/jest-runner':
-        specifier: 8.x
-        version: 8.2.6(@stryker-mutator/core@8.2.6)
-      '@stryker-mutator/typescript-checker':
-        specifier: 8.x
-        version: 8.2.6(@stryker-mutator/core@8.2.6)(typescript@5.4.5)
-      jest:
-        specifier: 29.x
-        version: 29.7.0(@types/node@20.12.12)
-      ts-jest:
-        specifier: 29.x
-        version: 29.1.2(@babel/core@7.24.5)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.24.5))(jest@29.7.0(@types/node@20.12.12))(typescript@5.4.5)
       typescript:
         specifier: 5.x
         version: 5.4.5
