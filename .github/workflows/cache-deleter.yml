@@ -19,13 +19,8 @@ jobs:
           gh extension install actions/gh-actions-cache
           gh actions-cache list > cache-list
           while IFS= read -r line; do
-
             set -- $line
-
-            cache-name="$1"
-            gh actions-cache delete $cache-name --confirm || true
-
-
+            gh actions-cache delete $1 --confirm || true
           done < "$filename"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
