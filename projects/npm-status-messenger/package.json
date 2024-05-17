@@ -13,7 +13,6 @@
     "lint": "eslint . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
     "postversion": "git pull && git push && git push origin $npm_package_name@$npm_package_version",
-    "prepare": "pnpm run build",
     "prepublishOnly": "pnpm test",
     "prettier:check": "prettier --check src/*",
     "prettier": "prettier --write src/*",
