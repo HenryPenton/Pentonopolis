@@ -16,6 +16,7 @@ jobs:
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
-          gh actions-cache list
+          gh actions-cache list > testfile
+          cat testfile
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
