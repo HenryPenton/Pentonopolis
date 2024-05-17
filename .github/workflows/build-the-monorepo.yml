@@ -67,15 +67,11 @@ jobs:
           pnpm build
           pnpm test:coverage
 
-      - run: |
-          pnpm tarball
-          ls projects/config-captain
-
       - uses: actions/upload-artifact@v4
         name: upload build artifacts
         with:
           name: build-artifacts
-          path: ./projects/**/dist
+          path: ./projects/*.tgz
 
       - name: Delete existing nx cache
         run: |

@@ -37,6 +37,11 @@
       "outputs": ["{projectRoot}/outdated.json"],
       "cache": false
     },
+
+    "tarball": {
+      "dependsOn": ["build"],
+      "cache": false
+    },
     "lint": {
       "cache": true
     },
