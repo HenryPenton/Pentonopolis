@@ -226,6 +226,8 @@ jobs:
     needs: [build-and-test, formatting]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
+      - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -244,11 +246,34 @@ jobs:
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
 
+      - run: git fetch
+      - run: git checkout main
+
+      - name: Restore cached npm dependencies
+        id: cache_dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+          key: $npm_dependencies_cache_key
+
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: $nx_cache_key
+
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts
-          path: ./builds
+          path: .
 
       - name: Extract package name from tag
         id: extract_package_name
@@ -258,13 +283,8 @@ jobs:
           package_version=$(echo "$tag" | cut -d'@' -f2)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
           echo "package_version=$package_version" >> "$GITHUB_ENV"
-          ls builds/config-captain
 
-      - run: |
-          cd ./builds/$package_name
-          pnpm publish --dry-run
-          echo "spacer"
-          pnpm publish $package_name-$package_version.tgz --dry-run
+      - run: pnpm publish --filter $package_name --dry-run
         name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
