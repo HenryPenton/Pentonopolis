@@ -1,6 +1,6 @@
 {
   "name": "word-frequency-counter",
-  "version": "1.9.33",
+  "version": "1.9.34",
   "description": "A word frequency counter",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
