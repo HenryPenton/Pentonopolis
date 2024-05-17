@@ -17,6 +17,6 @@ jobs:
         run: |
           gh extension install actions/gh-actions-cache
           gh actions-cache list > testfile
-          cat testfile
+          # cat testfile
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
