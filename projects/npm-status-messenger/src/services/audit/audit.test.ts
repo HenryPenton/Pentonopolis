@@ -11,7 +11,7 @@ describe("Audit", () => {
     [0, 0, 0, 1, 0],
     [0, 0, 0, 0, 1]
   ])(
-    "sends a correctly formatted message",
+    "sends correctly formatted messages",
     (info, low, moderate, high, critical) => {
       const stubClient: IClient = { sendMessage: jest.fn() };
 
