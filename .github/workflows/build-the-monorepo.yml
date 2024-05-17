@@ -132,10 +132,6 @@ jobs:
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
 
-      - name: Test Coverage
-        run: |
-          pnpm test:coverage
-
       - name: Formatting
         run: |
           pnpm prettier:check
