@@ -71,7 +71,7 @@ jobs:
         name: upload build artifacts
         with:
           name: build-artifacts
-          path: ./projects/**/*.tgz
+          path: ./projects/config-captain/*.tgz
 
       - name: Delete existing nx cache
         run: |
