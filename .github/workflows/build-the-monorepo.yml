@@ -272,12 +272,19 @@ jobs:
         if: steps.cache_dependencies.outputs.cache-hit != 'true'
         run: pnpm install --frozen-lockfile
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: .
+
       - name: Extract package name from tag
         id: extract_package_name
         run: |
           tag=${{ github.ref_name }}
           package_name=$(echo "$tag" | cut -d'@' -f1)
           echo "package_name=$package_name" >> "$GITHUB_ENV"
+          ls build-artifacts/
 
       - run: pnpx nx deploy $package_name
         name: Publish to NPM
