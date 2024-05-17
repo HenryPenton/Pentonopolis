@@ -77,7 +77,7 @@ jobs:
         name: upload build artifacts
         with:
           name: build-artifacts
-          path: projects/**/dist
+          path: projects/**/*.tgz
 
       - name: Delete existing nx cache
         run: |
@@ -232,15 +232,15 @@ jobs:
           node-version: 22
           registry-url: https://registry.npmjs.org/
 
-      - uses: pnpm/action-setup@v3
-        with:
-          version: latest
+      # - uses: pnpm/action-setup@v3
+      #   with:
+      #     version: latest
 
-      - run: git fetch
-      - run: git checkout main
+      # - run: git fetch
+      # - run: git checkout main
 
-      - name: install dependencies
-        run: pnpm install --frozen-lockfile
+      # - name: install dependencies
+      #   run: pnpm install --frozen-lockfile
 
       - name: Download build artifacts
         uses: actions/download-artifact@v4
@@ -259,7 +259,7 @@ jobs:
           mv ./build/$package_name/*.tgz ./projects/$package_name
           ls projects/npm-status-messenger
 
-      - run: pnpx nx deploy $package_name
+      - run: npm publish ./build/$package_name/$package_name-$package_version.tgz
         name: Publish to NPM
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
