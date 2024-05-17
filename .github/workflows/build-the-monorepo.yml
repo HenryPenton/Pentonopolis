@@ -67,6 +67,11 @@ jobs:
           pnpm build
           pnpm test:coverage
 
+      - uses: actions/upload-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./projects/dist/**
+
       - name: Delete existing nx cache
         run: |
           gh extension install actions/gh-actions-cache
