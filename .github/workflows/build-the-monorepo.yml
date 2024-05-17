@@ -223,7 +223,7 @@ jobs:
       - name: Bump Affected packages
         run: |
           pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
-  test-conditional:
+  publish:
     runs-on: ubuntu-latest
     needs: [build-and-test, formatting]
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
