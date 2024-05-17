@@ -223,18 +223,51 @@ jobs:
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          token: ${{ secrets.CONTINUOUS_DEPLOYMENT }}
 
-      - run: |
-          echo "${{ github.event_name  }}"
-
-      - name: Use Node.js 22
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
+          registry-url: https://registry.npmjs.org/
 
       - uses: pnpm/action-setup@v3
         with:
           version: latest
+
+      - name: Generate cache keys
+        id: cache_keys
+        run: |
+          npm_dependencies_cache_key=publish-npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ runner.os }}-nx-publish-${{ hashFiles('nx.json') }}
+
+          echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
+          echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+
+      - run: git fetch
+      - run: git checkout main
+
+      - name: Restore cached npm dependencies
+        id: cache_dependencies
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            **/node_modules
+          key: $npm_dependencies_cache_key
+
+      - name: Restore nx cache
+        id: cache_nx
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            .nx
+          key: $nx_cache_key
+
+      - name: install dependencies
+        if: steps.cache_dependencies.outputs.cache-hit != 'true'
+        run: pnpm install --frozen-lockfile
+
+      - name: Extract package name from tag
+        id: extract_package_name
+        run: |
+          tag=${{ github.ref_name }}
+          package_name=$(echo "$tag" | cut -d'@' -f1)
+          echo "package_name=$package_name" >> "$GITHUB_ENV"
