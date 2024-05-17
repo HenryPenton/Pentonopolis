@@ -257,7 +257,7 @@ jobs:
           echo "package_name=$package_name" >> "$GITHUB_ENV"
           echo "package_version=$package_version" >> "$GITHUB_ENV"
           mv ./build/$package_name/*.tgz ./projects/$package_name
-          ls projects/config-captain
+          ls projects/npm-status-messenger
 
       - run: pnpx nx deploy $package_name
         name: Publish to NPM
