@@ -215,6 +215,12 @@ jobs:
             **/node_modules
           key: ${{ env.npm_dependencies_cache_key }}
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: build-artifacts
+          path: ./projects
+
       - name: Bump Affected packages
         run: |
           git pull
