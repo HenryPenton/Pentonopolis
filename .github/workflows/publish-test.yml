@@ -85,6 +85,7 @@ jobs:
           key: ${{ env.nx_cache_key }}
 
   publish:
+    needs: build-and-test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
