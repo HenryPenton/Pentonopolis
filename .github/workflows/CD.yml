@@ -165,12 +165,12 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: coverage-reports
-          path: ./dummy
+          name: build-artifacts
+          path: ./build
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
-      - run: ls dummy
+      - run: ls build/config-captain
       # - name: Extract package name from tag
       #   id: extract_package_name
       #   run: |
