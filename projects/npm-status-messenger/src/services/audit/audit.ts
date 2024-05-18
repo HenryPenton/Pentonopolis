@@ -26,11 +26,11 @@ export class NPMAudit implements IRunner {
       data.metadata.vulnerabilities;
 
     return !(
+      info === 0 &&
       low === 0 &&
       moderate === 0 &&
-      info === 0 &&
-      critical === 0 &&
-      high === 0
+      high === 0 &&
+      critical === 0
     );
   };
 
