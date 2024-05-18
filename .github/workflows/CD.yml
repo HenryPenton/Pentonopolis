@@ -167,6 +167,8 @@ jobs:
         with:
           name: coverage-reports
           path: ./dummy
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
 
       - run: ls dummy
       # - name: Extract package name from tag
