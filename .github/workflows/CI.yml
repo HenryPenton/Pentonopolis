@@ -31,6 +31,7 @@ jobs:
 
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
+          echo ${{ github.run_id }}
 
       - name: Restore cached npm dependencies
         id: cache_dependencies
@@ -103,6 +104,7 @@ jobs:
 
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
+          echo ${{ github.run_id }}
 
       - name: Restore cached npm dependencies
         id: cache_dependencies
