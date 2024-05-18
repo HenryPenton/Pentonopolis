@@ -17,7 +17,7 @@
     "prettier": "prettier --write src/*",
     "release-major": "pnpm version major",
     "release-minor": "pnpm version minor",
-    "release-patch": "pnpm version patch",
+    "release-patch": "pnpm version patch && npm publish $npm_package_name-$npm_package_version.tgz",
     "tarball": "pnpm pack",
     "test:compile": "tsc --project tsconfig-test.json",
     "test:coverage": "jest --coverage",
