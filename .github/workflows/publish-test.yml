@@ -99,7 +99,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: build-artifacts-test
-          path: .
+          path: ./projects
 
       - run: |
-          ls
+          ls projects/config-captain
