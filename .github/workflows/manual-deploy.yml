@@ -87,6 +87,7 @@ jobs:
 
       - name: Bump Affected packages
         run: |
+          git pull
           pnpx nx release-${{ inputs.deployment-type }} ${{ inputs.package-name }}
 
       - name: Delete existing nx cache
