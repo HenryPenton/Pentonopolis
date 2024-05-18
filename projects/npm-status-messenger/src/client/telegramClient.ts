@@ -10,14 +10,8 @@ export class TelegramClient implements IClient {
   ) {}
 
   sendMessage = async (message: string): Promise<void> => {
-    const telegramApiUrl =
-      this.config.getConfigurationVariable("telegramApiUrl");
-
-    const telegramChatId =
-      this.config.getConfigurationVariable("telegramChatId");
-
-    const telegramBotToken =
-      this.config.getConfigurationVariable("telegramBotToken");
+    const { telegramApiUrl, telegramChatId, telegramBotToken } =
+      this.config.getConfigurationVariables();
 
     const sendMessageUrl = new URL(
       `/bot${telegramBotToken}/sendMessage`,
