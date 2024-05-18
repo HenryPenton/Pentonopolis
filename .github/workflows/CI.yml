@@ -62,9 +62,8 @@ jobs:
           key: ${{ env.npm_dependencies_cache_key }}
 
       - run: |
-          pnpm test:coverage
-          pnpm build
-          pnpm tarball
+          pnpx nx affected -t test:coverage --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
+          pnpx nx affected -t tarball --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
 
       - uses: actions/upload-artifact@v4
         with:
