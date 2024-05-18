@@ -166,11 +166,11 @@ jobs:
       - name: Download build artifacts
         uses: actions/download-artifact@v4
         with:
-          name: coverage reports
+          name: coverage-reports
           path: ./dummy
           run-id: 9140804884
 
-      - run: ls
+      - run: ls dummy
       # - name: Extract package name from tag
       #   id: extract_package_name
       #   run: |
