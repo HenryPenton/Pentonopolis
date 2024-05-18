@@ -1,11 +1,10 @@
 name: CD
 
 on:
-  push:
-    tags:
-      - "[0-9]+"
-
-  workflow_dispatch:
+  workflow_run:
+    workflows: [Staging, Lab]
+    types:
+      - completed
 
 permissions:
   actions: write
@@ -168,7 +167,7 @@ jobs:
         with:
           name: coverage-reports
           path: ./dummy
-          run-id: 9140873486
+          run-id: ${{ github.event.workflow_run.id }}
 
       - run: ls dummy
       # - name: Extract package name from tag
