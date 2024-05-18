@@ -64,6 +64,8 @@ jobs:
           path: |
             **/node_modules
           key: ${{ env.npm_dependencies_cache_key }}
+          restore-keys: |
+            ${{ env.npm_dependencies_cache_key }}
 
       - name: Restore nx cache
         id: cache_nx
