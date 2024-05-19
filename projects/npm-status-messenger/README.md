@@ -21,8 +21,8 @@ TELEGRAM_BOT_TOKEN
 
 To send the audit message, run:
 
-`pnpx npm-status-messenger --audit path/to/audit.json`
+`pnpx npm-status-messenger --audit path/to/audit.json packageName`
 
 To send the outdated message, run:
 
-`pnpx npm-status-messenger --outdated path/to/outdated.json`
+`pnpx npm-status-messenger --outdated path/to/outdated.json packageName`
