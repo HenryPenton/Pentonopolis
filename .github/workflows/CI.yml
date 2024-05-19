@@ -239,12 +239,6 @@ jobs:
           git pull
           pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
           git add -A
-          if ! git diff-index --quiet HEAD --; then
-            git commit -m"CI bump affected versions"
-          fi
-
+          git commit -m"CI bump affected versions"
           pnpx nx affected -t tag:current --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
-
-          if ! git diff-index --quiet HEAD --; then
-            git push && git push --tags
-          fi
+          git push && git push --tags
