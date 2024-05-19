@@ -70,6 +70,7 @@ jobs:
           pnpx nx affected -t release-patch --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t test:coverage --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t tarball --base=$affected_base --head=HEAD --parallel=false
+        if: ${{ github.event_name == 'push' }}
 
       - run: echo "workflow dispatch only"
         if: ${{ github.event_name == 'workflow_dispatch' }}
