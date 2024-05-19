@@ -4,6 +4,24 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      package-name:
+        description: "Package to do a patch deployment of"
+        required: true
+        type: choice
+        options:
+          [
+            "config-captain",
+            "npm-status-messenger",
+            "moviebot-telegram",
+            "who-owes-who",
+            "word-frequency-counter"
+          ]
+      deployment-type:
+        description: "Type of deployment to do"
+        required: true
+        type: choice
+        options: ["patch", "minor", "major"]
 
 permissions:
   actions: write
@@ -70,9 +88,14 @@ jobs:
           pnpx nx affected -t release-patch --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t test:coverage --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t tarball --base=$affected_base --head=HEAD --parallel=false
+        name: Continuous build
         if: ${{ github.event_name == 'push' }}
 
-      - run: echo "workflow dispatch only"
+      - run: |
+          echo "workflow dispatch only"
+          echo ${{ github.event.inputs.package-name }}
+          echo ${{ github.event.inputs.deployment-type }}
+        name: Requested build
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
       - run: |
