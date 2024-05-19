@@ -286,6 +286,7 @@ jobs:
           pnpx nx tag:current ${{inputs.package-name}}
           git push && git push --tags
   publish:
+    needs: [version-bump]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-node@v4
