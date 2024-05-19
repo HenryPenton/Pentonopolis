@@ -108,9 +108,13 @@ jobs:
           # Create the destination directory if it doesn't exist
           mkdir -p "$DEST_DIR"
 
+          if compgen -G "$SOURCE_DIR/$PATTERN" > /dev/null; then
           # Copy all files matching the pattern from the source directory to the destination directory
           cp "$SOURCE_DIR"/$PATTERN "$DEST_DIR"
-          ls $DEST_DIR
+          echo "Files matching pattern '$PATTERN' have been copied to '$DEST_DIR'."
+          else
+              echo "No files matching pattern '$PATTERN' found in '$SOURCE_DIR'."
+          fi
   formatting:
     runs-on: ubuntu-latest
 
