@@ -26,7 +26,13 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
-      - run: ls build/config-captain
+      - run: |
+          for DIR in "./build"/*/; do
+            if [ -d "$DIR" ]; then
+                echo "Processing directory: $DIR"
+                ls "$DIR"
+            fi
+          done
       # - name: Extract package name from tag
       #   id: extract_package_name
       #   run: |
