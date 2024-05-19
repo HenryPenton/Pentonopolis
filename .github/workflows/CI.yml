@@ -70,6 +70,9 @@ jobs:
           pnpx nx affected -t test:coverage --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t tarball --base=$affected_base --head=HEAD --parallel=false
 
+      - run: echo "workflow dispatch only"
+        if: ${{ github.event_name == 'workflow_dispatch' }}
+
       - run: |
           SOURCE_DIR="./projects"
           DEST_DIR="./build"
