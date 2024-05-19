@@ -28,20 +28,11 @@ jobs:
           github-token: ${{ github.token }}
 
       - run: |
-
           for FILE in ./build/*.tgz; do
             if [ -e "$FILE" ]; then
-                echo "Processing file: $FILE"
-            else
-                echo "No .tgz files found in $SOURCE_DIR"
-            fi
-          done
-          for DIR in "./build"/*/; do
-            if [ -d "$DIR" ]; then
-                npm publish $DIR/*.tgz
+                npm publish $FILE"
             fi
           done
         name: Publish NPM modules
-        if: ${{ hashFiles('./build') != '' }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
