@@ -1,4 +1,5 @@
 name: CI
+run-name: ${{inputs.package-name}} -> ${{inputs.deployment-type}}
 
 on:
   push:
