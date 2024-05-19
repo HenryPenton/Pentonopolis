@@ -11,6 +11,7 @@ import { NpmOutdatedValidator } from "./validator/outdated/NPMOutdatedValidator"
 program.option("--audit");
 program.option("--outdated");
 program.argument("<file>", "file to parse");
+program.argument("<packageName>", "name of the package");
 program.parse();
 
 const { audit, outdated } = program.opts();
@@ -51,8 +52,10 @@ const outdatedReader = new JSONReader<OutdatedData>(
 );
 
 if (outdated) {
-  const outdated = new NPMOutdated(telegramClient, outdatedReader);
   const filepath = program.args[0];
+  const packageName = program.args[1];
+
+  const outdated = new NPMOutdated(telegramClient, outdatedReader, packageName);
 
   outdated.fire(filepath);
 }

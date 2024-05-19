@@ -11,7 +11,7 @@ export class NPMOutdated implements IRunner {
   constructor(
     private client: IClient,
     private reader: ISynchronousReader<OutdatedData>,
-    private packageName?: string
+    private packageName: string
   ) {}
 
   isOutdatedMessageRequired = (data: OutdatedData): boolean => {

@@ -15,11 +15,15 @@ describe("outdated", () => {
         .mockReturnValue({ def: { latest: "1.2.4", current: "1.2.3" } })
     };
 
-    const outdated = new NPMOutdated(dummyClient, dummyReader);
+    const outdated = new NPMOutdated(
+      dummyClient,
+      dummyReader,
+      "some-package-name"
+    );
     outdated.fire("");
 
     expect(dummyClient.sendMessage).toHaveBeenCalledWith(
-      "Outdated Packages:\ndef: 1.2.3 -> 1.2.4"
+      "Outdated Packages for some-package-name:\ndef: 1.2.3 -> 1.2.4"
     );
   });
 
@@ -32,7 +36,11 @@ describe("outdated", () => {
       }
     };
 
-    const outdated = new NPMOutdated(stubClient, stubReader);
+    const outdated = new NPMOutdated(
+      stubClient,
+      stubReader,
+      "some-other-package-name"
+    );
     outdated.fire("path/to/outdated/file");
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
@@ -48,7 +56,11 @@ describe("outdated", () => {
       }
     };
 
-    const audit = new NPMOutdated(stubClient, stubReader);
+    const audit = new NPMOutdated(
+      stubClient,
+      stubReader,
+      "name-of-up-to-date-package"
+    );
     audit.fire("path/to/outdated/file");
 
     expect(stubClient.sendMessage).not.toHaveBeenCalled();
