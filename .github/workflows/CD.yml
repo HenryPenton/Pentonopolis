@@ -27,7 +27,17 @@ jobs:
           run-id: ${{ github.event.workflow_run.id }}
           github-token: ${{ github.token }}
 
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: test_artifacts
+          path: ./build_test
+          run-id: ${{ github.event.workflow_run.id }}
+          github-token: ${{ github.token }}
+
       - run: |
+          ls
+          ls ./build_test
           for DIR in "./build"/*/; do
             if [ -d "$DIR" ]; then
                 npm publish $DIR/*.tgz

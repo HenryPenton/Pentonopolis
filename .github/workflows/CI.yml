@@ -70,6 +70,20 @@ jobs:
           pnpx nx affected -t test:coverage --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t tarball --base=$affected_base --head=HEAD --parallel=false
 
+      - run: |
+          SOURCE_DIR="./projects"
+          DEST_DIR="./build"
+          PATTERN="**/*.tgz"
+          mkdir -p "$DEST_DIR"
+
+          if compgen -G "$SOURCE_DIR/$PATTERN" > /dev/null; then
+            cp "$SOURCE_DIR"/$PATTERN "$DEST_DIR"
+            echo "Files matching pattern '$PATTERN' have been copied to '$DEST_DIR'."
+            else
+                echo "No files matching pattern '$PATTERN' found in '$SOURCE_DIR'."
+            fi
+        name: Copy tarballs to build folder
+
       - uses: actions/upload-artifact@v4
         with:
           name: coverage-reports
@@ -80,6 +94,12 @@ jobs:
         with:
           name: build-artifacts
           path: projects/**/*.tgz
+
+      - uses: actions/upload-artifact@v4
+        id: upload_build_artifacts_test
+        with:
+          name: test_artifacts
+          path: ./build
 
       - name: Delete existing nx cache
         run: |
@@ -96,25 +116,6 @@ jobs:
             .nx
           key: ${{ env.nx_cache_key }}
 
-      - run: |
-          SOURCE_DIR="./projects"
-
-          # Define the destination directory (where the files will be copied to)
-          DEST_DIR="./build"
-
-          # Define the wildcard pattern to match files (e.g., all .txt files)
-          PATTERN="**/*.tgz"
-
-          # Create the destination directory if it doesn't exist
-          mkdir -p "$DEST_DIR"
-
-          if compgen -G "$SOURCE_DIR/$PATTERN" > /dev/null; then
-          # Copy all files matching the pattern from the source directory to the destination directory
-          cp "$SOURCE_DIR"/$PATTERN "$DEST_DIR"
-          echo "Files matching pattern '$PATTERN' have been copied to '$DEST_DIR'."
-          else
-              echo "No files matching pattern '$PATTERN' found in '$SOURCE_DIR'."
-          fi
   formatting:
     runs-on: ubuntu-latest
 
