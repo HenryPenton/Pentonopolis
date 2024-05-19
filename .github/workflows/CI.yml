@@ -96,7 +96,7 @@ jobs:
             .nx
           key: ${{ env.nx_cache_key }}
 
-      - run: echo "test ${{ steps.upload_build_artifacts.conclusion }}"
+      - run: echo "test ${{ steps.upload_build_artifacts.outputs }}"
   formatting:
     runs-on: ubuntu-latest
 
