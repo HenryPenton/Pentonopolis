@@ -67,7 +67,7 @@ jobs:
       - run: |
           affected_base=$(git describe --tags --abbrev=0)
           pnpx nx affected -t release-patch --base=$affected_base --head=HEAD --parallel=false
-          pnpx nx affected -t test:coverage --base=$$affected_base --head=HEAD --parallel=false
+          pnpx nx affected -t test:coverage --base=$affected_base --head=HEAD --parallel=false
           pnpx nx affected -t tarball --base=$affected_base --head=HEAD --parallel=false
 
       - uses: actions/upload-artifact@v4
