@@ -96,7 +96,21 @@ jobs:
             .nx
           key: ${{ env.nx_cache_key }}
 
-      - run: echo "test ${{ steps.upload_build_artifacts.outputs }}"
+      - run: |
+          SOURCE_DIR="./projects"
+
+          # Define the destination directory (where the files will be copied to)
+          DEST_DIR="./build"
+
+          # Define the wildcard pattern to match files (e.g., all .txt files)
+          PATTERN="*.tgz"
+
+          # Create the destination directory if it doesn't exist
+          mkdir -p "$DEST_DIR"
+
+          # Copy all files matching the pattern from the source directory to the destination directory
+          cp "$SOURCE_DIR"/$PATTERN "$DEST_DIR"
+          ls $DEST_DIR
   formatting:
     runs-on: ubuntu-latest
 
