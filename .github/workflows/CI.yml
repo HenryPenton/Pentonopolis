@@ -245,6 +245,4 @@ jobs:
 
           pnpx nx affected -t tag:current --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
 
-          if ! git diff-index --quiet HEAD --; then
-            git push && git push --tags
-          fi
+          git push && git push --tags
