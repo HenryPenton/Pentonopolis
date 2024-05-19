@@ -247,4 +247,8 @@ jobs:
           git add -A
           git commit -m"CI bump affected versions"
           pnpx nx affected -t tag:current --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
-          git push && git push --tags
+          if git diff-index --quiet HEAD --; then
+              echo "The working tree is clean, nothing to push!"
+          else
+              git push && git push --tags
+          fi
