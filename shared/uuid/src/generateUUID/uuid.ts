@@ -1,5 +1,5 @@
-import { v4 as uuidv4 } from "uuid";
+import { v4 as newUUID } from "uuid";
 
 export const generateNewId = (withDashes: boolean = true): string => {
-  return withDashes ? uuidv4() : uuidv4().replaceAll("-", "");
+  return withDashes ? newUUID() : newUUID().replaceAll("-", "");
 };
