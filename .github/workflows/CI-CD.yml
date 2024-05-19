@@ -215,6 +215,7 @@ jobs:
           git describe --tags --abbrev=0
           git config --global user.email ${{ secrets.GIT_EMAIL }}
           git config --global user.name "ci"
+          git config pull.rebase true
 
       - name: Use Node.js 22
         uses: actions/setup-node@v4
@@ -283,7 +284,7 @@ jobs:
           git add -A
           git commit -m"CI ${{inputs.deployment-type}} bump ${{ inputs.package-name }}"
           pnpx nx tag:current ${{inputs.package-name}}
-          git push && git push --tags
+          git pull && git push && git push --tags
   publish:
     needs: [version-bump]
     runs-on: ubuntu-latest
