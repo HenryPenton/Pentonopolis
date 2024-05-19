@@ -24,12 +24,12 @@
     "vulnerabilities:check": "pnpm audit --json > audit.json"
   },
   "devDependencies": {
-    "@types/jest": "^29.5.12",
-    "@types/node": "^20.12.11",
+    "@types/jest": "29.5.12",
+    "@types/node": "20.12.11",
     "@typescript-eslint/eslint-plugin": "7.x",
     "@typescript-eslint/parser": "7.x",
     "eslint": "8.x",
-    "husky": "^9.0.11",
+    "husky": "9.0.11",
     "nx": "19.x",
     "prettier": "3.x",
     "typescript": "5.x"
