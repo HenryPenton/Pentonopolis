@@ -31,19 +31,9 @@ jobs:
             if [ -d "$DIR" ]; then
                 echo "Processing directory: $DIR"
                 ls "$DIR"
-                npm publish $DIR/*.tgz --dry-run
+                npm publish $DIR/*.tgz
             fi
           done
-      # - name: Extract package name from tag
-      #   id: extract_package_name
-      #   run: |
-      #     tag=${{ github.ref_name }}
-      #     package_name=$(echo "$tag" | cut -d'@' -f1)
-      #     package_version=$(echo "$tag" | cut -d'@' -f2)
-      #     echo "package_name=$package_name" >> "$GITHUB_ENV"
-      #     echo "package_version=$package_version" >> "$GITHUB_ENV"
-
-      # - run: npm publish ./build/$package_name/$package_name-$package_version.tgz --dry-run
-      #   name: Publish to NPM
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+        name: Publish NPM modules
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
