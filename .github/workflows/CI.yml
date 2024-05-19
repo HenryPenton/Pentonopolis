@@ -92,9 +92,9 @@ jobs:
         if: ${{ github.event_name == 'push' }}
 
       - run: |
-          echo "workflow dispatch only"
-          echo ${{ github.event.inputs.package-name }}
-          echo ${{ github.event.inputs.deployment-type }}
+          pnpx nx release-${{ inputs.deployment-type }} ${{ inputs.package-name }}
+          pnpx nx test:coverage ${{ inputs.package-name }}
+          pnpx nx tarball ${{ inputs.package-name }}
         name: Requested build
         if: ${{ github.event_name == 'workflow_dispatch' }}
 
@@ -262,7 +262,8 @@ jobs:
             **/node_modules
           key: ${{ env.npm_dependencies_cache_key }}
 
-      - name: Bump Affected packages
+      - name: Continuous version bump
+        if: ${{ github.event_name == 'push' }}
         run: |
           git pull
           pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
@@ -274,3 +275,12 @@ jobs:
           pnpx nx affected -t tag:current --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
 
           git push && git push --tags
+
+      - name: Requested version bump
+        if: ${{ github.event_name == 'push' }}
+        run: |
+          git pull
+          pnpx nx release-${{ inputs.deployment-type }} ${{ inputs.package-name }}
+          git add -A
+          git commit -m"CI ${{inputs.deployment-type}} bump ${{ inputs.package-name }}"
+          pnpx nx tag:current ${{inputs.package-name}}
