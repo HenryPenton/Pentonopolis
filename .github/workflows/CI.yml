@@ -76,6 +76,7 @@ jobs:
           path: projects/**/coverage
 
       - uses: actions/upload-artifact@v4
+        id: upload_build_artifacts
         with:
           name: build-artifacts
           path: projects/**/*.tgz
@@ -94,6 +95,8 @@ jobs:
           path: |
             .nx
           key: ${{ env.nx_cache_key }}
+
+      - run: echo "test ${{ steps.upload_build_artifacts.outcome }}"
   formatting:
     runs-on: ubuntu-latest
 
