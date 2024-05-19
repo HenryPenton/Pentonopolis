@@ -284,3 +284,4 @@ jobs:
           git add -A
           git commit -m"CI ${{inputs.deployment-type}} bump ${{ inputs.package-name }}"
           pnpx nx tag:current ${{inputs.package-name}}
+          git push && git push --tags
