@@ -81,6 +81,7 @@ jobs:
             echo "Files matching pattern '$PATTERN' have been copied to '$DEST_DIR'."
             else
                 echo "No files matching pattern '$PATTERN' found in '$SOURCE_DIR'."
+                touch $DEST_DIR/placeholder 
             fi
         name: Copy tarballs to build folder
 
