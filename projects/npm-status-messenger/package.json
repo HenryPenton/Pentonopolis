@@ -12,7 +12,6 @@
     "lint:check": "eslint --no-fix . --ext .ts",
     "lint": "eslint . --ext .ts",
     "mutate": "stryker run -c stryker.config.json --concurrency 8",
-    "postversion": "git pull && git push && git push origin $npm_package_name@$npm_package_version",
     "prettier:check": "prettier --check src/*",
     "prettier": "prettier --write src/*",
     "release-major": "pnpm version major",
@@ -21,8 +20,7 @@
     "tarball": "pnpm pack",
     "test:compile": "tsc --project tsconfig-test.json",
     "test:coverage": "jest --coverage",
-    "test": "jest",
-    "version": "git add -A && git commit -m$npm_package_name@$npm_package_version && git tag $npm_package_name@$npm_package_version"
+    "test": "jest"
   },
   "jest": {
     "transform": {
