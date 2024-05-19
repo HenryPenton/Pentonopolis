@@ -220,4 +220,7 @@ jobs:
       - name: Bump Affected packages
         run: |
           git pull
-          pnpx nx affected -t release-patch --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
+          pnpx nx affected -t tag:current --base=$(git describe --tags --abbrev=0) --head=HEAD --parallel=false
+          git add -A
+          git status
+          git log
