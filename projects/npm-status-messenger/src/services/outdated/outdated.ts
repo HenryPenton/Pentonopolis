@@ -10,7 +10,8 @@ export type OutdatedData = {
 export class NPMOutdated implements IRunner {
   constructor(
     private client: IClient,
-    private reader: ISynchronousReader<OutdatedData>
+    private reader: ISynchronousReader<OutdatedData>,
+    private packageName?: string
   ) {}
 
   isOutdatedMessageRequired = (data: OutdatedData): boolean => {
@@ -24,7 +25,7 @@ export class NPMOutdated implements IRunner {
       const isOutdatedMessageRequired =
         this.isOutdatedMessageRequired(outdatedData);
       if (isOutdatedMessageRequired) {
-        const message = mapOutdatedToMessage(outdatedData);
+        const message = mapOutdatedToMessage(outdatedData, this.packageName);
 
         this.client.sendMessage(message);
       }
