@@ -277,7 +277,7 @@ jobs:
           git push && git push --tags
 
       - name: Requested version bump
-        if: ${{ github.event_name == 'push' }}
+        if: ${{ github.event_name == 'workflow_dispatch' }}
         run: |
           git pull
           pnpx nx release-${{ inputs.deployment-type }} ${{ inputs.package-name }}
