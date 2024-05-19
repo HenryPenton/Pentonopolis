@@ -48,8 +48,8 @@ jobs:
       - name: Generate cache keys
         id: cache_keys
         run: |
-          npm_dependencies_cache_key=CI-test-npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
-          nx_cache_key=${{ runner.os }}-CI-test-nx-${{ hashFiles('nx.json') }}
+          npm_dependencies_cache_key=CI-test-and-build-npm-dependencies-${{ hashFiles('pnpm-lock.yaml') }}
+          nx_cache_key=${{ runner.os }}-CI-test-and-build-nx-${{ hashFiles('nx.json') }}
 
           echo "npm_dependencies_cache_key=$npm_dependencies_cache_key" >> "$GITHUB_ENV"
           echo "nx_cache_key=$nx_cache_key" >> "$GITHUB_ENV"
@@ -138,7 +138,6 @@ jobs:
           path: |
             .nx
           key: ${{ env.nx_cache_key }}
-
   formatting:
     runs-on: ubuntu-latest
 
@@ -285,7 +284,6 @@ jobs:
           git commit -m"CI ${{inputs.deployment-type}} bump ${{ inputs.package-name }}"
           pnpx nx tag:current ${{inputs.package-name}}
           git push && git push --tags
-
   publish:
     needs: [version-bump]
     runs-on: ubuntu-latest
