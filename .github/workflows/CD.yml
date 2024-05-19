@@ -29,11 +29,10 @@ jobs:
       - run: |
           for DIR in "./build"/*/; do
             if [ -d "$DIR" ]; then
-                echo "Processing directory: $DIR"
-                ls "$DIR"
                 npm publish $DIR/*.tgz
             fi
           done
         name: Publish NPM modules
+        if: ${{ hashFiles('./build') != '' }}
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
