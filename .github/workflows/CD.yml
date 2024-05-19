@@ -30,7 +30,7 @@ jobs:
       - run: |
           for FILE in ./build/*.tgz; do
             if [ -e "$FILE" ]; then
-                npm publish $FILE"
+                npm publish $FILE
             fi
           done
         name: Publish NPM modules
