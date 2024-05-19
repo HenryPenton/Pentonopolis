@@ -108,7 +108,7 @@ jobs:
 
       - name: Send outdated
         run: |
-          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json
+          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json 'unknown package'
         env:
           TELEGRAM_API_URL: https://api.telegram.org/
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
@@ -132,7 +132,7 @@ jobs:
 
       - name: Send audit
         run: |
-          pnpx npm-status-messenger --audit ./audit.json
+          pnpx npm-status-messenger --audit ./audit.json 'unknown'
         env:
           TELEGRAM_API_URL: https://api.telegram.org/
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
