@@ -204,7 +204,7 @@ jobs:
   version-bump:
     runs-on: ubuntu-latest
     concurrency:
-      group: deployent
+      group: version-bump
       cancel-in-progress: false
     needs: [test-and-build, formatting]
     steps:
@@ -291,7 +291,7 @@ jobs:
     needs: [version-bump]
     runs-on: ubuntu-latest
     concurrency:
-      group: deployent
+      group: publish
       cancel-in-progress: false
     steps:
       - uses: actions/setup-node@v4
