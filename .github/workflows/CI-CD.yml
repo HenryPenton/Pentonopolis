@@ -1,6 +1,5 @@
 name: CI-CD
-concurrency:
-  group: test-group
+
 on:
   push:
     branches: [main]
@@ -204,6 +203,8 @@ jobs:
           key: ${{ env.nx_cache_key }}
   version-bump:
     runs-on: ubuntu-latest
+    concurrency:
+      group: deployent
     needs: [test-and-build, formatting]
     steps:
       - uses: actions/checkout@v4
@@ -288,6 +289,8 @@ jobs:
   publish:
     needs: [version-bump]
     runs-on: ubuntu-latest
+    concurrency:
+      group: deployent
     steps:
       - uses: actions/setup-node@v4
         with:
