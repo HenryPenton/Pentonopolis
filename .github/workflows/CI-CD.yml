@@ -205,6 +205,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: deployent
+      cancel-in-progress: false
     needs: [test-and-build, formatting]
     steps:
       - uses: actions/checkout@v4
@@ -291,6 +292,7 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: deployent
+      cancel-in-progress: false
     steps:
       - uses: actions/setup-node@v4
         with:
