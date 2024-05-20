@@ -1,5 +1,6 @@
 name: CI-CD
-
+concurrency:
+  group: test-group
 on:
   push:
     branches: [main]
