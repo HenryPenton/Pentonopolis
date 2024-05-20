@@ -203,9 +203,6 @@ jobs:
           key: ${{ env.nx_cache_key }}
   version-bump:
     runs-on: ubuntu-latest
-    concurrency:
-      group: version-bump
-      cancel-in-progress: false
     needs: [test-and-build, formatting]
     steps:
       - uses: actions/checkout@v4
@@ -290,9 +287,6 @@ jobs:
   publish:
     needs: [version-bump]
     runs-on: ubuntu-latest
-    concurrency:
-      group: publish
-      cancel-in-progress: false
     steps:
       - uses: actions/setup-node@v4
         with:
