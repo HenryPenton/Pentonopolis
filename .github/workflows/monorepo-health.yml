@@ -108,8 +108,10 @@ jobs:
 
       - run: |
           dir_path=$(dirname "${{ matrix.directory }}")
+          base_name=$(basename "${{ matrix.directory }}")
           cleaned_path="${dir_path#./}"
           echo "$cleaned_path"
+          echo "$base_name"
 
       - name: Send outdated
         run: |
