@@ -110,7 +110,7 @@ jobs:
           base_name=$(basename "${{ matrix.directory }}")
           echo "$base_name"
           if [ "$base_name" = "." ]; then
-            base_name="monorepo root"
+            base_name="Monorepo root"
           fi
           echo "project_name=$base_name" >> "$GITHUB_ENV"
         name: Extract package name
