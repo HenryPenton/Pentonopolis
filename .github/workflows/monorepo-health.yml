@@ -107,15 +107,17 @@ jobs:
           version: latest
 
       - run: |
-          dir_path=$(dirname "${{ matrix.directory }}")
           base_name=$(basename "${{ matrix.directory }}")
-          cleaned_path="${dir_path#./}"
-          echo "$cleaned_path"
           echo "$base_name"
+          if [ "$base_name" = "." ]; then
+            base_name="monorepo root"
+          fi
+          echo "project_name=$base_name" >> "$GITHUB_ENV"
+        name: Extract package name
 
       - name: Send outdated
         run: |
-          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json 'unknown package'
+          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json ${{ env.project_name }}
         env:
           TELEGRAM_API_URL: https://api.telegram.org/
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
