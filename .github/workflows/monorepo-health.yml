@@ -110,14 +110,14 @@ jobs:
           base_name=$(basename "${{ matrix.directory }}")
           echo "$base_name"
           if [ "$base_name" = "." ]; then
-            base_name="monorepo-root"
+            base_name="Monorepo Root"
           fi
           echo "project_name=$base_name" >> "$GITHUB_ENV"
         name: Extract package name
 
       - name: Send outdated
         run: |
-          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json ${{ env.project_name }}
+          pnpx npm-status-messenger --outdated ${{matrix.directory}}/outdated.json "${{ env.project_name }}"
         env:
           TELEGRAM_API_URL: https://api.telegram.org/
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_TO }}
