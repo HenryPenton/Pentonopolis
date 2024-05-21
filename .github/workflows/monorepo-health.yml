@@ -112,9 +112,8 @@ jobs:
           if [ "$base_name" = "." ]; then
             base_name="monorepo-root"
           fi
-          echo "project_name=$base_name" >> "$GITHUB_ENV"
           formatted_string=$(echo "$base_name" | tr '-' ' ' | awk '{for(i=1;i<=NF;i++) $i=toupper(substr($i,1,1)) tolower(substr($i,2))}1')
-          echo "$formatted_string"
+          echo "project_name=$formatted_string" >> "$GITHUB_ENV"
 
         name: Extract package name
 
