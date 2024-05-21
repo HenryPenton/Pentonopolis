@@ -74,6 +74,6 @@
   },
   "dependencies": {
     "commander": "12.1.0",
-    "config-captain": "workspace:*"
+    "config-captain": "1.7.3"
   }
 }
