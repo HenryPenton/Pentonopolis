@@ -18,7 +18,8 @@ export type NPMAuditData = {
 export class NPMAudit implements IRunner {
   constructor(
     private client: IClient,
-    private reader: ISynchronousReader<NPMAuditData>
+    private reader: ISynchronousReader<NPMAuditData>,
+    private packageName: string
   ) {}
 
   private isAuditMessageRequired = (data: NPMAuditData): boolean => {
@@ -39,7 +40,7 @@ export class NPMAudit implements IRunner {
       const auditData = this.reader.read(pathToFile);
       const isAuditMessageRequired = this.isAuditMessageRequired(auditData);
       if (isAuditMessageRequired) {
-        const message = mapAuditToMessage(auditData);
+        const message = mapAuditToMessage(auditData, this.packageName);
         this.client.sendMessage(message);
       }
     } catch {

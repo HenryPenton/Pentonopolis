@@ -37,12 +37,15 @@ const telegramClient = new TelegramClient(fetch, config);
 
 if (audit) {
   try {
-    const audit = new NPMAudit(telegramClient, auditReader);
+    const filepath = program.args[0];
+    const packageName = program.args[1];
 
-    audit.fire(program.args[0]);
+    const audit = new NPMAudit(telegramClient, auditReader, packageName);
+
+    audit.fire(filepath);
   } catch {
     // eslint-disable-next-line no-console
-    console.error("Failed to get audit data");
+    console.error("Failed to send audit data");
   }
 }
 
@@ -52,10 +55,19 @@ const outdatedReader = new JSONReader<OutdatedData>(
 );
 
 if (outdated) {
-  const filepath = program.args[0];
-  const packageName = program.args[1];
+  try {
+    const filepath = program.args[0];
+    const packageName = program.args[1];
 
-  const outdated = new NPMOutdated(telegramClient, outdatedReader, packageName);
+    const outdated = new NPMOutdated(
+      telegramClient,
+      outdatedReader,
+      packageName
+    );
 
-  outdated.fire(filepath);
+    outdated.fire(filepath);
+  } catch {
+    // eslint-disable-next-line no-console
+    console.error("Failed to send outdated package data");
+  }
 }

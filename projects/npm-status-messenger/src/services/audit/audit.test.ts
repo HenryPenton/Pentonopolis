@@ -31,11 +31,11 @@ describe("Audit", () => {
         read: mockRead
       };
 
-      const audit = new NPMAudit(stubClient, stubReader);
+      const audit = new NPMAudit(stubClient, stubReader, "some-package");
       audit.fire("path/to/audit/file");
 
       expect(stubClient.sendMessage).toHaveBeenCalledWith(
-        `Vulnerabilities: info: ${info}, low: ${low}, moderate: ${moderate}, high: ${high}, critical: ${critical}`
+        `Vulnerabilities for some-package: info: ${info}, low: ${low}, moderate: ${moderate}, high: ${high}, critical: ${critical}`
       );
       expect(mockRead).toHaveBeenCalledWith("path/to/audit/file");
     }
@@ -50,7 +50,7 @@ describe("Audit", () => {
       }
     };
 
-    const audit = new NPMAudit(stubClient, stubReader);
+    const audit = new NPMAudit(stubClient, stubReader, "some-package");
     audit.fire("path/to/audit/file");
 
     expect(stubClient.sendMessage).toHaveBeenCalledWith(
@@ -77,7 +77,7 @@ describe("Audit", () => {
       }
     };
 
-    const audit = new NPMAudit(stubClient, stubReader);
+    const audit = new NPMAudit(stubClient, stubReader, "some-package");
     audit.fire("path/to/audit/file");
 
     expect(stubClient.sendMessage).not.toHaveBeenCalled();
