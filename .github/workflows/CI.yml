@@ -13,7 +13,6 @@ on:
         type: choice
         options:
           [
-            "config-captain",
             "npm-status-messenger",
             "moviebot-telegram",
             "who-owes-who",
